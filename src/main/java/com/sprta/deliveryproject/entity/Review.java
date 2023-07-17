@@ -1,27 +1,49 @@
 package com.sprta.deliveryproject.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
-@Entity     //Entity클래스
+import java.time.LocalDateTime;
+
+@Entity
 @Getter
-@Table(name = "review")  //DB제작시 추가
-public class Review extends Timestamped{
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "review")
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="review_id",nullable = false,updatable = false,unique = true)
     private Long id;
 
-    @JoinColumn(name="member_id")
-    @ManyToOne
-    private Member meber_id;        //멤버
+    @Column(name = "review_content")
+    private String content;      //리뷰 내용
 
-    @Column(name="review_content")
-    private String review_content;      //리뷰 내용
+    @CreatedDate
+    @Column(name="created_date", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime createdAt;
 
-    @JoinColumn(name="shop_id")
+    @JoinColumn(name = "shop_id")
     @ManyToOne
     private Shop shop;
 
+    @JoinColumn(name = "member_id")
+    @ManyToOne
+    private Member member;
+
+    @Builder
+    public Review(String content, Shop shop, Member member) {
+        this.content = content;
+        this.shop = shop;
+        this.member = member;
+    }
+    public String toString() {
+        Long id = this.getId();
+        return "Review(id=" + id + ", content=" + this.getContent() + ", createdAt=" + this.getCreatedAt() + ", shopId=" + this.getShop().getId() + ", memberId=" + this.getMember().getId() + ")";
+    }
 
 }
