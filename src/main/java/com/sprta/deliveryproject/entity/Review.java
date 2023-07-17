@@ -5,15 +5,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review")
-public class Review {
+public class Review extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review_id",nullable = false,updatable = false,unique = true)
@@ -21,11 +18,6 @@ public class Review {
 
     @Column(name = "review_content")
     private String content;      //리뷰 내용
-
-    @CreatedDate
-    @Column(name="created_date", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt;
 
     @JoinColumn(name = "shop_id")
     @ManyToOne
@@ -41,9 +33,13 @@ public class Review {
         this.shop = shop;
         this.member = member;
     }
+
+    public void updateContent(String content){
+        this.content=content;
+    }
     public String toString() {
         Long id = this.getId();
-        return "Review(id=" + id + ", content=" + this.getContent() + ", createdAt=" + this.getCreatedAt() + ", shopId=" + this.getShop().getId() + ", memberId=" + this.getMember().getId() + ")";
+        return "Review(id=" + id + ", content=" + this.getContent() + ", createdAt=" + this.getCreatedAt() + ", modifiedAt=" + this.getModifiedAt() + ", shopId=" + this.getShop().getId() + ", memberId=" + this.getMember().getId() + ")";
     }
 
 }

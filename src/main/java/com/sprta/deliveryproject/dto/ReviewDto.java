@@ -13,7 +13,8 @@ public class ReviewDto extends ApiResponseDto {
     private Long id;
     private String contents;
     private LocalDateTime createdAt;
-    //review response에서 가게이름과 리뷰작성자의 닉네임을 보여준다.
+    private LocalDateTime modifiedAt;
+    //review response 에서 가게이름과 리뷰작성자의 닉네임을 보여준다.
     private String shopName;
     private String profileName;
 
@@ -22,6 +23,7 @@ public class ReviewDto extends ApiResponseDto {
         this.id = review.getId();
         this.contents = review.getContent();
         this.createdAt = review.getCreatedAt();
+        this.modifiedAt=review.getModifiedAt();
         this.shopName = review.getShop().getShopname();
         this.profileName = review.getMember().getProfilename();
     }
