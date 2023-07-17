@@ -14,6 +14,7 @@ import java.util.List;
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "shop_id", unique = true, updatable = false, nullable = false)
     private Long id;
 
     @Column(name="shopname",nullable = false)
