@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 //review Request 땐 contents 만 사용
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ReviewDto extends ApiResponseDto {
+public class ReviewDto {
     private final Long id;
     private final String contents;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

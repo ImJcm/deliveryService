@@ -48,8 +48,7 @@ public class ReviewService {
     public void updateReview(ReviewDto requestDto, Member member) {
         //shopId에 해당하는 가게가 있는지 확인
         Review review = reviewRepository.findById(requestDto.getId()).orElseThrow(() ->
-                new IllegalArgumentException("리뷰가 존재하지 않습니다.")
-        );
+                new IllegalArgumentException("리뷰가 존재하지 않습니다."));
 
         if (!(member.getId().equals(review.getMember().getId()) || member.getRole().equals(MemberRoleEnum.ADMIN))) {
             throw new IllegalArgumentException("리뷰를 수정할 권한이 없습니다.");
