@@ -13,7 +13,7 @@ public class ApiResponseDto {
     private String message;
     private Object data;
 
-    public ApiResponseDto(int status, String message) {
+    public ApiResponseDto(String messageint, int status) {
         this.status = status;
         this.message = message;
         this.data = null;

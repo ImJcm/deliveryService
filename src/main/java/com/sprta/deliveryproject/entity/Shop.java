@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Table(name = "shop")  //DB제작시 추가
 @NoArgsConstructor
-public class Shop {
+public class Shop extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_id", unique = true, updatable = false, nullable = false)
