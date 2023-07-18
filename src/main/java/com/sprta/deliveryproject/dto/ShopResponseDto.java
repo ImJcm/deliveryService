@@ -4,9 +4,11 @@ import com.sprta.deliveryproject.entity.Category;
 import com.sprta.deliveryproject.entity.Review;
 import com.sprta.deliveryproject.entity.Shop;
 import com.sprta.deliveryproject.entity.ShopLike;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class ShopResponseDto {
 
     private Long id;

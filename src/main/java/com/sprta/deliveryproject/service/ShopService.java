@@ -20,14 +20,14 @@ public class ShopService {
 
 
     public ResponseEntity<ApiResponseDto> getCategoryShops(Long categoryId) {
-        List<Shop> postList = shopRepository.findAllByCategory_IdOrderByModifiedAtDesc(categoryId);
+        List<Shop> shopList = shopRepository.findAllByCategory_IdOrderByModifiedAtDesc(categoryId);
 
-        List<ShopResponseDto> newPostList = postList.stream().map(ShopResponseDto::new).toList();
+        List<ShopResponseDto> newShopList = shopList.stream().map(ShopResponseDto::new).toList();
 
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"카테고리 조회",newPostList));
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"카테고리 조회",newShopList));
     }
 
-    public ResponseEntity<ApiResponseDto> getShops(Long shopId) {
+    public ResponseEntity<ApiResponseDto> getDetailShops(Long shopId) {
         Shop shop = FindShop(shopId);
 
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 조회", shop));

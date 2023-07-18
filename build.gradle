@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     // JPA

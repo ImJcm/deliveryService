@@ -18,13 +18,13 @@ public class ShopController
     public ShopController(ShopService shopService){
         this.shopService = shopService;
     }
-    @GetMapping("/api/{category_id}/shops")
-    public ResponseEntity<ApiResponseDto> getCategoryShops(@PathVariable Long category_id) {
-        return shopService.getCategoryShops(category_id);
+    @GetMapping("/shops/category/{id}")
+    public ResponseEntity<ApiResponseDto> getCategoryShops(@PathVariable Long id) {
+        return shopService.getCategoryShops(id);
     }
-    @GetMapping("/api/shops/{shop_id}")
-    public ResponseEntity<ApiResponseDto> getShops(@PathVariable Long shop_id) {
-        return shopService.getShops(shop_id);
+    @GetMapping("/shops/{id}")
+    public ResponseEntity<ApiResponseDto> getShops(@PathVariable Long id) {
+        return shopService.getDetailShops(id);
     }
 
 
