@@ -22,6 +22,7 @@ public class ReviewDto {
     private final String shopName;
     private final String profileName;
 
+
     public ReviewDto(Review review) {
         this.id = review.getId();
         this.contents = review.getContent();

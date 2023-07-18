@@ -30,3 +30,4 @@ public class ShopResponseDto {
         this.likeList = shop.getLikeList();
     }
 }
+

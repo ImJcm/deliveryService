@@ -1,12 +1,27 @@
 package com.sprta.deliveryproject.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponseDto {
-    private String message;
+
     private int status;
+    private String message;
+    private Object data;
+
+    public ApiResponseDto(String messageint, int status) {
+        this.status = status;
+        this.message = message;
+        this.data = null;
+    }
+
+    public ApiResponseDto(int status,String message, Object data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
 }
