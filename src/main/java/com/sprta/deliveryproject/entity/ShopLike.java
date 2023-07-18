@@ -7,19 +7,17 @@ import lombok.NoArgsConstructor;
 
 @Entity     //Entity클래스
 @Getter
-@Table(name = "review")  //DB제작시 추가
+@Table(name = "shop_like")  //DB제작시 추가
 @NoArgsConstructor
-//@EqualsAndHashCode
 public class ShopLike extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //숍 id
 
     @JoinColumn(name="member_id")
     @ManyToOne
-    private Member meber;
+    private Member member;
     @JoinColumn(name="shop_id")
     @ManyToOne
     private Shop shop;

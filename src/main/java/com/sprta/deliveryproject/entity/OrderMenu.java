@@ -13,4 +13,12 @@ public class OrderMenu {
 
     @Column(name="order_menu_price")
     Integer orderMenuprice;
+
+    @ManyToOne
+    @JoinColumn(name="menu_id")
+    private Menu menu;
+
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order order;
 }

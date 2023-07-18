@@ -11,11 +11,12 @@ import java.util.List;
 
 @Entity     //Entity클래스
 @Getter
-@Table(name = "review")  //DB제작시 추가
+@Table(name = "shop")  //DB제작시 추가
 @NoArgsConstructor
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "shop_id", unique = true, updatable = false, nullable = false)
     private Long id;
 
     @Column(name="shopname",nullable = false)

@@ -1,13 +1,18 @@
 package com.sprta.deliveryproject.entity;
 
+import com.sprta.deliveryproject.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity     //Entity클래스
 @Getter
+@NoArgsConstructor
 @Table(name = "member")  //DB제작시 추가
 //@EqualsAndHashCode
 public class Member extends Timestamped {
@@ -24,11 +29,23 @@ public class Member extends Timestamped {
     @Column(name = "profilename", nullable = false)
     private String profilename;                         //닉네임
 
-    @Column(name="role")
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private MemberRoleEnum role;        //어드민인지 권한
 
-    public Member(){
+    @OneToMany(mappedBy="member")     //가게 좋아요 목록
+    List<ShopLike> shopLikeList = new ArrayList<>();
 
+    @OneToMany(mappedBy="member")        //주문에 대한 리뷰 목록
+    List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")       //사용자가 주문한 목록
+    List<Order> orderList = new ArrayList<>();
+
+    public Member(String username, String password, String profilename, MemberRoleEnum role) {
+        this.username = username;
+        this.password = password;
+        this.profilename = profilename;
+        this.role = role;
     }
-
 }

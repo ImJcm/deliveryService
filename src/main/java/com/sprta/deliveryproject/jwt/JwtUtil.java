@@ -1,17 +1,24 @@
 package com.sprta.deliveryproject.jwt;
 
+import com.sprta.deliveryproject.entity.MemberRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+
 @Slf4j(topic = "JwtUtil")
 @Component
 public class JwtUtil {
@@ -45,12 +52,13 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(String username) {
+    public String createToken(String username, MemberRoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
+                        .claim(AUTHORIZATION_KEY,role)  //사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -77,5 +85,18 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    public void addJwtToCookie(String token, HttpServletResponse response) {
+        try {
+            token = URLEncoder.encode(token,"utf-8").replaceAll("\\+", "%20");
+
+            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
+            cookie.setPath("/");
+
+            response.addCookie(cookie);
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage());
+        }
     }
 }
