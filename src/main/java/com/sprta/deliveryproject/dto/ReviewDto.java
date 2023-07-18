@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 //review Request 땐 contents 만 사용
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ReviewDto extends ApiResponseDto {
+public class ReviewDto {
     private final Long id;
     private final String contents;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -21,7 +21,6 @@ public class ReviewDto extends ApiResponseDto {
     //review 의 shop 과 member 정보를 통해 response 에서 가게이름과 리뷰작성자의 닉네임을 보여준다.
     private final String shopName;
     private final String profileName;
-
 
     public ReviewDto(Review review) {
         this.id = review.getId();

@@ -1,5 +1,6 @@
 package com.sprta.deliveryproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,11 +15,13 @@ public class ShopLike extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @JoinColumn(name="member_id")
+    @JsonIgnore
     @ManyToOne
     private Member member;
+
     @JoinColumn(name="shop_id")
+    @JsonIgnore
     @ManyToOne
     private Shop shop;
 
