@@ -1,7 +1,5 @@
 package com.sprta.deliveryproject.jwt;
 
-
-
 import com.sprta.deliveryproject.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -34,21 +32,22 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String token = jwtUtil.resolveToken(request);
 
         if(token != null) {
-            if(!jwtUtil.validateToken(token)){
+            if (!jwtUtil.validateToken(token)) {
                 log.error("Token Error");
                 return;
             }
 
+            //Jwt 토큰에서 Member 정보 추출
             Claims info = jwtUtil.getUserInfoFromToken(token);
-            setAuthentication(info.getSubject());
 
+            try {
+                setAuthentication(info.getSubject());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return;
+            }
         }
-        try {
-            log.info("AuthFilter -> filterChain");
-            filterChain.doFilter(request, response);
-        } catch (FileUploadException e) {
-            log.error(e.getMessage());
-        }
+        filterChain.doFilter(request, response);
     }
 
     // 인증 처리
@@ -56,9 +55,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         Authentication authentication = createAuthentication(username);
         context.setAuthentication(authentication);
-        // username -> user 조회 -> userDetails 에 담고 -> authentication의 principal 에 담고
-        // -> securityContent 에 담고 -> SecurityContextHolder 에 담고
-        // -> 이제 @AuthenticationPrincipal 로 조회할 수 있음
         SecurityContextHolder.setContext(context);
     }
 
