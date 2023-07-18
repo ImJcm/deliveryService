@@ -15,19 +15,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/shops/")
+@RequestMapping("/api")
 public class ReviewController {
     private final ReviewService reviewService;
 
     //리뷰 작성 Id =>shop Id
-    @PostMapping("/{id}/reviews")
+    @PostMapping("/shops/{id}/reviews")
     public ResponseEntity<ApiResponseDto> createReview(@PathVariable Long id, @RequestBody ReviewDto reviewRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         reviewService.createReview(id, reviewRequestDto, userDetails.getMember());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDto("리뷰 작성 완료", HttpStatus.CREATED.value()));
+        return ResponseEntity.ok().body(new ApiResponseDto("리뷰 작성 완료", HttpStatus.OK.value()));
     }
 
     //특정 가게 리뷰 조회 Id =>shop Id
-    @GetMapping("/{id}/reviews")
+    @GetMapping("/shops/{id}/reviews")
     public ResponseEntity<List<ReviewDto>> getShopReviews(@PathVariable Long id) {
         return ResponseEntity.ok().body(reviewService.getShopReviews(id));
     }
