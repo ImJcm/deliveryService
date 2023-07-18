@@ -1,8 +1,10 @@
 package com.sprta.deliveryproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 @Getter
 @Table(name = "shop")  //DB제작시 추가
 @NoArgsConstructor
-public class Shop {
+public class Shop extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_id", unique = true, updatable = false, nullable = false)
@@ -29,6 +31,8 @@ public class Shop {
     @Column(name="phone_number")
     String phone_number;            //전화번호
 
+
+    @JsonIgnore
     @JoinColumn(name="category_id")
     @ManyToOne
     Category category;              //카테고리
@@ -37,5 +41,5 @@ public class Shop {
     private List<Review> reviewList = new ArrayList<>();           //리뷰
 
     @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE})
-    private List<ShopLike> LikeList = new ArrayList<>();            //좋아요
+    private List<ShopLike> likeList = new ArrayList<>();            //좋아요
 }
