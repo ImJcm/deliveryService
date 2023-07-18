@@ -1,14 +1,20 @@
 package com.sprta.deliveryproject.service;
 
 import com.sprta.deliveryproject.dto.ApiResponseDto;
+import com.sprta.deliveryproject.dto.ShopLikeResponseDto;
 import com.sprta.deliveryproject.dto.ShopResponseDto;
+import com.sprta.deliveryproject.entity.Member;
 import com.sprta.deliveryproject.entity.Shop;
+import com.sprta.deliveryproject.repository.MemberRepository;
 import com.sprta.deliveryproject.repository.ShopRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
