@@ -1,17 +1,23 @@
 package com.sprta.deliveryproject.service;
 
+import com.sprta.deliveryproject.dto.ShopLikeResponseDto;
 import com.sprta.deliveryproject.entity.Member;
 import com.sprta.deliveryproject.entity.Shop;
 import com.sprta.deliveryproject.entity.ShopLike;
+import com.sprta.deliveryproject.repository.MemberRepository;
 import com.sprta.deliveryproject.repository.ShopLikesRepository;
 import com.sprta.deliveryproject.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ShopLikesService {
+    private final MemberRepository memberRepository;
     private final ShopLikesRepository shopLikesRepository;
     private final ShopRepository shopRepository;
 
@@ -36,5 +42,17 @@ public class ShopLikesService {
             throw new IllegalArgumentException("본인이 누른 좋아요가 아닙니다.");
         }
         shopLikesRepository.delete(shopLike);
+    }
+
+    public List<ShopLikeResponseDto> getMemberlikeshop(Long member_id, Member member) {
+        Optional<Member> checkMember = memberRepository.findById(member_id);
+
+        if (!checkMember.isPresent() || checkMember.get().getId() != member.getId()) {
+            throw new IllegalArgumentException("해당 멤버가 존재하지 않거나, 현재 접속 멤버와 다릅니다.");
+        }
+
+        List<ShopLikeResponseDto> newShopLikeList = shopLikesRepository.findAllByMember_Id(member_id).stream().map(ShopLikeResponseDto::new).toList();
+
+        return newShopLikeList;
     }
 }

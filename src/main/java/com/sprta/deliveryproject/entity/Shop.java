@@ -1,6 +1,8 @@
 package com.sprta.deliveryproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +28,10 @@ public class Shop extends Timestamped{
     Integer review_count;           //리뷰 개수
 
     @Column(name = "adress")
-    String adress;                  //가게주소
+    String address;                  //가게주소
 
     @Column(name="phone_number")
     String phone_number;            //전화번호
-
 
     @JsonIgnore
     @JoinColumn(name="category_id")

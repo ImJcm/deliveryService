@@ -15,13 +15,11 @@ public class ShopLike{
     private Long id;
 
     @JoinColumn(name="member_id")
-    @JsonIgnore
     @ManyToOne
     private Member member;
 
     @JoinColumn(name="shop_id")
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Shop shop;
 
     @Builder

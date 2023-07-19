@@ -90,6 +90,19 @@ public class MemberService {
         return ResponseEntity.status(200).body(new ApiResponseDto("회원 프로필 수정 성공",HttpStatus.OK.value()));
     }
 
+    @Transactional
+    public ResponseEntity<ApiResponseDto> deleteMember(Long member_id, Member member) {
+        Optional<Member> checkMember = memberRepository.findById(member_id);
+
+        if(!checkMember.isPresent() || checkMember.get().getId() != member.getId()) {
+            return ResponseEntity.status(400).body(new ApiResponseDto("회원이 존재하지 않거나, 회원정보가 일치하지 않습니다.",HttpStatus.BAD_REQUEST.value()));
+        }
+
+        memberRepository.delete(checkMember.get());
+
+        return ResponseEntity.status(200).body(new ApiResponseDto("회원 삭제 성공",HttpStatus.OK.value()));
+    }
+
 
     /*private final JwtUtil jwtUtil;
     public ResponseEntity<ApiResponseDto> login(LoginRequestDto requestDto) {

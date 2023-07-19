@@ -35,4 +35,9 @@ public class MemberController {
     public ResponseEntity<ApiResponseDto> modifyMember(@PathVariable Long member_id, @RequestBody ProfileRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return memberService.modifyMember(member_id, requestDto, userDetails.getMember());
     }
+
+    @DeleteMapping("/{member_id}")
+    public ResponseEntity<ApiResponseDto> deleteMember(@PathVariable Long member_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return memberService.deleteMember(member_id, userDetails.getMember());
+    }
 }
