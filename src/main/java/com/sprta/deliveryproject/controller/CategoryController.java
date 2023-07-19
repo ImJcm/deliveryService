@@ -4,7 +4,6 @@ import com.sprta.deliveryproject.dto.ApiResponseDto;
 import com.sprta.deliveryproject.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +17,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/categories")  //카테고리 조회
     public ResponseEntity<ApiResponseDto> getCategoryShops() {
         return categoryService.getCategories();
     }

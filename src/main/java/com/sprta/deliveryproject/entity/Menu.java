@@ -1,5 +1,6 @@
 package com.sprta.deliveryproject.entity;
 
+import com.sprta.deliveryproject.dto.MenuRequestDto;
 import jakarta.persistence.*;
 import lombok.Cleanup;
 import lombok.Getter;
@@ -19,4 +20,15 @@ public class Menu {
     String menuname;
     @Column(name ="price")
     Integer price;
+
+    public Menu(Shop shop,MenuRequestDto menuRequestDto){
+        this.shop = shop;
+        this.menuname = menuRequestDto.getMenuname();
+        this.price = menuRequestDto.getPrice();
+
+    }
+
+    public Menu() {
+
+    }
 }

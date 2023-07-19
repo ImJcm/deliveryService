@@ -20,6 +20,7 @@ public class UserDetailsImpl implements UserDetails {
     public Long getId(){
         return this.member.getId();
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();
