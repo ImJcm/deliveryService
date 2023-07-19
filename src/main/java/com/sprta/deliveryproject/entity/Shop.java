@@ -33,6 +33,10 @@ public class Shop extends Timestamped{
     @Column(name="phone_number")
     String phone_number;            //전화번호
 
+    @Column(name="username")        //숍 주인
+    String username;
+
+
     @JsonIgnore
     @JoinColumn(name="category_id")
     @ManyToOne

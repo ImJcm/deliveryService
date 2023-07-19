@@ -3,18 +3,20 @@ package com.sprta.deliveryproject.dto;
 import com.sprta.deliveryproject.entity.Category;
 import com.sprta.deliveryproject.entity.Review;
 import com.sprta.deliveryproject.entity.Shop;
-
+import com.sprta.deliveryproject.entity.ShopLike;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
 public class ShopResponseDto {
+
     private Long id;
     String shopname;    // 가게이름
     Integer review_count; //리뷰 수
     String address; // 주소
     String phone_number; // 전화번호
+    String username;
     Category category; // 가게 분류
     private Integer likes;  //좋아요 개수
     private List<Review> reviewList;    //리뷰
@@ -27,6 +29,7 @@ public class ShopResponseDto {
         this.category = shop.getCategory();
         this.reviewList = shop.getReviewList();
         this.likes = shop.getLikeList().size();
+        this.username = shop.getUsername();
     }
-}
 
+}
