@@ -33,7 +33,7 @@ public class ShopLikesController {
     }
 
 
-    //특정 멤버가 찜한(좋아요) 가게 조회
+    //특정 멤버가 찜한(좋아요) 가게 조회 (관리자 기능)
     @GetMapping("/member/{member_id}/likes")
     public ResponseEntity<ApiResponseDto> getMemberShopLikes(@PathVariable(value = "member_id") Long memberId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(), "특정 멤버가 찜한 가게 목록 조회 성공.", shopLikesService.getMemberlikeshop(memberId, userDetails.getMember())));
