@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
-    Member member;
+    private final Member member;
 
     public UserDetailsImpl(Member member){
         this.member = member;
@@ -17,6 +17,7 @@ public class UserDetailsImpl implements UserDetails {
     public Member getMember() {
         return this.member;
     }
+
     public Long getId(){
         return this.member.getId();
     }

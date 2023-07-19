@@ -49,13 +49,6 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil);
-        jwtAuthenticationFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return jwtAuthenticationFilter;
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
@@ -73,6 +66,7 @@ public class WebSecurityConfig {
                                 //.requestMatchers("/api/**",HttpMethod.GET.name()).permitAll()
                                 .requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+//                        .anyRequest().permitAll() // 그 외 모든 요청 인증처리
         );
 
         /*// 로그인 사용

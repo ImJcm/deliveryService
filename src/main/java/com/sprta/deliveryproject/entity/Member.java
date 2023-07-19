@@ -8,13 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity     //Entity클래스
 @Getter
-@NoArgsConstructor
+@Setter
 @Table(name = "member")  //DB제작시 추가
 //@EqualsAndHashCode
 public class Member extends Timestamped {

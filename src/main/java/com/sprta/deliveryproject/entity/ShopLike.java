@@ -2,7 +2,9 @@ package com.sprta.deliveryproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity     //Entity클래스
 @Getter
@@ -13,6 +15,8 @@ public class ShopLike{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_like_id", unique = true, updatable = false, nullable = false)
     private Long id;
+
+    //숍 id
 
     @JoinColumn(name="member_id")
     @ManyToOne
