@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity     //Entity클래스
 @Getter
-@Table(name = "review")  //DB제작시 추가
+@Table(name = "shop_like")  //DB제작시 추가
 @NoArgsConstructor
 //@EqualsAndHashCode
 public class ShopLike extends Timestamped{

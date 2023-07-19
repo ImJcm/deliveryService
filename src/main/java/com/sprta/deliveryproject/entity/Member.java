@@ -5,9 +5,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 @Entity     //Entity클래스
 @Getter
+@Setter
 @Table(name = "member")  //DB제작시 추가
 //@EqualsAndHashCode
 public class Member extends Timestamped {
@@ -26,9 +28,5 @@ public class Member extends Timestamped {
 
     @Column(name="role")
     private MemberRoleEnum role;        //어드민인지 권한
-
-    public Member(){
-
-    }
 
 }

@@ -15,8 +15,10 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "shop_id")
     Shop shop;
+
     @Column(name="menuname")
     String menuname;
+
     @Column(name ="price")
     Integer price;
 }

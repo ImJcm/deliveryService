@@ -2,9 +2,13 @@ package com.sprta.deliveryproject.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name="orders")
 public class Order extends Timestamped {
     @Id
@@ -16,5 +20,15 @@ public class Order extends Timestamped {
 
     @Column(name="request")
     private String request; //요청사항
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+
 
 }
