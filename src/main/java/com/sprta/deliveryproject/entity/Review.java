@@ -19,18 +19,18 @@ public class Review extends Timestamped{
     @Column(name = "review_content")
     private String content;      //리뷰 내용
 
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name="orders_id")
     @ManyToOne
-    private Shop shop;
+    private Order order;
 
     @JoinColumn(name = "member_id")
     @ManyToOne
     private Member member;
 
     @Builder
-    public Review(String content, Shop shop, Member member) {
+    public Review(String content, Order order, Member member) {
         this.content = content;
-        this.shop = shop;
+        this.order = order;
         this.member = member;
     }
 
@@ -39,7 +39,7 @@ public class Review extends Timestamped{
     }
     public String toString() {
         Long id = this.getId();
-        return "Review(id=" + id + ", content=" + this.getContent() + ", createdAt=" + this.getCreatedAt() + ", modifiedAt=" + this.getModifiedAt() + ", shopId=" + this.getShop().getId() + ", memberId=" + this.getMember().getId() + ")";
+        return "Review(id=" + id + ", content=" + this.getContent() + ", createdAt=" + this.getCreatedAt() + ", modifiedAt=" + this.getModifiedAt() + ", orderId=" + this.getOrder().getId() + ", memberId=" + this.getMember().getId() + ")";
     }
 
 }
