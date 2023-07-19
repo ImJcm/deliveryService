@@ -1,5 +1,6 @@
 package com.sprta.deliveryproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +17,9 @@ public class ShopLike{
     @JoinColumn(name="member_id")
     @ManyToOne
     private Member member;
+
     @JoinColumn(name="shop_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Shop shop;
 
     @Builder
