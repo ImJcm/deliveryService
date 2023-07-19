@@ -19,6 +19,16 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/login-page")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String signupPage() {
+        return "signup";
+    }
+
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<ApiResponseDto> signupMember(@Valid @RequestBody SignupRequestDto requestDto) {

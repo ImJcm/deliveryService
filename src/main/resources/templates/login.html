@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <style>
+      body {
+        width: 538px;
+        height: auto;
+        margin: 200px auto 200px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 40px 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+        background-color: #ffffff;
+      }
+
+      .header {
+        height: 150px;
+        background-image: url("data:image/jpeg;base64,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");
+        background-size: 100% 100%;
+      }
+
+      .login-title {
+        margin: 30px auto 15px auto;
+        font-size: 27px;
+        font-weight: bold;
+        letter-spacing: -0.96px;
+        text-align: center;
+        color: #212529;
+      }
+
+      .login-title p{
+        margin: 10px auto 0px auto;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: -0.96px;
+        text-align: left;
+        color: #212529;
+      }
+
+      #login-failed {
+        display : none;
+        margin-top:22px;
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header"></div>
+    <div class="login-title">
+      배달의 만족
+      <p>로그인</p>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="username">ID</label>
+      <input class="form-control" type="text" id="username" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="pwd">Password</label>
+      <input class="form-control" type="password" id="pwd" />
+    </div>
+    <div class="d-grid mt-4">
+      <button class="btn btn-success btn-sm" type="submit" onclick="onLogin()">로그인</button>
+    </div>
+    <div class="d-grid mt-3 mb-4">
+      <button class="btn btn-success btn-sm" type="submit" onclick="location.href='/api/member/signup'">회원가입</button>
+    </div>
+    <div id="login-failed" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+  </div>
+</body>
+<script>
+  $(document).ready(function () {
+      Cookies.remove('Authorization', {path:'/'});
+  })
+  const host = 'http://' + window.location.host;
+  const href = location.href;
+
+  const queryString = href.substring(href.indexOf("?")+1)
+  if(queryString === 'error') {
+    const errorDiv = document.getElementById('login-failed');
+    errorDiv.style.display = 'block';
+  }
+
+  function onLogin() {
+    let username = $('#username').val();
+    let password = $('#pwd').val();
+
+    $.ajax({
+      type:"POST",
+      url:'/api/member/login',
+      contentType: "application/json",
+      data: JSON.stringify({username:username,password:password}),
+      success: function(response) {
+        alert("로그인 성공");
+        window.location.href = host;
+      },
+      error: function(response) {
+        window.location.href = host + '/api/member/login-page?error';
+      }
+    });
+  }
+</script>
+</html>
