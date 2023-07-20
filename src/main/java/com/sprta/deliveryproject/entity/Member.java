@@ -20,7 +20,7 @@ import java.util.List;
 public class Member extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",nullable = false,updatable = false,unique = true)
+    @Column(name="member_id",nullable = false,updatable = false,unique = true)
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
