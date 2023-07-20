@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/review_write.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/review_write.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+    <!-- Jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
+            integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+
+    <title>리뷰 작성 페이지</title>
+
+</head>
+<body>
+<div class="containers">
+    <div class="order-info-container">
+        <div class="profile-image">
+            <img src="/images/spring_letan.png" class="image"/> <!--가게 디폴트 이미지 -->
+            <div class="order-date">
+                <h5>2022. 6. 1 (수)</h5>
+            </div>
+        </div>
+
+        <div class="order-info">
+            <div class="order-menu-info">
+                <h1>60계 치킨 안양호계점</h1>
+                <h5>장스 치킨 1개 22,900</h5>
+                <h5>치킨치즈볼 5개 22,900</h5>
+            </div>
+        </div>
+
+        <div class="payment-request-container">
+            <div class="payment-container">
+                <h3>결제 방법</h3>
+                <p>현장 카드 결제</p>
+            </div>
+            <div class="request-container">
+                <h3>요청 사항</h3>
+                <p>벨 누르지 말아주세요 현관 비밀번호 123123</p>
+            </div>
+        </div>
+    </div>
+    <h1 style="margin-left:10%">리뷰 작성</h1>
+    <div class="review-content-container">
+        <textarea id="review-content" rows="10"></textarea>
+    </div>
+    <div class="review-btn-container">
+        <button type="button" class="btn btn-success">작성 완료</button>
+        <button type="button" class="btn btn-success">취소</button>
+    </div>
+</div>
+<div class="footer">
+    <div th:replace="~{/fragments/footer.html::fragment-footer-default}"></div>
+</div>
+<!-- 로그인 이후에는 fragment-footer-login 으로 변경되어야 함-->
+</body>
+</html>

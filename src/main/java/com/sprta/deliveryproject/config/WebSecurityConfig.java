@@ -11,14 +11,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // Spring Security 지원을 가능하게 함
@@ -68,9 +66,11 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                                //.requestMatchers("/api/member/likes",HttpMethod.GET.name()).permitAll() // '/api/member/' 로 시작하는 GET 요청 허용
+                                .requestMatchers("/api/member/likes",HttpMethod.GET.name()).permitAll() // '/api/member/' 로 시작하는 GET 요청 허용
                                 .requestMatchers("/api/member/**",HttpMethod.POST.name()).permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                                 //.requestMatchers("/api/**",HttpMethod.GET.name()).permitAll()
+                                .requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
+                                .requestMatchers("/view/**").permitAll() //view seurity 설정 전 열어놓음
                                 //.requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
@@ -89,9 +89,6 @@ public class WebSecurityConfig {
         // 필터 관리
         //jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
         http.addFilterAfter(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-
-        //http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        //http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }

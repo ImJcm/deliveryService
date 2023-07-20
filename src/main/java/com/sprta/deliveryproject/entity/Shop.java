@@ -27,7 +27,7 @@ public class Shop extends Timestamped{
     @Column(name = "review_count")
     Integer review_count;           //리뷰 개수
 
-    @Column(name = "adress")
+    @Column(name = "address")
     String address;                  //가게주소
 
     @Column(name="phone_number")
@@ -41,9 +41,6 @@ public class Shop extends Timestamped{
     @JoinColumn(name="category_id")
     @ManyToOne
     Category category;              //카테고리
-
-    @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE})
-    private List<Review> reviewList = new ArrayList<>();           //리뷰
 
     @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE})
     private List<ShopLike> likeList = new ArrayList<>();            //좋아요
