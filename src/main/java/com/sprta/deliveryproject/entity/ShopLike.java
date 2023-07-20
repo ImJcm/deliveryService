@@ -15,7 +15,7 @@ public class ShopLike{
     private Long id;
 
     @JoinColumn(name="member_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @JoinColumn(name="shop_id")
