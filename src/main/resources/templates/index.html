@@ -2,9 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <title>Main Page</title>
+    <style>
+        body {
+            width: auto;
+            margin: 50px 100px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            padding: 10px 20px;
+        }
+
+        .header {
+            /*box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            background-color: aqua;*/
+            padding: 15px 10px;
+        }
+        .header-title h2 {
+            color: black;
+        }
+
+        .header-top span {
+            color: black;
+        }
+
+        .category-cards img{
+            width: 150px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .category-cards {
+            width:100%;
+            height: 150px;
+            display: flex;
+            flex-direction: row;
+
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .category-cards::-webkit-scrollbar{
+            height: 10px;
+        }
+
+        .category-cards::-webkit-scrollbar-thumb{
+            background: cadetblue;
+            /*background: #212529;*/
+            border-radius: 10px;
+        }
+
+        .category-cards::-webkit-scrollbar-track{
+            background: darkgrey;
+            border-radius: 10px;
+        }
+
+        .like-shops-header img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        .like-shops-body .card {
+            margin-right: 10px;
+        }
+
+        .like-shops-body .card-body img {
+            width: 30px;
+        }
+
+        .likes_count {
+            margin-left: 10px;
+        }
+
+    </style>
+    <script>
+        const host = 'http://' + window.location.host;
+
+        function logout() {
+            // 토큰 삭제 - 토큰 만료일을 과거로 설정하여 토근 제거
+            name = "Authorization"
+            document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+            window.location.href = host + "/api/user/login-page";
+        }
+
+    </script>
 </head>
 <body>
-    main page
+    <div class="header">
+        <div class="header-top d-flex flex-row justify-content-end">
+            <span class="Member-name me-1" th:text="${memberProfilename}"/>님 환영합니다.
+            <a id="logout" style="margin-left: 15px; color:red;" href="javascript:logout()">로그아웃</a>
+        </div>
+        <br>
+        <div class="header-title d-flex flex-row justify-content-center">
+            <h2>배달의 만족</h2>
+        </div>
+    </div>
+    <hr>
+    <div class="nav">
+        <div class="category-cards">
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/><img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+        </div>
+    </div>
+    <hr>
+    <div class="section">
+        <div class="like-shops-header d-flex justify-content-left m-3">
+            <img src="/static/basic/likes_black.png">
+            <span style="font-weight: bold; font-size: 20px;">좋아요한 가게</span>
+        </div>
+        <div class="like-shops-body d-flex flex-row">
+            <div class="card" style="width: 18rem;">
+                <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp" class="card-img-top" alt="..."><hr>
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <div class="d-flex align-items-center">
+                        <img src="/static/basic/likes_white.png">
+                        <span id="likes_count" class="likes_count">103</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
