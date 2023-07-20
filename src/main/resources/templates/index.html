@@ -11,7 +11,8 @@
     <style>
         body {
             width: auto;
-            margin: 50px 100px;
+            min-width: 720px;
+            margin: 50px 200px;
             box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
             border-radius: 15px;
             padding: 10px 20px;
@@ -31,56 +32,168 @@
         }
 
         .category-cards img{
-            width: 150px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            width: 100%;
         }
 
         .category-cards {
             width:100%;
-            height: 150px;
+            height: fit-content;
             display: flex;
-            flex-direction: row;
-
-            overflow-x: auto;
-            white-space: nowrap;
+            flex-wrap: wrap;
         }
 
-        .category-cards::-webkit-scrollbar{
-            height: 10px;
+        .category-cards .card {
+            width: 100px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 10px;
+            border: none;
         }
 
-        .category-cards::-webkit-scrollbar-thumb{
+        .like-shops-top-header img {
+            width: 40px;
+            margin-right: 15px;
+        }
+
+        .like-shops-body-top .like-shops-body-cards::-webkit-scrollbar{
+            width: 11px;
+        }
+
+        .like-shops-body-top .like-shops-body-cards::-webkit-scrollbar-thumb{
             background: cadetblue;
-            /*background: #212529;*/
             border-radius: 10px;
         }
 
-        .category-cards::-webkit-scrollbar-track{
+        .like-shops-body-top .like-shops-body-cards::-webkit-scrollbar-track{
             background: darkgrey;
             border-radius: 10px;
         }
 
-        .like-shops-header img {
-            width: 30px;
-            margin-right: 10px;
+        .like-shops-body-top .like-shops-body-cards {
+            height: 300px;
+            display: flex;
+            flex-direction: row;
+            overflow-y: auto;
+            flex-wrap: wrap;
+            gap: 1%;
         }
 
-        .like-shops-body .card {
-            margin-right: 10px;
+        .like-shops-body-top .like-shops-body-cards .card {
+            width: 200px;
+            height: fit-content;
         }
 
-        .like-shops-body .card-body img {
-            width: 30px;
+        .like-shops-body-top .card-body img {
+            width: 15%;
         }
 
-        .likes_count {
+
+        .like-shops-body-bottom .like-shops-body-cards::-webkit-scrollbar{
+            width: 11px;
+        }
+
+        .like-shops-body-bottom .like-shops-body-cards::-webkit-scrollbar-thumb{
+            background: cadetblue;
+            border-radius: 10px;
+        }
+
+        .like-shops-body-bottom .like-shops-body-cards::-webkit-scrollbar-track{
+            background: darkgrey;
+            border-radius: 10px;
+        }
+
+        .like-shops-body-bottom .like-shops-body-cards {
+            height: 700px;
+            justify-content: start;
+            display: flex;
+            flex-wrap: wrap;
+            overflow-y: auto;
+            gap: 1%;
+        }
+
+        .like-shops-body-bottom .like-shops-body-cards .card {
+            width: 18rem;
+            height: fit-content;
+
+        }
+
+        .like-shops-body-bottom .card-body img {
+            /*width: 30px;*/
+            width: 10%;
+        }
+
+        .like-shops-body-bottom .likes_count {
             margin-left: 10px;
         }
 
     </style>
     <script>
         const host = 'http://' + window.location.host;
+
+        $(document).ready(function () {
+           setDisplay();
+        });
+
+        function setDisplay() {
+            setCategoryDisplay();
+            setLikeShopDisplay();
+        }
+
+        function setCategoryDisplay() {
+            $.ajax({
+                type:'GET',
+                url:'/api/categories',
+                success: function(res) {
+                    let data = res['data'];
+                    let category_Html = ``;
+                    for(let i=0;i<data.length;i++) {
+                        category_Html += `
+                            <div class="card">
+                                <img src="${data[i]['image_src']}" onclick="setShopDisplay(${data[i]['id']})" />
+                                <span style="font-weight: bold">${data[i]['category_name']}</span>
+                            </div>
+                        `
+                    }
+                    $('.category-cards').append(category_Html);
+                }, error: function(res) {
+                    window.location.href = host + '/api/member/login-page';
+                }
+            });
+        }
+
+        function setLikeShopDisplay() {
+            let memberId = [[${memberId}]];
+
+            $.ajax({
+                type:'GET',
+                url:'/api/shop/member/' + memberId + '/likes',
+                success: function(res) {
+                    let data = res['data'];
+                    let shoplike_Html = ``;
+                    for(let i=0;i<data.length;i++) {
+                        let shop = data[i];
+
+                        shoplike_Html += `
+                            <div class="card">
+                                <img src="..." class="card-img-top" alt="..."><hr>
+                                <div class="card-body">
+                                    <h5 class="card-title">${shop['shopname']}</h5>
+                                    <div class="d-flex flex-row">
+                                        <img src="/image/likes_black.png">
+                                        <span class="likes_count ms-2">${shop['like_count']}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    $('#like-shops-body-top-cards').append(shoplike_Html);
+                }, error(res) {
+                    window.location.href = host + '/api/member/login-page';
+                }
+            })
+        }
 
         function logout() {
             // 토큰 삭제 - 토큰 만료일을 과거로 설정하여 토근 제거
@@ -105,40 +218,44 @@
     <hr>
     <div class="nav">
         <div class="category-cards">
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/><img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
-            <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>
+            <!--<img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp"/>-->
         </div>
     </div>
     <hr>
-    <div class="section">
-        <div class="like-shops-header d-flex justify-content-left m-3">
-            <img src="/static/basic/likes_black.png">
+    <div class="section-top">
+        <div class="like-shops-top-header d-flex justify-content-left align-items-center m-3">
+            <img src="/image/likes_black.png">
             <span style="font-weight: bold; font-size: 20px;">좋아요한 가게</span>
         </div>
-        <div class="like-shops-body d-flex flex-row">
-            <div class="card" style="width: 18rem;">
-                <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp" class="card-img-top" alt="..."><hr>
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <div class="d-flex align-items-center">
-                        <img src="/static/basic/likes_white.png">
-                        <span id="likes_count" class="likes_count">103</span>
+        <div class="like-shops-body-top">
+            <div class="like-shops-body-cards" id="like-shops-body-top-cards">
+                <!--<div class="card">
+                    <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp" class="card-img-top" alt="..."><hr>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <div class="d-flex flex-row">
+                            <img src="/static/basic/likes_black.png">
+                            <span class="likes_count ms-2">103</span>
+                        </div>
                     </div>
-                </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="section-bottom">
+        <div class="like-shops-body-bottom">
+            <div class="like-shops-body-cards" id="like-shops-body-bottom-cards">
+                <!--<div class="card">
+                    <img src="https://i.namu.wiki/i/x3-Dg7Tgf5UHErjd6dPt-ZqFY2zaYv2Lhl7enEfipCRWnUwQkHIoY_mH2U8_IoOwPSE2jFv6tU1lClJIul_vIQ.webp" class="card-img-top" alt="..."><hr>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <div class="d-flex align-items-center">
+                            <img src="/static/basic/likes_white.png">
+                            <span class="likes_count">103</span>
+                        </div>
+                    </div>
+                </div>-->
             </div>
         </div>
     </div>

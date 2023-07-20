@@ -13,4 +13,7 @@ public class Category {
 
     @Column(name="category_name")
     String category_name;
+
+    @Column(name="image_src")
+    String image_src;
 }

@@ -131,10 +131,15 @@
                 alert("회원가입 성공");
                 window.location.href = host;
             },
-            fail: function(xhr, textStatus, errorThrown) {
-                const errorDiv = document.getElementById('sign-failed');
+            error: function(xhr, textStatus, errorThrown) {
+                const errorDiv = document.getElementById('signup-failed');
                 errorDiv.style.display = 'block';
-                errorDiv.textContent = xhr['responseJSON']['message'];
+                let message = xhr['responseJSON']['data'];
+
+                errorDiv.innerHTML += `<br>`;
+                Object.keys(message).forEach(function(key) {
+                    errorDiv.innerHTML += message[key] + `<br>`;
+                });
             }
         })
     }

@@ -36,6 +36,8 @@ public class Shop extends Timestamped{
     @Column(name="username")        //숍 주인
     String username;
 
+    @Column(name="image_src")
+    String image_src;       // 가게 이미지 링크
 
     @JsonIgnore
     @JoinColumn(name="category_id")
