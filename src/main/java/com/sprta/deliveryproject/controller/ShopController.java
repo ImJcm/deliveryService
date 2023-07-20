@@ -1,28 +1,18 @@
 package com.sprta.deliveryproject.controller;
 
 import com.sprta.deliveryproject.dto.ApiResponseDto;
-import com.sprta.deliveryproject.dto.ShopLikeResponseDto;
-import com.sprta.deliveryproject.dto.ShopResponseDto;
-import com.sprta.deliveryproject.entity.Shop;
-import com.sprta.deliveryproject.security.UserDetailsImpl;
-import com.sprta.deliveryproject.service.ShopLikesService;
 import com.sprta.deliveryproject.service.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ShopController
-{
+public class ShopController{
     private final ShopService shopService;
 
     @GetMapping("/shops/category/{id}")     //카테고리 별 가게 조회

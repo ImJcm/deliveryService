@@ -19,15 +19,16 @@ public class ShopResponseDto {
     String username;
     Category category; // 가게 분류
     private Integer likes;  //좋아요 개수
-    private List<Review> reviewList;    //리뷰
-    public ShopResponseDto(Shop shop){
+
+    //private List<Review> reviewList;    //리뷰
+    public ShopResponseDto(Shop shop) {
         this.id = shop.getId();
         this.shopname = shop.getShopname();
         this.review_count = shop.getReview_count();
         this.address = shop.getAddress();
         this.phone_number = shop.getPhone_number();
         this.category = shop.getCategory();
-        this.reviewList = shop.getReviewList();
+        //this.reviewList = shop.getReviewList();
         this.likes = shop.getLikeList().size();
         this.username = shop.getUsername();
     }

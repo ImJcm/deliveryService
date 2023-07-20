@@ -42,7 +42,7 @@ public class Member extends Timestamped {
     @OneToMany(mappedBy="member", cascade = CascadeType.REMOVE)     //가게 좋아요 목록
     List<ShopLike> shopLikeList = new ArrayList<>();
 
-    @OneToMany(mappedBy="member", cascade = CascadeType.REMOVE)        //주문에 대한 리뷰 목록
+    @OneToMany(mappedBy="member", cascade = CascadeType.REMOVE)        //사용자가 작성한 주문에 대한 리뷰 목록
     List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)       //사용자가 주문한 목록
