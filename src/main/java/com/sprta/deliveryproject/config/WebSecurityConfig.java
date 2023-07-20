@@ -17,12 +17,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // Spring Security 지원을 가능하게 함
 public class WebSecurityConfig {
-
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
@@ -73,27 +71,23 @@ public class WebSecurityConfig {
                                 //.requestMatchers("/api/**",HttpMethod.GET.name()).permitAll()
                                 .requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .requestMatchers("/view/**").permitAll() //view seurity 설정 전 열어놓음
+                                //.requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
-        /*// 로그인 사용
+        // 로그인 사용
+        //http.formLogin().disable();
         http.formLogin((formLogin) ->
                 formLogin
-                        // 로그인 View 제공 (GET /api/user/login-page)
-                        .loginPage("/api/user/login-page")
-                        // 로그인 처리 (POST /api/user/login)
-                        .loginProcessingUrl("/api/user/login")
-                        // 로그인 처리 후 성공 시 URL
-                        .defaultSuccessUrl("/")
-                        // 로그인 처리 후 실패 시 URL
-                        .failureUrl("/api/user/login-page?error")
+                        .loginPage("/api/member/login-page")
+                        //.loginProcessingUrl("/api/member/login")
+                        //.defaultSuccessUrl("/")
+                        //.failureUrl("/api/member/login-page?error")
                         .permitAll()
-        );*/
+        );
 
         // 필터 관리
-        /*
-            jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
-         */
+        //jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
         http.addFilterAfter(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();

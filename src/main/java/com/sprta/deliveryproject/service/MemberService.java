@@ -30,10 +30,15 @@ public class MemberService {
             return ResponseEntity.status(400).body(new ApiResponseDto("아이디가 중복됩니다.", HttpStatus.BAD_REQUEST.value()));
         }
 
-        String profilename = requestDto.getProfileName();
+        String profilename = requestDto.getProfilename();
         Optional<Member> checkProfilename = memberRepository.findByProfilename(profilename);
         if(checkProfilename.isPresent()) {
             return ResponseEntity.status(400).body(new ApiResponseDto("중복된 프로필명입니다.",HttpStatus.BAD_REQUEST.value()));
+        }
+
+        String adminToken = requestDto.getAdminToken();
+        if(checkAdmin(adminToken)) {
+            requestDto.setAdmin(true);
         }
 
         MemberRoleEnum role = MemberRoleEnum.USER;
@@ -103,24 +108,10 @@ public class MemberService {
         return ResponseEntity.status(200).body(new ApiResponseDto("회원 삭제 성공",HttpStatus.OK.value()));
     }
 
-
-    /*private final JwtUtil jwtUtil;
-    public ResponseEntity<ApiResponseDto> login(LoginRequestDto requestDto) {
-        String username = requestDto.getUsername();
-        Member member = memberRepository.findByUsername(username).orElse(null);
-        if(member == null) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("해당하는 유저이름이 없습니다.",400));
+    private boolean checkAdmin(String adminToken) {
+        if(adminToken.equals(ADMIN_TOKEN)){
+            return true;
         }
-
-        String password = requestDto.getPassword();
-        if(!passwordEncoder.matches(password, member.getPassword())) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("비밀번호가 틀립니다.",400));
-        }
-
-        MemberRoleEnum role = member.getRole();
-
-        jwtUtil.createToken(username,role);
-
-        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공",HttpStatus.OK.value()));
-    }*/
+        return false;
+    }
 }

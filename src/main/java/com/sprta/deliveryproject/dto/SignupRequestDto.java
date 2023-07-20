@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 public class SignupRequestDto {
     @Pattern(regexp = "^[a-z0-9]{4,10}$", message = "사용자아이디 형식이 올바르지 않습니다.")
     private String username;
@@ -16,7 +17,7 @@ public class SignupRequestDto {
     private String checkpassword;
 
     @Pattern(regexp = "^[a-zA-Z0-9가-힣]{2,15}$", message = "프로필명 형식이 올바르지 않습니다.")
-    private String profileName;
+    private String profilename;
 
     //@Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "이메일 형식이 아닙니다.")
     @Pattern(regexp = "\\w+@\\w+\\.\\w+(\\.\\w+)?", message = "이메일 형식이 아닙니다.")
