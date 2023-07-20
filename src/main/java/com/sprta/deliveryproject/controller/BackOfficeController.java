@@ -25,4 +25,15 @@ public class BackOfficeController {
         return backOfficeService.AddMenu(id,menuRequestDto,userDetails);
 
     }
+    @PutMapping("/shops/{shop_id}/menus/{menu_id}")
+    public String UpdateMenu(@PathVariable("shop_id") Long shop_id, @PathVariable("menu_id") Long menu_id,
+                             @RequestBody MenuRequestDto menuRequestDto,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return backOfficeService.updateMenu(shop_id, menu_id, menuRequestDto,userDetails);
+    }
+    @DeleteMapping("/shops/{shop_id}/menus/{menu_id}")
+    public String DeleteMenu(@PathVariable("shop_id") Long shop_id, @PathVariable("menu_id") Long menu_id,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return backOfficeService.DeleteMenu(shop_id, menu_id ,userDetails);
+    }
 }

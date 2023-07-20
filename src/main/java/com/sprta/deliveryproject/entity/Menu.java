@@ -27,7 +27,11 @@ public class Menu {
         this.price = menuRequestDto.getPrice();
 
     }
-
+    public void update(Menu menu){
+        this.shop = menu.shop;
+        this.menuname = menu.menuname;
+        this.price = menu.price;
+    }
     public Menu() {
 
     }
