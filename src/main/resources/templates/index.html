@@ -201,13 +201,16 @@
             document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
             window.location.href = host + "/api/user/login-page";
         }
-
+        function managepage(){
+            window.location.href = host + "/api/shops/manage";
+        }
     </script>
 </head>
 <body>
     <div class="header">
         <div class="header-top d-flex flex-row justify-content-end">
             <span class="Member-name me-1" th:text="${memberProfilename}"/>님 환영합니다.
+            <button onclick= managepage()>내 매장관리</button>
             <a id="logout" style="margin-left: 15px; color:red;" href="javascript:logout()">로그아웃</a>
         </div>
         <br>
