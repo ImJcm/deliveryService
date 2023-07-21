@@ -31,6 +31,11 @@ public class BackOfficeController {
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
         return backOfficeService.updateMenu(shop_id, menu_id, menuRequestDto,userDetails);
     }
+    @GetMapping("/member/shops/menus")
+    public ResponseEntity<ApiResponseDto> getMembersShopMenu(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return backOfficeService.getMembersShopMenu(userDetails);
+    }
+
     @DeleteMapping("/shops/{shop_id}/menus/{menu_id}")
     public String DeleteMenu(@PathVariable("shop_id") Long shop_id, @PathVariable("menu_id") Long menu_id,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
