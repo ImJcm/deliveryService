@@ -27,6 +27,7 @@ public class OrderService {
         String request = orderRequestDto.getRequests();
         String paymentMethod = orderRequestDto.getPaymentMethod();
         Integer totalPrice = 0;
+        Shop shop = null;
 
         List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId()); // 자신이 주문한 메뉴 && 주문번호가 null 인 메뉴 리스트를 뽑아옴
         Order order = new Order(); //주문 하나 생성
@@ -34,9 +35,10 @@ public class OrderService {
         for (Carts carts : CartsList) { //장바구니 목록에 주문번호가 없는 메뉴에 주문번호 부여 (하나의 주문으로 통합)
             totalPrice = totalPrice + carts.getMenu().getPrice();
             carts.setOrder(order);
+            shop = carts.getShop();
         }
 
-//        order.setOrder(paymentMethod, request, totalPrice, shop, member); // shop을 어케가져오지?
+        order.setOrder(paymentMethod, request, totalPrice, shop, member);
         orderRepository.save(order);
     }
 
