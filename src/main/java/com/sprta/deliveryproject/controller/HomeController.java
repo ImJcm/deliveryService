@@ -17,7 +17,7 @@ public class HomeController {
         model.addAttribute("memberProfilename",userDetails.getMember().getProfilename());
         return "index";
     }
-    @GetMapping("/api/shops/manage")
+    @GetMapping("/shops/manage")
     public String managepage(){
         return "back_office";
     }
