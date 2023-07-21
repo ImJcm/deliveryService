@@ -39,5 +39,36 @@
         <button type="button" class="btn btn-secondary">마이 페이지</button>
     </div>
 </div>-->
+
+<!--프로필 페이지-->
+<div class="footer-container" th:fragment="fragment-footer-profilepage">
+    <hr>
+    <div class="bottom-container">
+        <div class="btn-box">
+            <button type="button" class="btn btn-secondary" onclick="location.href='/'">홈</button>
+        </div>
+        <div class="btn-box">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
+        </div>
+    </div>
+</div>
+
+<!--메인 페이지-->
+<div class="footer">
+    <div class="footer-container" th:fragment="fragment-footer-mainpage">
+        <hr>
+        <div class="bottom-container">
+            <div class="btn-box">
+                <button type="button" class="btn btn-secondary" onclick="location.href='/'">홈</button>
+            </div>
+            <div class="btn-box">
+                <button type="button" class="btn btn-secondary">주문내역</button>
+            </div>
+            <div class="btn-box">
+                <button type="button" class="btn btn-secondary" onclick="location.href='/api/member/profile-page'">마이페이지</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,19 @@ public class MemberController {
         return "signup";
     }
 
+    @GetMapping("/profile-page")
+    public String profilePage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("memberId", userDetails.getMember().getId());
+        return "profile";
+    }
+
+    @GetMapping("/profile-update-page")
+    public String profleUpdatePage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("memberId", userDetails.getMember().getId());
+        return "profile-update";
+    }
+
+
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<ApiResponseDto> signupMember(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult ) {
@@ -57,8 +71,8 @@ public class MemberController {
     }
 
     @PutMapping("/{member_id}")
-    public ResponseEntity<ApiResponseDto> modifyMember(@PathVariable Long member_id, @RequestBody ProfileRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return memberService.modifyMember(member_id, requestDto, userDetails.getMember());
+    public ResponseEntity<ApiResponseDto> updateMember(@PathVariable Long member_id, @RequestBody ProfileRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return memberService.updateMember(member_id, requestDto, userDetails.getMember());
     }
 
     @DeleteMapping("/{member_id}")
