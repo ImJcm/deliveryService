@@ -14,6 +14,8 @@ public class ShopLike{
     @Column(name = "shop_like_id", unique = true, updatable = false, nullable = false)
     private Long id;
 
+    //숍 id
+
     @JoinColumn(name="member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

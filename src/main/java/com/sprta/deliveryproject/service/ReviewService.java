@@ -75,4 +75,11 @@ public class ReviewService {
         }
         reviewRepository.delete(review);
     }
+
+    public ReviewResponseDto getReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() ->
+                new IllegalArgumentException("리뷰가 존재하지 않습니다.")
+        );
+        return new ReviewResponseDto(review);
+    }
 }
