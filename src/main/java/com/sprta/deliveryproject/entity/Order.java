@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -32,9 +35,6 @@ public class Order extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-
-
-
 
     public void setOrder(String paymentMethod, String request, Integer totalPrice, Shop shop, Member member){
         this.paymentMethod = paymentMethod;
