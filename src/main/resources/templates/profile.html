@@ -28,7 +28,7 @@
 
         .profile-body-container {
             width: 100%;
-            height: 100%;
+            height: 90%;
 
             padding: 15px 15px;
         }
@@ -67,16 +67,27 @@
 
         .orderinfo-header {
             height: 5%;
-            border: 1px solid black;
         }
 
         .orderinfo-cards {
             width: 100%;
-            height: 95%;
-            display: flex;
-            overflow-y: auto;
+            height: 94%;
 
-            border:1px solid black;
+            overflow-y : auto;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar{
+            width: 11px;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar-thumb{
+            background: cadetblue;
+            border-radius: 10px;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar-track{
+            background: darkgrey;
+            border-radius: 10px;
         }
 
         .orderinfo-card {
@@ -226,10 +237,12 @@
         <div class="orderinfo-header d-flex justify-content-center mt-2" >
             <h4 style="font-weight: bold">주문 내역</h4>
         </div>
-        <div class="orderinfo-cards d-flex flex-column justify-content-center">
+        <div class="orderinfo-cards d-flex flex-column">
+            <!--리뷰 없는 order-->
             <div class="orderinfo-card d-flex flex-row align-items-center p-1">
                 <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
+                    <!--<img src="/static/image/user.png" />-->
+                    <img src="/image/user.png" />
                 </div>
                 <div class="orderinfo-shop d-flex flex-column">
                     <div class="shop-title">
@@ -248,9 +261,6 @@
                         <h5>1개</h5>
                         <h5>23,900원</h5>
                     </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
                     <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
                 </div>
                 <div class="orderinfo-end d-flex flex-column">
@@ -260,16 +270,18 @@
                     </div>
                     <hr>
                     <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">리뷰를 작성해주세요! or 맛있게 먹었습니다.</h6>
+                        <h6 style="font-weight: bold">리뷰를 작성해주세요!</h6>
                         <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success" type="button">리뷰쓰기</button>
+                            <button class="btn btn-outline-success" type="button">리뷰쓰기</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--리뷰 달린 order-->
             <div class="orderinfo-card d-flex flex-row align-items-center p-1">
                 <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
+                    <!--<img src="/static/image/user.png" />-->
+                    <img src="/image/user.png" />
                 </div>
                 <div class="orderinfo-shop d-flex flex-column">
                     <div class="shop-title">
@@ -288,9 +300,6 @@
                         <h5>1개</h5>
                         <h5>23,900원</h5>
                     </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
                     <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
                 </div>
                 <div class="orderinfo-end d-flex flex-column">
@@ -300,181 +309,16 @@
                     </div>
                     <hr>
                     <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">맛있게 먹었습니다.</h6>
+                        <h6 style="font-weight: bold">맛있습니다!</h6>
                         <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success me-3" type="button">리뷰 수정</button>
-                            <button class="btn btn-success" type="button">리뷰 삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
-                <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
-                </div>
-                <div class="orderinfo-shop d-flex flex-column">
-                    <div class="shop-title">
-                        <h4>60계 치킨 안양호계점</h4><br>
-                        <h5>2023.07.21 (금)</h5>
-                    </div>
-                </div>
-                <div class="orderinfo-menu-cards d-flex flex-column">
-                    <div class="shop-info d-flex flex-row">
-                        <h5>장스 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>22,900원</h5>
-                    </div>
-                    <div class="shop-info d-flex flex-row">
-                        <h5>깐풍 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>23,900원</h5>
-                    </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
-                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
-                </div>
-                <div class="orderinfo-end d-flex flex-column">
-                    <div class="orderinfo-request mb-3">
-                        <h6 style="font-weight: bold">요청사항</h6>
-                        <span>요청사항입니다.</span>
-                    </div>
-                    <hr>
-                    <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">맛있게 먹었습니다.</h6>
-                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success me-3" type="button">리뷰 수정</button>
-                            <button class="btn btn-success" type="button">리뷰 삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
-                <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
-                </div>
-                <div class="orderinfo-shop d-flex flex-column">
-                    <div class="shop-title">
-                        <h4>60계 치킨 안양호계점</h4><br>
-                        <h5>2023.07.21 (금)</h5>
-                    </div>
-                </div>
-                <div class="orderinfo-menu-cards d-flex flex-column">
-                    <div class="shop-info d-flex flex-row">
-                        <h5>장스 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>22,900원</h5>
-                    </div>
-                    <div class="shop-info d-flex flex-row">
-                        <h5>깐풍 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>23,900원</h5>
-                    </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
-                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
-                </div>
-                <div class="orderinfo-end d-flex flex-column">
-                    <div class="orderinfo-request mb-3">
-                        <h6 style="font-weight: bold">요청사항</h6>
-                        <span>요청사항입니다.</span>
-                    </div>
-                    <hr>
-                    <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">맛있게 먹었습니다.</h6>
-                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success me-3" type="button">리뷰 수정</button>
-                            <button class="btn btn-success" type="button">리뷰 삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
-                <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
-                </div>
-                <div class="orderinfo-shop d-flex flex-column">
-                    <div class="shop-title">
-                        <h4>60계 치킨 안양호계점</h4><br>
-                        <h5>2023.07.21 (금)</h5>
-                    </div>
-                </div>
-                <div class="orderinfo-menu-cards d-flex flex-column">
-                    <div class="shop-info d-flex flex-row">
-                        <h5>장스 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>22,900원</h5>
-                    </div>
-                    <div class="shop-info d-flex flex-row">
-                        <h5>깐풍 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>23,900원</h5>
-                    </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
-                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
-                </div>
-                <div class="orderinfo-end d-flex flex-column">
-                    <div class="orderinfo-request mb-3">
-                        <h6 style="font-weight: bold">요청사항</h6>
-                        <span>요청사항입니다.</span>
-                    </div>
-                    <hr>
-                    <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">맛있게 먹었습니다.</h6>
-                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success me-3" type="button">리뷰 수정</button>
-                            <button class="btn btn-success" type="button">리뷰 삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
-                <div class="orderinfo-image align-items-center">
-                    <img src="/static/image/user.png" />
-                </div>
-                <div class="orderinfo-shop d-flex flex-column">
-                    <div class="shop-title">
-                        <h4>60계 치킨 안양호계점</h4><br>
-                        <h5>2023.07.21 (금)</h5>
-                    </div>
-                </div>
-                <div class="orderinfo-menu-cards d-flex flex-column">
-                    <div class="shop-info d-flex flex-row">
-                        <h5>장스 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>22,900원</h5>
-                    </div>
-                    <div class="shop-info d-flex flex-row">
-                        <h5>깐풍 치킨</h5>
-                        <h5>1개</h5>
-                        <h5>23,900원</h5>
-                    </div>
-                    <!--<div class="orderinfo-totalprice mt-3">
-                        <h5>총 46,800원</h5>
-                    </div>-->
-                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
-                </div>
-                <div class="orderinfo-end d-flex flex-column">
-                    <div class="orderinfo-request mb-3">
-                        <h6 style="font-weight: bold">요청사항</h6>
-                        <span>요청사항입니다.</span>
-                    </div>
-                    <hr>
-                    <div class="orderinfo-review d-flex flex-column">
-                        <h6 style="font-weight: bold">맛있게 먹었습니다.</h6>
-                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-success me-3" type="button">리뷰 수정</button>
-                            <button class="btn btn-success" type="button">리뷰 삭제</button>
+                            <button class="btn btn-outline-success me-3" type="button">리뷰수정</button>
+                            <button class="btn btn-outline-danger" type="button">리뷰삭제</button>
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
-
     </div>
 </div>
 <div th:replace="~{/fragments/footer.html::fragment-footer-profilepage}"></div>

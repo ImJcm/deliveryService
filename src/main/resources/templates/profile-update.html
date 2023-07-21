@@ -2,9 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!--부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!--JS Cookie-->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/review_write.css">
+
     <title>Profile Update Page</title>
+    <style>
+        body {
+            width: 538px;
+            height: auto;
+            margin: 200px auto 200px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 40px 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+        }
+
+        .update-title {
+            margin: 20px auto 15px auto;
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: -0.96px;
+            text-align: center;
+            color: #212529;
+        }
+
+        .update-title p{
+            margin: 10px auto 0px auto;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: -0.96px;
+            text-align: left;
+            color: #212529;
+        }
+
+        #update-failed {
+            display: none;
+        }
+
+    </style>
+    <script>
+
+    </script>
 </head>
 <body>
-
+<div class="container">
+    <div class="header"></div>
+    <div class="update-title">
+        배달의 만족
+        <p>프로필 수정</p>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="username">ID</label>
+        <input class="form-control" type="text" id="username" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="pwd">Password</label>
+        <input class="form-control" type="password" id="pwd" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="chkpwd">Verify Password</label>
+        <input class="form-control" type="password" id="chkpwd" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" type="email" id="email" />
+    </div>
+    <div>
+        <label class="form-label" for="nickname">Nickname</label>
+        <input class="form-control" type="text" id="nickname" />
+    </div>
+    <div class="d-grid mt-3 mb-4">
+        <button class="btn btn-success btn-sm" type="submit" onclick="onUpdate()">수정하기</button>
+    </div>
+    <div id="update-failed" class="alert alert-danger" role="alert">프로필 수정을 실패했습니다.</div>
+</div>
+<div th:replace="~{/fragments/footer.html::fragment-footer-profilepage}"></div>
 </body>
+<script>
+    const host = 'http://' + window.location.host;
+    $(document).ready(function () {
+       setDisplay();
+    });
+
+    function setDisplay() {
+        let memberId = [[${memberId}]];
+
+        $.ajax({
+            type:'GET',
+            url:`/api/member/${memberId}`,
+            success: function(res) {
+                let member = res;
+
+                $('#username').val(res['username']);
+                $('#email').val(res['email']);
+                $('#nickname').val(res['profilename']);
+            }, error: function(res) {
+                window.location.href = host;
+            }
+        });
+    }
+
+    function onUpdate() {
+        let memberId = [[${memberId}]]
+        let username = $('#username').val();
+        let password = $('#pwd').val();
+        let chkpassword = $('#chkpwd').val();
+        let email = $('#email').val();
+        let profilename = $('#nickname').val();
+
+        if(!checkPassword(password,chkpassword)) {
+            return;
+        }
+
+        let data = {
+            "username" : username,
+            "password" : password,
+            "checkpassword" : chkpassword,
+            "email" : email,
+            "profilename" : profilename
+        }
+
+        $.ajax({
+            type:'PUT',
+            /*url:`/api/member/${memberId}`,*/
+            url:'/api/member/' + memberId,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                alert("프로필 수정 성공");
+                deleteToken();   //Authorization 제거
+            }, error: function(xhr, textStatus, errorThrown) {
+                const errorDiv = document.getElementById('update-failed');
+                errorDiv.style.display = 'block';
+
+                let message = xhr['responseJSON']['data'];
+                errorDiv.innerHTML += `<br>`;
+                Object.keys(message).forEach(function(key) {
+                    errorDiv.innerHTML += message[key] + `<br>`;
+                });
+            }
+        })
+    }
+
+    function deleteToken() {
+        // 토큰 삭제 - 토큰 만료일을 과거로 설정하여 토근 제거
+        name = "Authorization"
+        document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+        location.href = '/api/member/login-page';
+    }
+
+    function checkPassword(pwd, chkpwd) {
+        if(pwd != chkpwd) {
+            alert("비밀번호가 틀립니다.")
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>

@@ -1,7 +1,7 @@
 package com.sprta.deliveryproject.controller;
 
 import com.sprta.deliveryproject.dto.*;
-import com.sprta.deliveryproject.entity.Shop;
+import com.sprta.deliveryproject.exception.ProfileValidationException;
 import com.sprta.deliveryproject.exception.SignupValidationException;
 import com.sprta.deliveryproject.security.UserDetailsImpl;
 import com.sprta.deliveryproject.service.MemberService;
@@ -51,7 +51,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseBody
-    public ResponseEntity<ApiResponseDto> signupMember(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult ) {
+    public ResponseEntity<ApiResponseDto> signupMember(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             Map<String,String> errorMap = new HashMap<>();  //error 담기위한 객체
@@ -71,11 +71,21 @@ public class MemberController {
     }
 
     @PutMapping("/{member_id}")
-    public ResponseEntity<ApiResponseDto> updateMember(@PathVariable Long member_id, @RequestBody ProfileRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @ResponseBody
+    public ResponseEntity<ApiResponseDto> updateMember(@PathVariable Long member_id, @Valid @RequestBody ProfileRequestDto requestDto, BindingResult bindingResult, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(bindingResult.hasErrors()) {
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            Map<String,String> errorMap = new HashMap<>();  //error 담기위한 객체
+            for (FieldError error : fieldErrors) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            throw new ProfileValidationException("프로필 수정 실패",errorMap);
+        }
         return memberService.updateMember(member_id, requestDto, userDetails.getMember());
     }
 
     @DeleteMapping("/{member_id}")
+    @ResponseBody
     public ResponseEntity<ApiResponseDto> deleteMember(@PathVariable Long member_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return memberService.deleteMember(member_id, userDetails.getMember());
     }
@@ -88,4 +98,14 @@ public class MemberController {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler({ProfileValidationException.class})
+    public ResponseEntity<ApiResponseDto> handleProfileUpdateException(ProfileValidationException ex) {
+        ApiResponseDto apiResponseDto = new ApiResponseDto(HttpStatus.BAD_REQUEST.value(),ex.getMessage(),ex.getErrorMap());
+        return new ResponseEntity<>(
+                apiResponseDto,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
 }

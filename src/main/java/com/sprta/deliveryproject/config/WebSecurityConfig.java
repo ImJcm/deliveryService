@@ -66,6 +66,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                                .requestMatchers("/").permitAll() // '/' 로 접근 허용
                                 .requestMatchers("/api/member/likes",HttpMethod.GET.name()).permitAll() // '/api/member/' 로 시작하는 GET 요청 허용
                                 .requestMatchers("/api/member/**",HttpMethod.POST.name()).permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                                 .requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()

@@ -61,7 +61,7 @@ public class Member extends Timestamped {
     public void modify(ProfileRequestDto profileRequestDto) {
         this.username = profileRequestDto.getUsername();
         this.password = profileRequestDto.getPassword();
-        this.profilename = profileRequestDto.getProfileName();
+        this.profilename = profileRequestDto.getProfilename();
         this.email = profileRequestDto.getEmail();
     }
 }

@@ -134,6 +134,9 @@
             error: function(xhr, textStatus, errorThrown) {
                 const errorDiv = document.getElementById('signup-failed');
                 errorDiv.style.display = 'block';
+
+                console.log(xhr);
+
                 let message = xhr['responseJSON']['data'];
 
                 errorDiv.innerHTML += `<br>`;
