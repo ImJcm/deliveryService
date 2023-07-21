@@ -1,5 +1,6 @@
 package com.sprta.deliveryproject.service;
 
+import com.sprta.deliveryproject.dto.CartsResponseDto;
 import com.sprta.deliveryproject.dto.OrderRequestDto;
 import com.sprta.deliveryproject.dto.OrderResponseDto;
 import com.sprta.deliveryproject.entity.*;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -51,14 +53,36 @@ public class OrderService {
         return orderList;
     }
 
+    public List<CartsResponseDto> showOrderById(Long id) {
+        List<CartsResponseDto> cartsList = cartsRepository.findAllByOrderId(id).stream().map(CartsResponseDto::new).toList();
+        return cartsList;
+    }
 
-    public Menu findMenu(long id) {
-        return menuRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지않는메뉴")
-        );
+    //주문 취소
+    public void deleteOrder(Member member, Long id) {
+        Order order = findOrder(id);
+
+        if (!order.getMember().equals(member)){
+            throw new RejectedExecutionException();
+        }
+
+        orderRepository.delete(order);
     }
 
 
+
+
+    private Order findOrder(Long id) {
+        return orderRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 주문이거나 이미 취소된 주문입니다.")
+        );
+    }
+
+    public Menu findMenu(long id) {
+        return menuRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 메뉴입니다.")
+        );
+    }
 
 
 }

@@ -41,4 +41,11 @@ public class Carts {
         this.shop = shop;
         this.menu = menu;
     }
+
+    public Carts(Carts carts) {
+        this.amount = carts.amount;
+        this.member = carts.member;
+        this.shop = carts.shop;
+        this.menu = carts.menu;
+    }
 }
