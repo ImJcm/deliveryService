@@ -23,7 +23,7 @@
 
         $(document).ready(function () {
             const auth = getToken();
-            const host= 'http://'+window.location.host;
+            const host = 'http://' + window.location.host;
 
             //토큰 유효성 확인
             if (auth !== undefined && auth !== '') {
@@ -35,18 +35,10 @@
                 window.location.href = host + '/api/user/login-page';
                 return;
             }
-
-
             console.log(id);
             //getOrder(id);
             getShop(id);
         })
-
-        function logout() {
-            // 토큰 삭제
-            Cookies.remove('Authorization', {path: '/'});
-            window.location.href = host + '/api/user/login-page';
-        }
 
         function getToken() {
 
@@ -102,18 +94,25 @@
                     let address = response['data']['address'];
                     let phone = response['data']['phone_number'];
                     let username = response['data']['username'];
-                    addHTML2(shopName, review_count, address, phone, username);
+                    let image_url = response['data']['image_url'];
+                    addHTML(shopName, review_count, address, phone, username, image_url);
                 }
             })
         }
 
-        function addHTML2(shopName, review_count, address, phone, username) {
-            //TODO Order 완성 후 order 에 맞게 수정 필요 현재 기능 동작 확인 완료, shop 이미지 경로 추가되면 추가해줘야함!
-
+        function addHTML(shopName, review_count, address, phone, username, image_url) {
+            //TODO Order 완성 후 order 에 맞게 수정 필요 현재 기능 동작 확인 완료
+            //image url 이 null 이면 default 이미지 스프링 르탄이가 나타나도록 함
             $('.order-info-container').empty();
-            let tempHtml = `<div class="profile-image">
-            <img src="/images/spring_letan.png" class="image"/> <!--가게 디폴트 이미지 -->
-            <div class="order-date">
+            let imagehtml
+            if (image_url == null) {
+                imagehtml = `<div class="profile-image">
+            <img src="/images/spring_letan.png" class="image"/>`
+            } else {
+                imagehtml = `<div class="profile-image">
+            <img src="${image_url}" class="image"/>`
+            }
+            let tempHtml = `<div class="order-date">
                 <h5 id="count">${review_count}</h5>
             </div>
         </div>
@@ -137,7 +136,7 @@
                 <p>${username}</p>
             </div>
         </div>`
-            $('.order-info-container').append(tempHtml);
+            $('.order-info-container').append(imagehtml).append(tempHtml);
         }
 
         function writeReivew() {
@@ -146,32 +145,33 @@
                 return;
             }
             let data = {
-                'orderId': id, 'contents':contents;
-            }
+                'orderId': id, 'contents': contents
+            };
             $.ajax({
                 type: "POST",
                 url: "/api/reviews",
                 contentType: "application/json",
                 data: JSON.stringify(data),
-                success: function (response){
-                    alert(response['message']);
+                success: function (response) {
+                    alert(response['data']['message']);
                     //TODO 멤버 찜목록 페이지로 이동 // 일단은 홈페이지로 이동하도록 함.
-                    window.location.href="/";
+                    window.location.href = "/";
                 }
-            }
-        })
+            })
 
-            function isValidContents(contents) {
-                if (contents == '') {
-                    alert('내용을 입력해주세요');
-                    return false;
-                }
-                if (contents.trim().length <= 10) {
-                    alert('10자 이상 입력해주세요.');
-                    return false;
-                }
-                return true;
+        }
+
+        function isValidContents(contents) {
+            if (contents == '') {
+                alert('내용을 입력해주세요');
+                return false;
             }
+            if (contents.trim().length <= 10) {
+                alert('10자 이상 입력해주세요.');
+                return false;
+            }
+            return true;
+        }
     </script>
 </head>
 <body>
@@ -213,7 +213,7 @@
         <textarea id="review-content" rows="10"></textarea>
     </div>
     <div class="review-btn-container">
-        <button type="button" class="btn btn-success">작성 완료</button>
+        <button type="button" class="btn btn-success" onclick="javascript:writeReivew()">작성 완료</button>
         <button type="button" class="btn btn-success">취소</button>
     </div>
 </div>
