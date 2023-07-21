@@ -3,7 +3,6 @@ package com.sprta.deliveryproject.config;
 import com.sprta.deliveryproject.jwt.JwtAuthenticationFilter;
 import com.sprta.deliveryproject.jwt.JwtAuthorizationFilter;
 import com.sprta.deliveryproject.jwt.JwtUtil;
-import com.sprta.deliveryproject.security.UserDetailsImpl;
 import com.sprta.deliveryproject.security.UserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -70,6 +69,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/member/**",HttpMethod.POST.name()).permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                                 .requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .requestMatchers("/view/**").permitAll() //view seurity 설정 전 열어놓음
+                                .requestMatchers("/shops/manage").permitAll()
                                 //.requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
 //                        .anyRequest().permitAll() // 그 외 모든 요청 인증처리
