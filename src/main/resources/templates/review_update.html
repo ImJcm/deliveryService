@@ -14,49 +14,27 @@
             crossorigin="anonymous"></script>
     <!-- Jquery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
 
     <title>리뷰 수정 페이지</title>
     <script>
-
         //현재 주소에서 id만 추출
-        let order_id = [[${review_id}]];
-        console.log(order_id)
-        let id = document.location.href.split("/review/").at(1);
-        console.log(id)
-        $(document).ready(function () {
-            const auth = getToken();
-            const host = 'http://' + window.location.host;
+        let orderId = [[${order_id}]];
 
-            //토큰 유효성 확인
-            if (auth !== undefined && auth !== '') {
-                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-                    jqXHR.setRequestHeader('Authorization', auth);
-                });
-            } else {
-                //로그인 url 확인
-                window.location.href = host + '/api/user/login-page';
-                return;
-            }
-            console.log(id);
+        //let review_id = document.location.href.split("/review/").at(1);
+        let reviewId = [[${review_id}]];
+
+        $(document).ready(function () {
+            showButtons();
+            console.log("Order Id :" + orderId);
+            console.log("Review Id :" + reviewId);
+
+            let id = 1;
+            console.log("shop Id: " + id);
             //getOrder(id);
             getShop(id);
+            getOneReviewContents(reviewId);
         })
-
-        function getToken() {
-
-            let auth = Cookies.get('Authorization');
-
-            if (auth === undefined) {
-                return '';
-            }
-
-            // kakao 로그인 사용한 경우 Bearer 추가
-            if (auth.indexOf('Bearer') === -1 && auth !== '') {
-                auth = 'Bearer ' + auth;
-            }
-
-            return auth;
-        }
 
         //order 정보 가져와서 띄워주고, contents 입력받아서 추가, orderId
         // 여기서 {order_id}를 넣어주는 형태가 이게 맞는지
@@ -84,7 +62,7 @@
             })
         }
 
-        function getShop(order_id) {
+        function getShop(id) {
             $.ajax({
                 type: 'GET',
                 url: `/api/shops/${id}`,
@@ -98,6 +76,19 @@
                     let username = response['data']['username'];
                     let image_url = response['data']['image_url'];
                     addHTML(shopName, review_count, address, phone, username, image_url);
+                }
+            })
+        }
+
+        function getOneReviewContents(reviewId) {
+            $.ajax({
+                type: 'GET',
+                url: `/api/reviews/${reviewId}`,
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log(response)
+                    let ex_content = response['data']['contents'];
+                    addHTMLContents(ex_content);
                 }
             })
         }
@@ -141,13 +132,19 @@
             $('.order-info-container').append(imagehtml).append(tempHtml);
         }
 
+        function addHTMLContents(ex_contents) {
+            $('.review-content-container').empty();
+            let contentHtml = `<textarea id="review-content" rows="10">${ex_contents}</textarea>`;
+            $('.review-content-container').append(contentHtml);
+        }
+
         function updateReivew() {
             let contents = $('#review-content').val();
             if (isValidContents(contents) == false) {
                 return;
             }
             let data = {
-                'reviewId': id, 'contents': contents
+                'reviewId': reviewId, 'contents': contents
             };
             $.ajax({
                 type: "PUT",
@@ -160,18 +157,6 @@
                     window.location.href = "/";
                 }
             })
-        }
-
-        function isValidContents(contents) {
-            if (contents == '') {
-                alert('내용을 입력해주세요');
-                return false;
-            }
-            if (contents.trim().length <= 10) {
-                alert('10자 이상 입력해주세요.');
-                return false;
-            }
-            return true;
         }
     </script>
 </head>
@@ -206,16 +191,16 @@
     </div>
     <h1 style="margin-left:10%">리뷰 수정</h1>
     <div class="review-content-container">
-        <textarea id="review-content" rows="10">리뷰 contents 내용 들어가야 함</textarea>
+        <textarea id="review-content" rows="10">${ex_contents}</textarea>
     </div>
     <div class="review-btn-container">
         <button type="button" class="btn btn-success" onclick="updateReivew()">수정 완료</button>
-        <button type="button" class="btn btn-success">취소</button>
+        <button type="button" class="btn btn-success" onclick="history.back()">취소</button>
     </div>
 </div>
 <div class="footer">
     <div th:replace="~{/fragments/footer.html::fragment-footer-default}"></div>
 </div>
-<!-- 로그인 이후에는 fragment-footer-login 으로 변경되어야 함-->
+
 </body>
 </html>

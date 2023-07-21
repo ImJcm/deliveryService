@@ -31,6 +31,11 @@ public class ReviewController {
     public ResponseEntity<ApiResponseDto> getShopReviews(@PathVariable(value="shop_id") Long shopId) {
         return ResponseEntity.ok().body(new ApiResponseDto( HttpStatus.OK.value(),"리뷰 조회 완료",reviewService.getShopReviews(shopId)));
     }
+    //특정 리뷰 조회
+    @GetMapping("/reviews/{review_id}")
+    public ResponseEntity<ApiResponseDto> getReview(@PathVariable(value="review_id") Long reviewId){
+        return ResponseEntity.ok().body(new ApiResponseDto( HttpStatus.OK.value(),"리뷰 조회 완료",reviewService.getReview(reviewId)));
+    }
 
     //리뷰 수정
     //작성자 본인 or 관리자만 수정 삭제 가능
