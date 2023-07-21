@@ -5,11 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -18,40 +13,34 @@ import java.util.List;
 public class Order extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="orders_id")
+    @Column(name="orders_id", nullable = false, updatable = false, unique = true)
     private Long id;
 
-    @Column
-    private String menuName;
-
-    @Column
-    private Integer amount;
-
-    @Column
-    private Integer totalPrice;
-
-    @Column
-    private Long shopId;
-
-    @Column
-    private Long memberId;
-
     @Column(name="payment_method")
-    private String paymentMethod;   //결제 방법
+    private String paymentMethod;
 
     @Column(name="is_reviewed")
     private Boolean isReviewed; //리뷰 작성 여부
 
     @Column(name="request")
-    private String request; //요청사항
+    private String request;
 
-    public Order(String menuName, Integer amount, Integer totalPrice, Long shopId, String request, String paymentMethod, Long memberId){
-        this.menuName = menuName;
-        this.amount = amount;
-        this.totalPrice = totalPrice;
-        this.shopId = shopId;
-        this.request = request;
+    @Column(name = "totalPrice")
+    private Integer totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public void setOrder(String paymentMethod, String request, Integer totalPrice, Shop shop, Member member){
         this.paymentMethod = paymentMethod;
-        this.memberId = memberId;
+        this.request = request;
+        this.totalPrice = totalPrice;
+        this.shop = shop;
+        this.member = member;
     }
 }

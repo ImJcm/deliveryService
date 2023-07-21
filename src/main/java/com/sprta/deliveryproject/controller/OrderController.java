@@ -29,7 +29,8 @@ public class OrderController {
 
     @GetMapping("/orders")
     public List<OrderResponseDto> showOrder(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return orderService.showOrder(userDetails.getMember());
+        List<OrderResponseDto> orderList = orderService.showOrder(userDetails.getMember());
+        return orderList;
     }
 
 
