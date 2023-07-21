@@ -39,6 +39,9 @@ public class Order extends Timestamped {
     @Column(name="payment_method")
     private String paymentMethod;   //결제 방법
 
+    @Column(name="is_reviewed")
+    private Boolean isReviewed; //리뷰 작성 여부
+
     @Column(name="request")
     private String request; //요청사항
 
