@@ -8,10 +8,15 @@ import com.sprta.deliveryproject.entity.Shop;
 import com.sprta.deliveryproject.repository.MenuRepository;
 import com.sprta.deliveryproject.repository.ShopRepository;
 import com.sprta.deliveryproject.security.UserDetailsImpl;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -64,6 +69,7 @@ public class BackOfficeService {
             throw new IllegalArgumentException("권한이 없습니다."); //나중에 Exception바꿔 예외처리 해주기
         }
     }
+
     public String DeleteMenu(Long shopId, Long menuId, UserDetailsImpl userDetails) {
         if(userDetails.getMember().getRole().equals(MemberRoleEnum.ADMIN)) {
 
@@ -83,6 +89,14 @@ public class BackOfficeService {
             throw new IllegalArgumentException("권한이 없습니다."); //나중에 Exception바꿔 예외처리 해주기
         }
     }
+    public ResponseEntity<ApiResponseDto> getMembersShopMenu(UserDetailsImpl userDetails) {
+        Shop shop = shopRepository.findByUsername(userDetails.getMember().getUsername()).orElse(null);
+
+        List<Menu> menus = menuRepository.findAllByShop_IdOrderByMenunameDesc(shop.getId());
+
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "메뉴목록", menus));
+
+    }
     private Menu findMenu(Long menu_id){
         Menu menu = menuRepository.findById(menu_id).orElseThrow(() ->
                 new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다.")
@@ -97,6 +111,7 @@ public class BackOfficeService {
         );
         return shop;
     }
+
 
 
 }
