@@ -20,17 +20,21 @@ public class Menu {
     String menuname;
     @Column(name ="price")
     Integer price;
+    @Column(name="introduce")
+    String introduce;
 
     public Menu(Shop shop,MenuRequestDto menuRequestDto){
         this.shop = shop;
         this.menuname = menuRequestDto.getMenuname();
         this.price = menuRequestDto.getPrice();
+        this.introduce = menuRequestDto.getIntroduce();
 
     }
     public void update(Menu menu){
-        this.shop = menu.shop;
-        this.menuname = menu.menuname;
-        this.price = menu.price;
+        this.shop = menu.getShop();
+        this.menuname = menu.getMenuname();
+        this.price = menu.getPrice();
+        this.introduce = menu.getIntroduce();
     }
     public Menu() {
 

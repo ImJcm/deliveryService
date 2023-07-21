@@ -20,23 +20,34 @@
     <hr>
     <div class="bottom-container">
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">로그인</button>
+            <button type="button" id="loginButton" class="btn btn-secondary" onclick="goLogin()">로그인</button>
         </div>
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">홈</button>
+            <button type="button" id="logoutButton" class="btn btn-secondary" onclick="logout()">로그아웃</button>
         </div>
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">뒤로가기</button>
+            <button type="button" class="btn btn-secondary" onclick="goHome()">홈</button>
+        </div>
+        <div class="btn-box">
+            <button type="button" id="signupButton" class="btn btn-secondary" onclick="goSignup()">회원가입</button>
+        </div>
+        <div class="btn-box">
+            <button type="button" id="mypageButton" class="btn btn-secondary" onclick="goMypage()">마이페이지</button>
         </div>
     </div>
 </div>
-<!--<div class="footer-container" th:fragment="fragment-footer-login">
+<div class="footer-container" th:fragment="fragment-footer-login">
     <hr>
     <div class="bottom-container">
-
-        <button type="button" class="btn btn-secondary">로그아웃 </button>
-        <button type="button" class="btn btn-secondary">홈</button>
-        <button type="button" class="btn btn-secondary">마이 페이지</button>
+        <div class="btn-box">
+            <button type="button" class="btn btn-secondary" onclick="logout()">로그아웃</button>
+        </div>
+        <div class="btn-box">
+            <button type="button" class="btn btn-secondary" onclick="goHome()">홈</button>
+        </div>
+        <div class="btn-box">
+            <button type="button" class="btn btn-secondary" onclick="goMypage()">마이페이지</button>
+        </div>
     </div>
 </div>-->
 
