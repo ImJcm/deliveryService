@@ -14,19 +14,27 @@
     <!-- Jquery-->
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
             integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script>
+        function goHome(){
+            window.location.href="/api/member/login-page";
+        }
+        function  goLogin(){
+            window.location.href=""
+        }
+    </script>
 </head>
 <body>
 <div class="footer-container" th:fragment="fragment-footer-default">
     <hr>
     <div class="bottom-container">
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">로그인</button>
+            <button type="button" class="btn btn-secondary" onclick="goLogin()">로그인</button>
         </div>
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">홈</button>
+            <button type="button" class="btn btn-secondary" onclick="goHome()">홈</button>
         </div>
         <div class="btn-box">
-            <button type="button" class="btn btn-secondary">뒤로가기</button>
+            <button type="button" class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
         </div>
     </div>
 </div>
