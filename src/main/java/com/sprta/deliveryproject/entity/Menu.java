@@ -27,10 +27,7 @@ public class Menu {
         this.shop = shop;
         this.menuname = menuRequestDto.getMenuname();
         this.price = menuRequestDto.getPrice();
-
     }
 
-    public Menu() {
-
-    }
+    public Menu() {}
 }

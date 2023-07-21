@@ -4,10 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class CartRequestDto {
-    private String menuname;
-    private Integer price;
+    private Long menuId;
     private Integer amount;
-    private Long shopId;
-    private String shopname;
-
 }

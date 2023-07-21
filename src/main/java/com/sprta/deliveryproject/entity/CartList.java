@@ -3,47 +3,43 @@ package com.sprta.deliveryproject.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "cart_list")
 public class CartList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "menuname")
-    private String menuName;
-
-    @Column(name = "price")
-    private Integer price;
-
-    @Column(name = "amount")
+    @Column
     private Integer amount;
 
-    @Column(name = "totalPrice")
+    @Column
     private Integer totalPrice;
 
-    @Column(name = "shopname")
-    private String shopname;
-
-    @Column(name = "shopId")
+    @Column
     private Long shopId;
+
+    @Column
+    private String menuName;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @ManyToOne
+    @JoinColumn(name = "menu_id") // 메뉴정보 (메뉴이름, 가격, 가게ID)
+    private Menu menu;
 
-    public CartList(String menuName, Integer price, Integer amount, Integer totalPrice, Long shopId, String shopname) {
-        this.menuName = menuName;
-        this.price = price;
+    public CartList(Integer amount, Integer totalPrice, Long shopId, String menuName){
         this.amount = amount;
         this.totalPrice = totalPrice;
         this.shopId = shopId;
-        this.shopname = shopname;
-
+        this.menuName = menuName;
     }
 }

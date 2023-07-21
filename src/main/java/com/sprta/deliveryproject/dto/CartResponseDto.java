@@ -4,7 +4,7 @@
 //import com.sprta.deliveryproject.entity.CartList;
 //
 //public class CartResponseDto {
-//    private String menuName;
+//    private String menuname;
 //    private Integer amount;
 //    private Integer totalPrice;
 //    private String shopName;

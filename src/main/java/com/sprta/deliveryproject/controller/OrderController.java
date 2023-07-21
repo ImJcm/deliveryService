@@ -1,14 +1,15 @@
 package com.sprta.deliveryproject.controller;
 
 
-import com.sprta.deliveryproject.dto.CartListDto;
+import com.sprta.deliveryproject.dto.ApiResponseDto;
 import com.sprta.deliveryproject.dto.OrderRequestDto;
+import com.sprta.deliveryproject.dto.OrderResponseDto;
 import com.sprta.deliveryproject.security.UserDetailsImpl;
 import com.sprta.deliveryproject.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +21,15 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order")
-    public void createOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody OrderRequestDto orderRequestDto){
+    @PostMapping("/orders")
+    public ResponseEntity<ApiResponseDto> createOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody OrderRequestDto orderRequestDto){
         orderService.createOrder(userDetails.getMember(), orderRequestDto);
+        return ResponseEntity.ok().body(new ApiResponseDto("주문이 완료되었습니다.", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/orders")
+    public List<OrderResponseDto> showOrder(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return orderService.showOrder(userDetails.getMember());
     }
 
 

@@ -16,6 +16,7 @@ import java.util.List;
 @Entity     //Entity클래스
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "member")  //DB제작시 추가
 //@EqualsAndHashCode
 public class Member extends Timestamped {
@@ -46,8 +47,8 @@ public class Member extends Timestamped {
     @OneToMany(mappedBy="member", cascade = CascadeType.REMOVE)        //주문에 대한 리뷰 목록
     List<Review> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)       //사용자가 주문한 목록
-    List<Order> orderList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)       //사용자가 주문한 목록
+//    List<Order> orderList = new ArrayList<>();
 
     public Member(String username, String password, String profilename, String email, MemberRoleEnum role) {
         this.username = username;
