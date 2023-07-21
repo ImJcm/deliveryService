@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class OrderResponseDto {
-    private Long id;
-    private String menuName;
-    private Integer amount;
+    private Long orderId;
     private Integer totalPrice;
     private Long shopId;
     private Long memberId;
@@ -21,12 +19,10 @@ public class OrderResponseDto {
     private LocalDateTime createdAt;
 
     public OrderResponseDto(Order order){
-        this.id = order.getId();
-        this.menuName = order.getMenuName();
-        this.amount = order.getAmount();
+        this.orderId = order.getId();
         this.totalPrice = order.getTotalPrice();
-        this.shopId = order.getShopId();
-        this.memberId = order.getMemberId();
+        this.shopId = order.getShop().getId();
+        this.memberId = order.getMember().getId();
         this.paymentMethod = order.getPaymentMethod();
         this.request = order.getRequest();
         this.createdAt = order.getCreatedAt();
