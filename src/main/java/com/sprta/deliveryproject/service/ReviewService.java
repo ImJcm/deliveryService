@@ -44,7 +44,6 @@ public class ReviewService {
 
     //특정 가게 리뷰 목록 조회
     public List<ReviewResponseDto> getShopReviews(Long id) {
-        //return reviewRepository.findByShop_IdOrderByCreatedAtDesc(id).stream().map(ReviewDto::new).toList();
         return reviewRepository.findByOrder_Shop_IdOrderByCreatedAtDesc(id).stream().map(ReviewResponseDto::new).toList();
     }
 

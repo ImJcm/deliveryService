@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!--JS Cookie-->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/review_write.css">
+
+    <title>Profile Page</title>
+
+    <style>
+        body {
+            width: auto;
+            height: 920px;
+            min-width: 1600px;
+            max-width: 1600px;
+            margin: 150px auto;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+        }
+
+        .profile-body-container {
+            width: 100%;
+            height: 90%;
+
+            padding: 15px 15px;
+        }
+
+        .memberinfo-body {
+            width: 30%;
+            min-width: 330px;
+            max-width: 330px;
+            margin-right: 20px;
+
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+        }
+
+        .memberinfo-body .info-section {
+            margin: 10px 0;
+        }
+
+        .memberinfo-body .info-format-key {
+            width: 50%;
+            word-break: break-all;
+        }
+
+        .memberinfo-body .info-format-value {
+            width: 50%;
+            word-break: break-all;
+        }
+
+        .orderinfo-body {
+            width: 100%;
+            height: 100%;
+            min-width: 770px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+        }
+
+        .orderinfo-header {
+            height: 5%;
+        }
+
+        .orderinfo-cards {
+            width: 100%;
+            height: 94%;
+
+            overflow-y : auto;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar{
+            width: 11px;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar-thumb{
+            background: cadetblue;
+            border-radius: 10px;
+        }
+
+        .orderinfo-cards::-webkit-scrollbar-track{
+            background: darkgrey;
+            border-radius: 10px;
+        }
+
+        .orderinfo-card {
+            margin: 10px 50px;
+            height: 300px;
+            box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+        }
+
+        .orderinfo-card img {
+            width: 150px;
+            height: 100px;
+            margin: 20px;
+        }
+
+        .orderinfo-shop {
+            width: 33%;
+            word-break: break-all;
+        }
+
+        .orderinfo-card h4 {
+            font-weight: bold;
+        }
+
+        .orderinfo-card h5 {
+            margin-right: 20px;
+            font-weight: bold;
+        }
+
+        .orderinfo-menu-cards {
+            width: 33%;
+        }
+
+        .orderinfo-end {
+            width: 33%;
+            word-break: break-all;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            let memberId = [[${memberId}]];
+            setDisplay(memberId);
+        });
+        function getRandomNumber(n) {
+            let str = '';
+            for(let i=0;i<n;i++) {
+                str += Math.floor(Math.random() * 10);
+            }
+            return str;
+        }
+        function setDisplay(member_id) {
+            $.ajax({
+                type:'GET',
+                url:`/api/member/${member_id}`,
+                success: function(res) {
+                    let member = res;
+                    let random_Phonenum = '010-' + getRandomNumber(4) + '-' + getRandomNumber(4);
+
+                    let memberinfo_Html = `
+                        <div class="w-100 p-4">
+                            <img src="/image/user.png" style="width: inherit" />
+                        </div>
+                        <div class="info-section d-flex flex-row">
+                            <div class="info-format-key">
+                                <h5>ProfileName :</h5>
+                            </div>
+                            <h5 class="info-format-value">${member['profilename']}</h5>
+                        </div>
+                        <div class="info-section d-flex flex-row">
+                            <div class="info-format-key">
+                                <h5 class="me-2">Username :</h5>
+                            </div>
+                            <h5 class="info-format-value">${member['username']}</h5>
+                        </div>
+                        <div class="info-section d-flex flex-row">
+                            <div class="d-flex flex-row align-items-center info-format-key">
+                                <img src="/image/tel.png" style="width: 30px; height:30px; margin-right: 15px;"/>
+                                <h5 class="">Tel :</h5>
+                            </div>
+                            <h5 class="info-format-value">${random_Phonenum}</h5>
+                        </div>
+                        <div class="info-section d-flex flex-row">
+                            <div class="d-flex flex-row info-format-key">
+                                <img src="/image/email.png" style="width:30px; height: 30px; margin-right: 15px;" />
+                                <h5 class="me-2">Email :</h5>
+                            </div>
+                            <h5 class="info-format-value">${member['email']}</h5>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-outline-success btn-sm mb-3" type="button" onclick="location.href='/api/member/profile-update-page'">프로필 수정</button>
+                            <button class="btn btn-outline-danger btn-sm" type="button" onclick="onDeleteProfile(${member['id']})">프로필 삭제</button>
+                        </div>
+                    `;
+                    $('#memberinfo-body').append(memberinfo_Html);
+
+
+                },error(res) {
+                    window.location.href = '/api/member/login-page';
+                }
+            });
+        }
+
+        function onDeleteProfile(member_id) {
+            //프로필 삭제 시, member가 가게에 좋아요 누른 내역을 먼저 삭제 후,
+        }
+    </script>
+</head>
+<body>
+<div class="profile-body-container d-flex flex-row">
+    <div class="memberinfo-body p-3" id="memberinfo-body">
+        <!--<div class="w-100 p-4">
+            <img src="/image/user.png" style="width: inherit" />
+        </div>
+        <div class="info-section d-flex flex-row">
+            <div class="info-format-key">
+                <h5>ProfileName :</h5>
+            </div>
+            <h5 class="info-format-value">형철심</h5>
+        </div>
+        <div class="info-section d-flex flex-row">
+            <div class="info-format-key">
+                <h5 class="me-2">Username :</h5>
+            </div>
+            <h5 class="info-format-value">sim</h5>
+        </div>
+        <div class="info-section d-flex flex-row">
+            <div class="d-flex flex-row align-items-center info-format-key">
+                <img src="/image/tel.png" style="width: 30px; height:30px; margin-right: 15px;"/>
+                <h5 class="">Tel :</h5>
+            </div>
+            <h5 class="info-format-value">369-258-147</h5>
+        </div>
+        <div class="info-section d-flex flex-row">
+            <div class="d-flex flex-row info-format-key">
+                <img src="/image/email.png" style="width:30px; height: 30px; margin-right: 15px;" />
+                <h5 class="me-2">Email :</h5>
+            </div>
+            <h5 class="info-format-value">h@procrew.pro</h5>
+        </div>
+        <div class="d-grid mt-4">
+            <button class="btn btn-success btn-sm mb-3" type="button" onclick="location.href='/api/member/profile-update'">프로필 수정</button>
+            <button class="btn btn-danger btn-sm" type="button" onclick="onDeleteProfile([[${memberId}]])">프로필 삭제</button>
+        </div>-->
+    </div>
+    <div class="orderinfo-body">
+        <div class="orderinfo-header d-flex justify-content-center mt-2" >
+            <h4 style="font-weight: bold">주문 내역</h4>
+        </div>
+        <div class="orderinfo-cards d-flex flex-column">
+            <!--리뷰 없는 order-->
+            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+                <div class="orderinfo-image align-items-center">
+                    <!--<img src="/static/image/user.png" />-->
+                    <img src="/image/user.png" />
+                </div>
+                <div class="orderinfo-shop d-flex flex-column">
+                    <div class="shop-title">
+                        <h4>60계 치킨 안양호계점</h4><br>
+                        <h5>2023.07.21 (금)</h5>
+                    </div>
+                </div>
+                <div class="orderinfo-menu-cards d-flex flex-column">
+                    <div class="shop-info d-flex flex-row">
+                        <h5>장스 치킨</h5>
+                        <h5>1개</h5>
+                        <h5>22,900원</h5>
+                    </div>
+                    <div class="shop-info d-flex flex-row">
+                        <h5>깐풍 치킨</h5>
+                        <h5>1개</h5>
+                        <h5>23,900원</h5>
+                    </div>
+                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
+                </div>
+                <div class="orderinfo-end d-flex flex-column">
+                    <div class="orderinfo-request mb-3">
+                        <h6 style="font-weight: bold">요청사항</h6>
+                        <span>요청사항입니다.</span>
+                    </div>
+                    <hr>
+                    <div class="orderinfo-review d-flex flex-column">
+                        <h6 style="font-weight: bold">리뷰를 작성해주세요!</h6>
+                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
+                            <button class="btn btn-outline-success" type="button">리뷰쓰기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--리뷰 달린 order-->
+            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+                <div class="orderinfo-image align-items-center">
+                    <!--<img src="/static/image/user.png" />-->
+                    <img src="/image/user.png" />
+                </div>
+                <div class="orderinfo-shop d-flex flex-column">
+                    <div class="shop-title">
+                        <h4>60계 치킨 안양호계점</h4><br>
+                        <h5>2023.07.21 (금)</h5>
+                    </div>
+                </div>
+                <div class="orderinfo-menu-cards d-flex flex-column">
+                    <div class="shop-info d-flex flex-row">
+                        <h5>장스 치킨</h5>
+                        <h5>1개</h5>
+                        <h5>22,900원</h5>
+                    </div>
+                    <div class="shop-info d-flex flex-row">
+                        <h5>깐풍 치킨</h5>
+                        <h5>1개</h5>
+                        <h5>23,900원</h5>
+                    </div>
+                    <h5 class="orderinfo-totalprice mt-3">총 46,800원</h5>
+                </div>
+                <div class="orderinfo-end d-flex flex-column">
+                    <div class="orderinfo-request mb-3">
+                        <h6 style="font-weight: bold">요청사항</h6>
+                        <span>요청사항입니다.</span>
+                    </div>
+                    <hr>
+                    <div class="orderinfo-review d-flex flex-column">
+                        <h6 style="font-weight: bold">맛있습니다!</h6>
+                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
+                            <button class="btn btn-outline-success me-3" type="button">리뷰수정</button>
+                            <button class="btn btn-outline-danger" type="button">리뷰삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{/fragments/footer.html::fragment-footer-profilepage}"></div>
+</body>
+</html>

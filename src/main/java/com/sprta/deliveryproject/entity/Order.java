@@ -22,6 +22,9 @@ public class Order extends Timestamped {
     @Column(name="payment_method")
     private String paymentMethod;
 
+    @Column(name="is_reviewed")
+    private Boolean isReviewed; //리뷰 작성 여부
+
     @Column(name="request")
     private String request;
 
@@ -42,5 +45,6 @@ public class Order extends Timestamped {
         this.totalPrice = totalPrice;
         this.shop = shop;
         this.member = member;
+        this.isReviewed = false;
     }
 }

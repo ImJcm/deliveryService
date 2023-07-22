@@ -9,43 +9,37 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "carts")
-public class Carts {
+@Table(name = "cart")
+public class Cart{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id", nullable = false, updatable = false, unique = true)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private Integer amount;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id",nullable = false)
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shop_id",nullable = false)
     private Shop shop;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id")
+    @JoinColumn(name = "menu_id",nullable = false)
     private Menu menu;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public Carts(Integer amount, Member member, Shop shop, Menu menu){
+    public Cart(Integer amount, Member member, Shop shop, Menu menu, Order order){
         this.amount = amount;
         this.member = member;
         this.shop = shop;
         this.menu = menu;
-    }
-
-    public Carts(Carts carts) {
-        this.amount = carts.amount;
-        this.member = carts.member;
-        this.shop = carts.shop;
-        this.menu = carts.menu;
+        this.order = order;
     }
 }
