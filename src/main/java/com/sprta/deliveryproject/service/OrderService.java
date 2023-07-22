@@ -60,11 +60,6 @@ public class OrderService {
         return orderResponseDtoList;
     }
 
-    public List<CartResponseDto> showOrderById(Long id) {
-        List<CartResponseDto> cartsList = cartRepository.findAllByOrderId(id).stream().map(CartResponseDto::new).toList();
-        return cartsList;
-    }
-
     //주문 취소
     public void deleteOrder(Member member, Long id) {
         Order order = findOrder(id);

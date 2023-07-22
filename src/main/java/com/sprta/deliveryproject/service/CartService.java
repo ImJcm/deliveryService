@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class CartService {
 
         cartRepository.save(cart);
 
-        List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
+        //List<Cart> CartsList = cartRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
 
 //        if (CartsList.isEmpty()) { //담은 메뉴가 없으면 바로 장바구니에 담는다
 //            cartsRepository.save(carts);
@@ -70,7 +70,7 @@ public class CartService {
         return cartResponseDtoList;
     }
 
-    /* order_id에 해당하는 menu 내역 조회 */
+    /* order_id에 해당하는 Order의 cart 내역 조회 */
     public List<CartResponseDto> getOrderCart(Long order_id, Member member) {
         List<CartResponseDto> cartResponseDtoList = cartRepository.findAllByMemberIdAndOrderId(member.getId(),order_id)
                 .stream()
@@ -79,4 +79,10 @@ public class CartService {
 
         return cartResponseDtoList;
     }
+
+    /* order_id에 해당하는 Order의 cart 내역 조회 *//*
+    public List<CartResponseDto> showOrderById(Long order_id) {
+        List<CartResponseDto> cartsList = cartRepository.findAllByOrderId(order_id).stream().map(CartResponseDto::new).toList();
+        return cartsList;
+    }*/
 }

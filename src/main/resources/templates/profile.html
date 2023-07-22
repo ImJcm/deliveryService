@@ -319,6 +319,7 @@
             $.ajax({
                 type:'GET',
                 url:`/api/review/order/${orderId}`,
+                async : false,
                 success: function(res) {
                     let review = res['data'];
 
@@ -333,6 +334,7 @@
                     window.location.href = '/api/member/login-page';
                 }
             });
+            return reviewinorder_Html;
         }
 
         function test() {

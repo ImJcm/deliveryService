@@ -48,7 +48,6 @@ public class MemberController {
         return "profile-update";
     }
 
-
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<ApiResponseDto> signupMember(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
