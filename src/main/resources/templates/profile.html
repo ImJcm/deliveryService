@@ -57,6 +57,14 @@
             word-break: break-all;
         }
 
+        .shop-info h5:first-child{
+            width:65%;
+        }
+
+        .shop-info h5:last-child{
+            width:30%;
+        }
+
         .orderinfo-body {
             width: 100%;
             height: 100%;
@@ -130,7 +138,8 @@
     <script>
         $(document).ready(function () {
             let memberId = [[${memberId}]];
-            setDisplay(memberId);
+            setUserInfoDisplay(memberId);
+            setOrderInfoDisplay();
         });
         function getRandomNumber(n) {
             let str = '';
@@ -139,7 +148,7 @@
             }
             return str;
         }
-        function setDisplay(member_id) {
+        function setUserInfoDisplay(member_id) {
             $.ajax({
                 type:'GET',
                 url:`/api/member/${member_id}`,
@@ -191,6 +200,145 @@
             });
         }
 
+        function setOrderInfoDisplay() {
+            $.ajax({
+                type:'GET',
+                url:'/api/orders',
+                success: function(res) {
+                    let orderinfo_Html = ``;
+                    res.forEach(function(order) {
+                        /* 메뉴 */
+                        let cartinorder_Html = setCartInOrder(order['orderId']);
+                        /* 리뷰 */
+                        let reviewinorder_Html = setReviewInOrder(order['orderId']);
+
+                        <!--리뷰 있는 Order-->
+                        if(order['reviewed']) {
+                            orderinfo_Html += `
+                                <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+                                    <div class="orderinfo-image align-items-center">
+                                        <img src="${order['image_src']}" />
+                                    </div>
+                                    <div class="orderinfo-shop d-flex flex-column">
+                                        <div class="shop-title">
+                                            <h4>${order['shopname']}</h4><br>
+                                            <h5>${order['createdAt']}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="orderinfo-menu-cards d-flex flex-column">`
+                                + cartinorder_Html + `
+                                        <!--<div class="shop-info d-flex flex-row">
+                                            <h5>깐풍 치킨</h5>
+                                            <h5>1개</h5>
+                                            <h5>23,900원</h5>
+                                        </div>-->
+                                        <h5 class="orderinfo-totalprice mt-3">총 ${order['totalPrice']} 원</h5>
+                                    </div>
+                                    <div class="orderinfo-end d-flex flex-column">
+                                        <div class="orderinfo-request mb-3">
+                                            <h6 style="font-weight: bold">요청사항</h6>
+                                            <span>${order['request']}</span>
+                                        </div>
+                                        <hr>
+                                        <div class="orderinfo-review d-flex flex-column">`
+                                + reviewinorder_Html + `
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            <!--리뷰 없는 Order-->
+                            orderinfo_Html += `
+                                <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+                                    <div class="orderinfo-image align-items-center">
+                                        <img src="${order['image_src']}" />
+                                    </div>
+                                    <div class="orderinfo-shop d-flex flex-column">
+                                        <div class="shop-title">
+                                            <h4>${order['shopname']}</h4><br>
+                                            <h5>${order['createdAt']}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="orderinfo-menu-cards d-flex flex-column">`
+                                + cartinorder_Html + `
+                                        <!--<div class="shop-info d-flex flex-row">
+                                            <h5>깐풍 치킨</h5>
+                                            <h5>1개</h5>
+                                            <h5>23,900원</h5>
+                                        </div>-->
+                                        <h5 class="orderinfo-totalprice mt-3">총 ${order['totalPrice']} 원</h5>
+                                    </div>
+                                    <div class="orderinfo-end d-flex flex-column">
+                                        <div class="orderinfo-request mb-3">
+                                            <h6 style="font-weight: bold">요청사항</h6>
+                                            <span>${order['request']}</span>
+                                        </div>
+                                        <hr>
+                                        <div class="orderinfo-review d-flex flex-column">
+                                            <h6 style="font-weight: bold">리뷰를 작성해주세요!</h6>
+                                            <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
+                                                <button class="btn btn-outline-success" type="button">리뷰쓰기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    $('#orderinfo-cards').append(orderinfo_Html);
+                }, error: function(res) {
+                    window.location.href = '/api/member/login-page';
+                }
+            })
+        }
+
+        function setCartInOrder(orderId) {
+            var cartinorder_Html=``;
+            $.ajax({
+                type:'GET',
+                url:'/api/carts/order/' + orderId,
+                async: false,
+                success: function(res) {
+                    res.forEach(function(cart) {
+                        cartinorder_Html += `
+                            <div class="shop-info d-flex flex-row">
+                                <h5>${cart['menuname']}</h5>
+                                <h5>${cart['amount']}</h5>
+                                <h5>${cart['price']}</h5>
+                            </div>`;
+                    });
+                }, error: function(res) {
+                    window.location.href = '/api/member/login-page';
+                }
+            });
+            return cartinorder_Html;
+        }
+
+        function setReviewInOrder(orderId) {
+            var reviewinorder_Html = ``;
+            $.ajax({
+                type:'GET',
+                url:`/api/review/order/${orderId}`,
+                success: function(res) {
+                    let review = res['data'];
+
+                    reviewinorder_Html += `
+                        <h6 style="font-weight: bold">${review['contents']}</h6>
+                        <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
+                            <button class="btn btn-outline-success me-3" type="button" onclick="location.href='/api/review-update'">리뷰수정</button>
+                            <button class="btn btn-outline-danger" type="button">리뷰삭제</button>
+                        </div>
+                    `;
+                }, error: function(res) {
+                    window.location.href = '/api/member/login-page';
+                }
+            });
+        }
+
+        function test() {
+            return `<div></div>`;
+        }
+
         function onDeleteProfile(member_id) {
             //프로필 삭제 시, member가 가게에 좋아요 누른 내역을 먼저 삭제 후,
         }
@@ -237,11 +385,11 @@
         <div class="orderinfo-header d-flex justify-content-center mt-2" >
             <h4 style="font-weight: bold">주문 내역</h4>
         </div>
-        <div class="orderinfo-cards d-flex flex-column">
+        <div class="orderinfo-cards d-flex flex-column" id="orderinfo-cards">
             <!--리뷰 없는 order-->
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+            <!--<div class="orderinfo-card d-flex flex-row align-items-center p-1">
                 <div class="orderinfo-image align-items-center">
-                    <!--<img src="/static/image/user.png" />-->
+                    &lt;!&ndash;<img src="/static/image/user.png" />&ndash;&gt;
                     <img src="/image/user.png" />
                 </div>
                 <div class="orderinfo-shop d-flex flex-column">
@@ -276,11 +424,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!--리뷰 달린 order-->
-            <div class="orderinfo-card d-flex flex-row align-items-center p-1">
+            <!--<div class="orderinfo-card d-flex flex-row align-items-center p-1">
                 <div class="orderinfo-image align-items-center">
-                    <!--<img src="/static/image/user.png" />-->
+                    &lt;!&ndash;<img src="/static/image/user.png" />&ndash;&gt;
                     <img src="/image/user.png" />
                 </div>
                 <div class="orderinfo-shop d-flex flex-column">
@@ -316,7 +464,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
         </div>
     </div>
