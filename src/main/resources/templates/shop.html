@@ -19,7 +19,7 @@
             max-width: 500px;
             margin: auto;
         }
-        .mytitle {
+        .shop_title {
             width: 100%;
             height: 300px;
             /*background-image -> ${shopImage}*/
@@ -35,7 +35,7 @@
             align-items: center;
             justify-content: center;
         }
-        .mytitle>button {
+        .shop_title>button {
             width: 200px;
             height: 50px;
 
@@ -47,13 +47,13 @@
 
             margin-top: 10px;
         }
-        .mytitle>button:hover {
+        .shop_title>button:hover {
             border: 2px solid white;
         }
         .mycomment {
             color: gray;
         }
-        .mycards {
+        .shop_menu {
             margin: 20px auto 0px auto;
             width: 95%;
             max-width: 1200px;
@@ -61,7 +61,7 @@
         .mybtns>button {
             margin-right: 10px;
         }
-        .mypost {
+        .shop_info {
             width: 95%;
             max-width: 700px;
             margin: 20px auto 0px auto;
@@ -82,6 +82,13 @@
         $(document).ready(function () {
             $('#review-box').hide()
         })
+
+        var authCookie = getCookie("Authorization");
+
+        function containMenu() {
+
+        }
+
         function open_menubox() {
             $('#review-box').hide()
             $('#menu-box').show()
@@ -96,10 +103,10 @@
     </script>
 </head>
 <body>
-<div class="mytitle">
+<div class="shop_title">
     <h1>${shopName}</h1>
 </div>
-<div class="mypost" id="post-box">
+<div class="shop_info" id="post-box">
     <div class="form-floating mb-3">
         <p>${shopIntro}</p>
         <p>${shopAddress}</p>
@@ -109,7 +116,7 @@
 <button onclick="open_menubox()">메뉴</button>
 <button onclick="open_reviewbox()">리뷰</button>
 
-<div class="mycards" id="menu-box">
+<div class="shop_menu" id="menu-box">
     <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
         <div class="col">
             <div class="card h-100">
