@@ -42,11 +42,4 @@ public class CartController {
         return cartService.getOrderCart(order_id,userDetails.getMember());
     }
 
-    /*  */
-    /*@GetMapping("/carts/order/{order_id}")
-    public List<CartResponseDto> showOrderById(@PathVariable Long order_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<CartResponseDto> cartsList = cartService.showOrderById(order_id);
-        return cartsList;
-    }*/
-
 }

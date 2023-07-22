@@ -37,27 +37,6 @@ public class CartService {
         Cart cart = new Cart(amount, member, shop, menu, order);  //메뉴 수량, 멤버, 가게, 메뉴, 오더번호(초기 값 null)
 
         cartRepository.save(cart);
-
-        //List<Cart> CartsList = cartRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
-
-//        if (CartsList.isEmpty()) { //담은 메뉴가 없으면 바로 장바구니에 담는다
-//            cartsRepository.save(carts);
-//        } else { //담은 메뉴가 있다면
-//            if (Objects.equals(CartsList.get(0).getShop().getId(), shopId)) { //담겨진 메뉴의 shopID 와 비교
-//                for (Carts carts1 : CartsList) {//shopID가 같으면. .?
-//                    if (carts1.getMenu().getMenuname().equals(menuName)) {//메뉴네임 비교해서 같은 메뉴 있으면 주문수량만 추가
-//                        carts1.setAmount(carts1.getAmount() + amount);
-//                    }
-//                }
-//                if(){
-//                    cartsRepository.save(carts);
-//                }
-//            } else {
-//                throw new IllegalArgumentException("같은 가게 메뉴만 담을 수 있습니다");
-//            }
-//        }
-
-
     }
 
     /* shop_id에 해당하는 가게에서 메뉴를 담은 cart 조회 */
@@ -79,10 +58,4 @@ public class CartService {
 
         return cartResponseDtoList;
     }
-
-    /* order_id에 해당하는 Order의 cart 내역 조회 *//*
-    public List<CartResponseDto> showOrderById(Long order_id) {
-        List<CartResponseDto> cartsList = cartRepository.findAllByOrderId(order_id).stream().map(CartResponseDto::new).toList();
-        return cartsList;
-    }*/
 }
