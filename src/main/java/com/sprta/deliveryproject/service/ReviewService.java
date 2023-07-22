@@ -81,4 +81,11 @@ public class ReviewService {
         );
         return new ReviewResponseDto(review);
     }
+
+    /* order_id에 해당하는 주문의 리뷰 조회 */
+    public ReviewResponseDto getOrderReview(Long order_id, Long member_id) {
+        Review review = reviewRepository.findByOrderIdAndMemberId(order_id, member_id);
+
+        return new ReviewResponseDto(review);
+    }
 }
