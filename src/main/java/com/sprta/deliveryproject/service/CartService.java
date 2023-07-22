@@ -9,6 +9,12 @@ import com.sprta.deliveryproject.repository.CartsRepository;
 import com.sprta.deliveryproject.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +24,7 @@ public class CartService {
 
 
     //장바구니에 메뉴 담기
+    @Transactional
     public void addCart(Member member, CartsRequestDto cartsRequestDto) {
         Long menuId = cartsRequestDto.getMenuId();
         Integer amount = cartsRequestDto.getAmount();
@@ -27,15 +34,30 @@ public class CartService {
 
         Carts carts = new Carts(amount, member, shop, menu);
 
-        cartsRepository.save(new Carts(amount, member, shop, menu));
-    }
+        String menuName = menu.getMenuname();
+        Long shopId = shop.getId();
 
+        cartsRepository.save(carts);
 
+//        List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
+//        Carts nullCheckCarts = cartsRepository.findTopByMemberId(member.getId()).orElse(null);
 
+//        if (CartsList.isEmpty()) { //담은 메뉴가 없으면 바로 장바구니에 담는다
+//            cartsRepository.save(carts);
+//        } else { //담은 메뉴가 있다면
+//            if (Objects.equals(checkShopId, shopId)) { //담겨진 메뉴의 shopID 와 비교
+//                for (Carts carts1 : CartsList) {
+//                    if (carts1.getMenu().getMenuname().equals(menuName)) {
+//                        carts1.setAmount(carts.getAmount() + amount);
+//                    }
+//                }
+//                cartsRepository.save(carts);
+//            } else {
+//                throw new IllegalArgumentException("같은 가게 메뉴만 담을 수 있습니다");
+//            }
+//        }
 
-//        Carts
-//
-//        Carts nullCheckCarts = cartsRepository.findTopByCartId(cart.getId()).orElse(null);
+        //        Carts nullCheckCarts = cartsRepository.findTopByCartId(cart.getId()).orElse(null);
 //        List<Carts> menuCheckCarts = cartListRepository.findByCartId(cart.getId());
 //
 //        if(nullCheckCarts == null) {//장바구니가 비어있는 상태인지
@@ -55,6 +77,7 @@ public class CartService {
 //                throw new IllegalArgumentException("같은 가게 메뉴만 담을 수 있습니다");
 //            }
 //        }
+    }
 
 
     public Menu findMenu(long id) {

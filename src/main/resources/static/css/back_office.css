@@ -111,17 +111,17 @@
     top:68px;
 }
 .e1_15 {
-    width:969.6073608398438px;
-    height:201px;
+    width:970px;
+    height:200px;
     position:absolute;
     left:0px;
     top:0px;
 }
 .e1_16 {
     background-color:rgba(234.81250405311584, 234.81250405311584, 234.81250405311584, 1);
+    display: flex;
     width:919px;
     height:177px;
-    position:absolute;
     left:0px;
     top:24px;
 }
@@ -129,7 +129,6 @@
     background-color:rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
     width:200px;
     height:152px;
-    position:absolute;
     left:16px;
     top:36px;
 }
@@ -137,7 +136,6 @@
     transform: rotate(-0.12469138025148305deg);
     width:919.002197265625px;
     height:0px;
-    position:absolute;
     left:0px;
     top:5px;
 }
@@ -145,7 +143,7 @@
 .e1_19 {
     width:195px;
     height:56px;
-    position:absolute;
+
     left:230.60733032226562px;
     top:36px;
 }
@@ -153,7 +151,7 @@
     color:rgba(0, 0, 0, 1);
     width:175px;
     height:36px;
-    position:absolute;
+
     left:10px;
     top:10px;
     font-family:Inter;
@@ -164,7 +162,7 @@
 .e1_21 {
     width:153px;
     height:35px;
-    position:absolute;
+
     left:234.60733032226562px;
     top:141px;
 }
@@ -172,7 +170,7 @@
     color:rgba(0, 0, 0, 1);
     width:133px;
     height:15px;
-    position:absolute;
+
     left:10px;
     top:10px;
     font-family:Inter;
@@ -183,7 +181,7 @@
 .e1_23 {
     width:106px;
     height:44px;
-    position:absolute;
+
     left:797.6072998046875px;
     top:144px;
 }
@@ -191,7 +189,7 @@
     color:rgba(0, 0, 0, 1);
     width:86px;
     height:24px;
-    position:absolute;
+
     left:10px;
     top:10px;
     font-family:Inter;
@@ -202,7 +200,7 @@
 .e1_25 {
     width:87px;
     height:42px;
-    position:absolute;
+
     left:723.6072998046875px;
     top:102px;
 }
@@ -210,7 +208,7 @@
 .e1_27 {
     width:87px;
     height:42px;
-    position:absolute;
+
     left:808.6072998046875px;
     top:102px;
 }
@@ -218,12 +216,8 @@
     color:rgba(255, 0, 0, 1);
     width:80px;
     height:30px;
-    position:absolute;
-    left:10px;
-    top:10px;
-    font-family:Inter;
-    text-align:right;
-    font-size:18px;
+    right:10px;
+    text-align:center;
     letter-spacing:0;
 }
 .e1_29 {

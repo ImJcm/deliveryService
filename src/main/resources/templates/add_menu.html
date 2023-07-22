@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  <style>
+    body {
+      width: 538px;
+      height: auto;
+      margin: 50px auto 200px auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+      background-color: #ffffff;
+    }
+
+    .header {
+      height: 250px;
+      width: 300px;
+      margin: auto;
+      background-image: url("https://i.namu.wiki/i/YVm0x8WHfLBtSyejD01_GTV1ITfWOJ-XODZzVTQPr386JsiBaz6Ucl1tKKxZmHiYStf_sXZBmK7AEXkEA18Tsg.webp");
+      background-size: 100% 100%;
+    }
+
+    .login-title {
+      margin: 30px auto 15px auto;
+      font-size: 27px;
+      font-weight: bold;
+      letter-spacing: -0.96px;
+      text-align: center;
+      color: #212529;
+    }
+
+    .login-title p{
+      text-align: center;
+      margin: 10px auto 0px auto;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: -0.96px;
+      text-align: left;
+      color: #212529;
+    }
+
+    #login-failed {
+      display : none;
+      margin-top:22px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header"></div>
+  <div class="login-title">
+    메뉴 등록
+    <p>입력한 뒤 등록완료 버튼을 눌러주세요.</p>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="menuname">메뉴 이름</label>
+    <input class="form-control" type="text" id="menuname" />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="price">가격</label>
+    <input class="form-control" type="text" id="price" />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="introduce">음식 설명</label>
+    <input class="form-control" type="text" id="introduce" />
+  </div>
+  <div class="d-grid mt-4">
+    <button class="btn btn-success btn-sm" type="submit" onclick="add_complete()">등록완료</button>
+  </div>
+  <div class="d-grid mt-3 mb-4">
+    <button class="btn btn-success btn-sm" type="submit" onclick="location.href='/api/shops/manage'">취소</button>
+  </div>
+</div>
+</body>
+<script>
+  var shop_id = window.localStorage.getItem("shop_id");
+  function add_complete(){
+    var menuname = $('#menuname').val();
+    var price = $('#price').val();
+    var introduce = $('#introduce').val();
+
+    var authCookie = getCookie("Authorization");
+    $.ajax({
+      url: `/api/shops/${shop_id}/menus`, // 요청을 보낼 서버의 URL
+      contentType: 'application/json',
+      method: 'POSt', // 요청 메소드 (GET, POST 등)
+      data: JSON.stringify({
+        "menuname" : menuname,
+        "price" : price,
+        "introduce" : introduce
+      }),
+      headers: {
+        "Authorization": authCookie,
+      },
+      success: function (response) {
+
+        alert("메뉴 등록 완료")
+        window.location.href = "/";
+      },
+      error: function (xhr, status, error) {
+        alert("메뉴 등록 실패")
+        console.log(xhr);
+
+      }
+    });
+  }
+  function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookie = cookieArray[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+</script>
+</html>

@@ -14,8 +14,14 @@ public class HomeController {
         model.addAttribute("memberProfilename",userDetails.getMember().getProfilename());
         return "index";
     }
-    @GetMapping("/api/shops/manage")
+    @GetMapping("/shops/manage")
     public String managepage(){
         return "back_office";
     }
+
+    @GetMapping("/menu/modify")
+    public String menumodifypage(){return "menu_modify";}
+
+    @GetMapping( "/menu/add")
+    public String menuaddpage(){return "add_menu";}
 }
