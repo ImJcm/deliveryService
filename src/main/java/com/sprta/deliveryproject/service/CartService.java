@@ -1,42 +1,42 @@
 package com.sprta.deliveryproject.service;
 
-import com.sprta.deliveryproject.dto.CartsRequestDto;
-import com.sprta.deliveryproject.entity.Carts;
-import com.sprta.deliveryproject.entity.Member;
-import com.sprta.deliveryproject.entity.Menu;
-import com.sprta.deliveryproject.entity.Shop;
-import com.sprta.deliveryproject.repository.CartsRepository;
+import com.sprta.deliveryproject.dto.CartRequestDto;
+import com.sprta.deliveryproject.dto.CartResponseDto;
+import com.sprta.deliveryproject.entity.*;
+import com.sprta.deliveryproject.repository.CartRepository;
 import com.sprta.deliveryproject.repository.MenuRepository;
+import com.sprta.deliveryproject.repository.OrderRepository;
+import com.sprta.deliveryproject.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final CartsRepository cartsRepository;
+    private final CartRepository cartRepository;
     private final MenuRepository menuRepository;
+    private final ShopRepository shopRepository;
+    private final OrderRepository orderRepository;
 
     //장바구니에 메뉴 담기
     @Transactional
-    public void addCart(Member member, CartsRequestDto cartsRequestDto) {
-        Long menuId = cartsRequestDto.getMenuId();
-        Integer amount = cartsRequestDto.getAmount();
+    public void addCart(Member member, CartRequestDto cartRequestDto) {
+        Long menuId = cartRequestDto.getMenuId();
+        Long shopId = cartRequestDto.getShopId();
+        //Long memberId = member.getId();         //cartRequestDto.getMemberId();
+        Long orderId = cartRequestDto.getOrderId();
+        Integer amount = cartRequestDto.getAmount();
 
-        Menu menu = findMenu(menuId);
-        Shop shop = menu.getShop();
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
+        Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가게입니다."));
+        Order order = orderId == null ? null : orderRepository.findById(orderId).orElse(null);
+        Cart cart = new Cart(amount, member, shop, menu, order);  //메뉴 수량, 멤버, 가게, 메뉴, 오더번호(초기 값 null)
 
-        Carts carts = new Carts(amount, member, shop, menu);
-
-        String menuName = menu.getMenuname();
-        Long shopId = shop.getId();
-
-        cartsRepository.save(carts);
+        cartRepository.save(cart);
 
         List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
 
@@ -60,10 +60,23 @@ public class CartService {
 
     }
 
+    /* shop_id에 해당하는 가게에서 메뉴를 담은 cart 조회 */
+    public List<CartResponseDto> getMemberCart(Long shop_id, Member member) {
+        List<CartResponseDto> cartResponseDtoList = cartRepository.findAllByMemberIdAndShopIdAndOrderIdIsNull(member.getId(),shop_id)
+                .stream()
+                .map(CartResponseDto::new)
+                .toList();
 
-    public Menu findMenu(long id) {
-        return menuRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지않는메뉴")
-        );
+        return cartResponseDtoList;
+    }
+
+    /* order_id에 해당하는 menu 내역 조회 */
+    public List<CartResponseDto> getOrderCart(Long order_id, Member member) {
+        List<CartResponseDto> cartResponseDtoList = cartRepository.findAllByMemberIdAndOrderId(member.getId(),order_id)
+                .stream()
+                .map(CartResponseDto::new)
+                .toList();
+
+        return cartResponseDtoList;
     }
 }

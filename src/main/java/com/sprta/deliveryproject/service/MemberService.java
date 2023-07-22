@@ -70,7 +70,7 @@ public class MemberService {
     }
 
     @Transactional
-    public ResponseEntity<ApiResponseDto> modifyMember(Long user_id, ProfileRequestDto requestDto, Member member) {
+    public ResponseEntity<ApiResponseDto> updateMember(Long user_id, ProfileRequestDto requestDto, Member member) {
         Optional<Member> checkMember = memberRepository.findById(user_id);
 
         if(!checkMember.isPresent()) {

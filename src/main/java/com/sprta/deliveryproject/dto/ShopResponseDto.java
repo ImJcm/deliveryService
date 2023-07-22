@@ -20,7 +20,7 @@ public class ShopResponseDto {
     Category category; // 가게 분류
     private Integer likes;  //좋아요 개수
 
-    String image_url;   //가게 이미지
+    String image_src;   //가게 이미지
 
     //private List<Review> reviewList;    //리뷰
     public ShopResponseDto(Shop shop) {
@@ -33,6 +33,7 @@ public class ShopResponseDto {
         //this.reviewList = shop.getReviewList();
         this.likes = shop.getLikeList().size();
         this.username = shop.getUsername();
+        this.image_src = shop.getImage_src();
     }
 
 }
