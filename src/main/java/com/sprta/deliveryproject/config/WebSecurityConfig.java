@@ -76,15 +76,15 @@ public class WebSecurityConfig {
         );
 
         // 로그인 사용
-//        //http.formLogin().disable();
-//        http.formLogin((formLogin) ->
-//                formLogin
-//                        .loginPage("/api/member/login-page")
-//                        //.loginProcessingUrl("/api/member/login")
-//                        //.defaultSuccessUrl("/")
-//                        //.failureUrl("/api/member/login-page?error")
-//                        .permitAll()
-//        );
+        //http.formLogin().disable();
+        http.formLogin((formLogin) ->
+                formLogin
+                        .loginPage("/api/member/login-page")
+                        //.loginProcessingUrl("/api/member/login")
+                        //.defaultSuccessUrl("/")
+                        //.failureUrl("/api/member/login-page?error")
+                        .permitAll()
+        );
 
         // 필터 관리
         //jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter

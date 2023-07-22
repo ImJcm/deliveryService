@@ -22,7 +22,6 @@ public class CartService {
     private final CartsRepository cartsRepository;
     private final MenuRepository menuRepository;
 
-
     //장바구니에 메뉴 담기
     @Transactional
     public void addCart(Member member, CartsRequestDto cartsRequestDto) {
@@ -39,44 +38,26 @@ public class CartService {
 
         cartsRepository.save(carts);
 
-//        List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
-//        Carts nullCheckCarts = cartsRepository.findTopByMemberId(member.getId()).orElse(null);
+        List<Carts> CartsList = cartsRepository.findAllByMemberIdAndOrderIdIsNull(member.getId());
 
 //        if (CartsList.isEmpty()) { //담은 메뉴가 없으면 바로 장바구니에 담는다
 //            cartsRepository.save(carts);
 //        } else { //담은 메뉴가 있다면
-//            if (Objects.equals(checkShopId, shopId)) { //담겨진 메뉴의 shopID 와 비교
-//                for (Carts carts1 : CartsList) {
-//                    if (carts1.getMenu().getMenuname().equals(menuName)) {
-//                        carts1.setAmount(carts.getAmount() + amount);
+//            if (Objects.equals(CartsList.get(0).getShop().getId(), shopId)) { //담겨진 메뉴의 shopID 와 비교
+//                for (Carts carts1 : CartsList) {//shopID가 같으면. .?
+//                    if (carts1.getMenu().getMenuname().equals(menuName)) {//메뉴네임 비교해서 같은 메뉴 있으면 주문수량만 추가
+//                        carts1.setAmount(carts1.getAmount() + amount);
 //                    }
 //                }
-//                cartsRepository.save(carts);
+//                if(){
+//                    cartsRepository.save(carts);
+//                }
 //            } else {
 //                throw new IllegalArgumentException("같은 가게 메뉴만 담을 수 있습니다");
 //            }
 //        }
 
-        //        Carts nullCheckCarts = cartsRepository.findTopByCartId(cart.getId()).orElse(null);
-//        List<Carts> menuCheckCarts = cartListRepository.findByCartId(cart.getId());
-//
-//        if(nullCheckCarts == null) {//장바구니가 비어있는 상태인지
-//            cartListRepository.save(carts);
-//        } else {
-//            if (nullCheckCarts.getShopId().equals(carts.getShopId())){//같은 가게 메뉴를 담았는지
-//                if(cartListRepository.findByMenuId(menuId).isPresent()){
-//                    Carts upCarts = cartListRepository.findByMenuName(menu.getMenuname());
-//                    Integer upAmount = upCarts.getAmount() + carts.getAmount();
-//                    Integer upTotalPrice = upCarts.getTotalPrice() + carts.getTotalPrice();
-//                    upCarts.setAmount(upAmount);
-//                    upCarts.setTotalPrice(upTotalPrice);
-//                } else {
-//                    cartListRepository.save(carts);
-//                }
-//            } else {
-//                throw new IllegalArgumentException("같은 가게 메뉴만 담을 수 있습니다");
-//            }
-//        }
+
     }
 
 
