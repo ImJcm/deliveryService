@@ -21,4 +21,10 @@ public class HomeController {
     public String managepage(){
         return "back_office";
     }
+
+    @GetMapping("/menu/modify")
+    public String menumodifypage(){return "menu_modify";}
+
+    @GetMapping( "/menu/add")
+    public String menuaddpage(){return "add_menu";}
 }

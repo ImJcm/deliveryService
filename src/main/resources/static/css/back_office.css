@@ -216,12 +216,8 @@
     color:rgba(255, 0, 0, 1);
     width:80px;
     height:30px;
-    position:absolute;
-    left:10px;
-    top:10px;
-    font-family:Inter;
-    text-align:right;
-    font-size:18px;
+    right:10px;
+    text-align:center;
     letter-spacing:0;
 }
 .e1_29 {
