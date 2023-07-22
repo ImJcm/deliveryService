@@ -20,7 +20,6 @@ public class MemberResponseDto {
     private String profilename; //프로필명
     private String email;       //이메일
     private MemberRoleEnum role;//역할
-    private List<ShopLikeResponseDto> shoplikeList; //멤버가 좋아요한 가게
 
     public MemberResponseDto(Member origin_member) {
         this.id = origin_member.getId();
@@ -29,6 +28,5 @@ public class MemberResponseDto {
         this.email = origin_member.getEmail();
         this.profilename = origin_member.getProfilename();
         this.role = origin_member.getRole();
-        this.shoplikeList = origin_member.getShopLikeList().stream().map(ShopLikeResponseDto::new).toList();
     }
 }

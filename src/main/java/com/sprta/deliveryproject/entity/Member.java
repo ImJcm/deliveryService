@@ -41,14 +41,8 @@ public class Member extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private MemberRoleEnum role;        //어드민인지 권한
 
-    @OneToMany(mappedBy="member")     //가게 좋아요 목록
-    List<ShopLike> shopLikeList = new ArrayList<>();
-
     @OneToMany(mappedBy="member", cascade = CascadeType.REMOVE)        //사용자가 작성한 주문에 대한 리뷰 목록
     List<Review> reviewList = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)       //사용자가 주문한 목록
-//    List<Order> orderList = new ArrayList<>();
 
     public Member(String username, String password, String profilename, String email, MemberRoleEnum role) {
         this.username = username;

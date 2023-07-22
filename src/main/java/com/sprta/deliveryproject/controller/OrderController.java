@@ -2,10 +2,9 @@ package com.sprta.deliveryproject.controller;
 
 
 import com.sprta.deliveryproject.dto.ApiResponseDto;
-import com.sprta.deliveryproject.dto.CartsResponseDto;
+import com.sprta.deliveryproject.dto.CartResponseDto;
 import com.sprta.deliveryproject.dto.OrderRequestDto;
 import com.sprta.deliveryproject.dto.OrderResponseDto;
-import com.sprta.deliveryproject.entity.Carts;
 import com.sprta.deliveryproject.security.UserDetailsImpl;
 import com.sprta.deliveryproject.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public List<CartsResponseDto> showOrderById(@PathVariable Long id) {
-        List<CartsResponseDto> cartsList = orderService.showOrderById(id);
+    public List<CartResponseDto> showOrderById(@PathVariable Long id) {
+        List<CartResponseDto> cartsList = orderService.showOrderById(id);
         return cartsList;
     }
 

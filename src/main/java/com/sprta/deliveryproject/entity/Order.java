@@ -45,5 +45,6 @@ public class Order extends Timestamped {
         this.totalPrice = totalPrice;
         this.shop = shop;
         this.member = member;
+        this.isReviewed = false;
     }
 }

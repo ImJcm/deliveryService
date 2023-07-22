@@ -58,8 +58,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         /* jwt Token 쿠키 저장 */
         jwtUtil.addJwtToCookie(token,response);
 
-        /*response.setStatus(200);
-        response.getWriter().write(token);*/
+        response.setStatus(200);
+        response.getWriter().write(token);
     }
 
     @Override
