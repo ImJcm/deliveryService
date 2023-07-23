@@ -31,7 +31,7 @@ public class MemberController {
         return "login";
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/signup-page")
     public String signupPage() {
         return "signup";
     }

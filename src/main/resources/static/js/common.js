@@ -23,7 +23,13 @@ function goMypage() {
 function goSignup() {
     window.location.href = host + '/api/member/signup';
 }
-
+function managepage(){
+    window.location.href = host + "/shops/manage";
+}
+//id에 해당하는 가게의 리뷰목록페이지로 이동
+function goManageReview(shopId){
+    window.location.href = host + `view/shops/${shopId}/reviews`;
+}
 function showButtons() {
     console.log("showButtons() 실행")
     const loginButton = document.getElementById('loginButton'); // 로그인 버튼 요소를 가져옴
@@ -31,7 +37,7 @@ function showButtons() {
     const signupButton = document.getElementById('signupButton'); // 로그아웃 버튼 요소를 가져옴
     const mypageButton = document.getElementById('mypageButton'); // 로그아웃 버튼 요소를 가져옴
     const jwtToken = getJwtFromCookie(); // Request 헤더에서 JWT 토큰을 가져옴
-    //const jwtToken=getToken();
+
 
     if (jwtToken) {
         loginButton.style.display = 'none'; // JWT 토큰이 존재하면 로그인 버튼을 감춤

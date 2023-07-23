@@ -1,12 +1,9 @@
 package com.sprta.deliveryproject.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 public class Shop extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="shop_id", nullable = false, updatable = false, unique = true)
     private Long id;
 
     @Column(name="shopname",nullable = false)
@@ -45,4 +43,11 @@ public class Shop extends Timestamped{
 
     @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE})
     private List<ShopLike> likeList = new ArrayList<>();            //좋아요
+
+    public void addReviewCount(){
+        this.review_count++;
+    }
+    public void subReviewCount(){
+        this.review_count--;
+    }
 }

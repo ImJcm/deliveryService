@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <!-- 부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/back_office_review.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+    <!-- Jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <title>백오피스 리뷰 관리 </title>
+    <script>
+        const jwtToken = getJwtFromCookie();
+        let shopId = [[${shop_id}]];
+
+        $(document).ready(function () {
+            console.log("shopId : " + shopId);
+
+            getShopReviews(shopId);
+        })
+
+        function getShopReviews(shopId) {
+            $.ajax({
+                url: `/api/shops/${shopId}/reviews`,
+                method: 'GET',
+                headers: {
+                    "Authorization": jwtToken,
+                },
+                contentType: 'application/json',
+                success: function (response) {
+                    $('.review-manage-container').empty();
+                    console.log(response)
+                    response['data'].forEach(function (review) {
+                        var temp_html = `<table class="table">
+                            <tbody>
+                            <tr>
+                                <td class="checkbox-td">
+                                    <input class="chk_list" type="checkbox" value="${review.reviewId}" name="chk"/>
+                                </td>
+                                <td class="content-td">
+                                    <div class="order-info">
+                                        <div class="order-menu-info">
+                                            <p>${review.contents}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-request-container">
+                                        <div class="payment-container">
+                                            <p>주문번호: ${review.orderId}</p>
+                                        </div>
+                                        <div class="request-container">
+                                            <p>주문자: ${review.profileName}</p>
+                                            <p>리뷰 작성일: ${review.createdAt}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="button" id="btnDeleteid" value="리뷰 삭제" onclick="deleteReview()"/>`
+                        $('.review-manage-container').append(temp_html);
+                    })
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("가게 리뷰들을 조회하는데 오류가 발생했습니다.");
+                }
+            })
+        }
+
+        function deleteReview() {
+            //체크박스 체크된 항목
+            const query = 'input[name="chk"]:checked'
+            const selectedElements = document.querySelectorAll(query);
+
+            //체크박스 체크된 항목의 개수
+            const selectedElementsCnt = selectedElements.length;
+            if (selectedElementsCnt == 0) {
+                alert("삭제할 항목을 선택해주세요.");
+                return false;
+            } else {
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                    //review 가 배열의 값들에 해당하는 review 삭제
+                    selectedElements.forEach(function (chk) {
+
+                        let rId = chk.value;
+                        console.log(rId);
+                        $.ajax({
+                            url: `/api/reviews/${rId}`, // 요청을 보낼 서버의 URL
+                            method: 'DELETE', // 요청 메소드 (GET, POST 등)
+                            headers: {
+                                "Authorization": jwtToken,
+                            },
+                            success: function (response) {
+                                alert("리뷰 삭제 완료")
+                                window.location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                alert("리뷰 삭제 실패")
+                                console.log(xhr);
+
+                            }
+                        });
+                    });
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div class="head">
+    <p class="title">리뷰 관리</p>
+    <hr>
+</div>
+<div class="main-container">
+    <div class="left-btn-container">
+        <div class="row">
+            <div class="col-4">
+                <!-- TODO 주소 연결-->
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list"
+                       onclick="managepage()" role="tab" aria-controls="list-home">가게 매출 관리</a>
+                    <a class="list-group-item list-group-item-action active" id="list-profile-list" data-bs-toggle="list"
+                       onclick="goManageReview(shopId)" role="tab" aria-controls="list-profile">리뷰 관리</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list"
+                       data-bs-toggle="list"
+                       href="/" role="tab" aria-controls="list-messages">주문 목록</a>
+                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                       href="/" role="tab" aria-controls="list-settings">메뉴 관리</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="review-manage-container">
+        <h1>아직 가게에 작성된 리뷰가 없습니다....</h1>
+    </div>
+</div>
+</body>
+</html>
