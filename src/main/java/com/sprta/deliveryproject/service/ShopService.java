@@ -43,9 +43,9 @@ public class ShopService {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 메뉴조회", menus));
     }
         public ShopResponseDto FindShop(Long id){
-            return new ShopResponseDto(shopRepository.findById(id).orElseThrow(() ->
-                    new IllegalArgumentException("해당 가게는 존재하지 않습니다. 다시 시도해주세요.")
-            ));
-        }
+        return new ShopResponseDto(shopRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당 가게는 존재하지 않습니다. 다시 시도해주세요.")
+        ));
+    }
 
 }
