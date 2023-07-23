@@ -16,7 +16,7 @@ import java.util.List;
 public class Order extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="orders_id", nullable = false, updatable = false, unique = true)
+    @Column(name="order_id", nullable = false, updatable = false, unique = true)
     private Long id;
 
     @Column(name="payment_method")

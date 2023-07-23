@@ -35,12 +35,6 @@ public class OrderController {
         return orderList;
     }
 
-    @GetMapping("/orders/{id}")
-    public List<CartResponseDto> showOrderById(@PathVariable Long id) {
-        List<CartResponseDto> cartsList = orderService.showOrderById(id);
-        return cartsList;
-    }
-
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<ApiResponseDto> deleteOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id){
         try {

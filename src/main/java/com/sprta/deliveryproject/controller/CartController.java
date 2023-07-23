@@ -31,13 +31,13 @@ public class CartController {
     }
 
     /* shop_id에 해당하는 cart 내역 조회 */
-    @GetMapping("/carts/{shop_id}")
+    @GetMapping("/carts/shop/{shop_id}")
     public List<CartResponseDto> getMemberCart(@PathVariable Long shop_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cartService.getMemberCart(shop_id, userDetails.getMember());
     }
 
     /* order_id에 해당하는 cart 내역 조회 */
-    @GetMapping("/cart/{order_id}")
+    @GetMapping("/carts/order/{order_id}")
     public List<CartResponseDto> getOrderCart(@PathVariable Long order_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cartService.getOrderCart(order_id,userDetails.getMember());
     }

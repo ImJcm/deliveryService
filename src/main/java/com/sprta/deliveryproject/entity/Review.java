@@ -19,7 +19,7 @@ public class Review extends Timestamped{
     @Column(name = "review_content")
     private String content;      //리뷰 내용
 
-    @JoinColumn(name="orders_id")
+    @JoinColumn(name="order_id")
     @ManyToOne
     private Order order;
 
