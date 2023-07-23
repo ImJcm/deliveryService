@@ -56,6 +56,17 @@ public class OrderService {
         return orderResponseDtoList;
     }
 
+    /* memberId의 주문내역 전체조회 */
+    public List<OrderResponseDto> getOrders(Member member) {
+        Long memberId = member.getId();
+        List<OrderResponseDto> orderResponseDtoList = orderRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(OrderResponseDto::new)
+                .toList();
+
+        return orderResponseDtoList;
+    }
+
     //주문 취소
     public void deleteOrder(Member member, Long id) {
         Order order = findOrder(id);
