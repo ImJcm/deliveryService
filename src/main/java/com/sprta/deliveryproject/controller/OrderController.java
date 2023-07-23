@@ -35,13 +35,6 @@ public class OrderController {
         return orderList;
     }
 
-
-    @GetMapping("/orders")
-    public List<OrderResponseDto> getOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<OrderResponseDto> orderList = orderService.getOrders(userDetails.getMember());
-        return orderList;
-    }
-
     //특정 주문 조회
     @GetMapping("/orders/{order_id}")
     public ResponseEntity<ApiResponseDto> getOneOrder(@PathVariable(value="order_id")Long orderId) {

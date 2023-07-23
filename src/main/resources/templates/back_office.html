@@ -60,7 +60,6 @@
 
                 var shop;
                 response['data'].forEach(function (menu){
-                    console.log(response);
                     shop= menu.shop.id;
                     var menu_html = `<div class="card mb-3" style="max-width: 900px;">
                     <div class="row g-0">
@@ -101,7 +100,7 @@
             },
             success: function (response) {
                 alert("메뉴 삭제 완료")
-                window.location.href = "/";
+                window.location.href = "/shops/manage";
             },
             error: function (xhr, status, error) {
                 alert("메뉴 삭제 실패")
