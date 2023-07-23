@@ -21,4 +21,10 @@ public class ViewController {
     public String reviewUpdate(@PathVariable(value = "order_id")Long orderId,@PathVariable(value = "review_id")Long reviewId,@AuthenticationPrincipal UserDetailsImpl userDetails){
         return "review_update";
     }
+
+    //백오피스 리뷰 관리(가게 ID) , 관리자 기능
+    @GetMapping("shops/{shop_id}/reviews")
+    public String manageReview(@PathVariable(value = "shop_id") Long shopId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return "back_office_review";
+    }
 }

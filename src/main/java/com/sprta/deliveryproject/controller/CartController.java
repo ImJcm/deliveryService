@@ -41,5 +41,9 @@ public class CartController {
     public List<CartResponseDto> getOrderCart(@PathVariable Long order_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cartService.getOrderCart(order_id,userDetails.getMember());
     }
+    @GetMapping("/carts/orders/{order_id}")
+    public List<CartResponseDto> getOrderCarts(@PathVariable Long order_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return cartService.getOrderCarts(order_id);
+    }
 
 }

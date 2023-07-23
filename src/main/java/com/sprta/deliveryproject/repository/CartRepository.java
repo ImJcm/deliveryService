@@ -15,4 +15,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findAllByMemberIdAndOrderIdIsNull(Long id);
 
     List<Cart> findByMemberIdAndShopIdAndOrderIdIsNull(Long id, Long shopId);
+    List<Cart> findByOrderId(Long order_id);
 }

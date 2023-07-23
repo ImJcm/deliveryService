@@ -35,8 +35,14 @@ public class OrderController {
         return orderList;
     }
 
+    //특정 주문 조회
+    @GetMapping("/orders/{order_id}")
+    public ResponseEntity<ApiResponseDto> getOneOrder(@PathVariable(value="order_id")Long orderId) {
+        return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(),"특정 주문 조회.",orderService.getOneOrder(orderId)));
+    }
+
     @DeleteMapping("/orders/{id}")
-    public ResponseEntity<ApiResponseDto> deleteOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id){
+    public ResponseEntity<ApiResponseDto> deleteOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
         try {
             orderService.deleteOrder(userDetails.getMember(), id);
             return ResponseEntity.ok().body(new ApiResponseDto("주문이 취소되었습니다", HttpStatus.OK.value()));
@@ -45,8 +51,4 @@ public class OrderController {
         }
 
     }
-
-
-
-
 }

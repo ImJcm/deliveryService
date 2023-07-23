@@ -1,6 +1,5 @@
 package com.sprta.deliveryproject.service;
 
-import com.sprta.deliveryproject.dto.CartResponseDto;
 import com.sprta.deliveryproject.dto.OrderRequestDto;
 import com.sprta.deliveryproject.dto.OrderResponseDto;
 import com.sprta.deliveryproject.entity.*;
@@ -10,15 +9,13 @@ import com.sprta.deliveryproject.repository.OrderRepository;
 import com.sprta.deliveryproject.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
-@Slf4j(topic = "Order Controller")
+@Slf4j(topic = "Order service")
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -83,5 +80,9 @@ public class OrderService {
         );
     }
 
-
+    //특정 주문 조회
+    public OrderResponseDto getOneOrder(Long orderId) {
+        Order order= findOrder(orderId);
+        return new OrderResponseDto(order);
+    }
 }

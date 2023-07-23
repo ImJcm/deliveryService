@@ -2,10 +2,7 @@ package com.sprta.deliveryproject.service;
 
 import com.sprta.deliveryproject.dto.ReviewRequestDto;
 import com.sprta.deliveryproject.dto.ReviewResponseDto;
-import com.sprta.deliveryproject.entity.Member;
-import com.sprta.deliveryproject.entity.MemberRoleEnum;
-import com.sprta.deliveryproject.entity.Order;
-import com.sprta.deliveryproject.entity.Review;
+import com.sprta.deliveryproject.entity.*;
 import com.sprta.deliveryproject.repository.OrderRepository;
 import com.sprta.deliveryproject.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +26,7 @@ public class ReviewService {
         Order order = orderRepository.findById(requestDto.getOrderId()).orElseThrow(() ->
                 new IllegalArgumentException("주문이 존재하지 않습니다.")
         );
-        //orderId에 해당하는 review 가 있는지 확인
-        if (reviewRepository.existsByOrder_Id(requestDto.getOrderId())) {
+        if (order.getIsReviewed()) {
             throw new IllegalArgumentException("해당 주문에 대한 리뷰를 이미 작성하셨습니다.");
         }
         //review 등록
@@ -39,6 +35,9 @@ public class ReviewService {
                 .order(order)
                 .member(member).build();
         reviewRepository.save(review);
+        Shop shop = order.getShop();
+        shop.addReviewCount();
+        order.makeIsReviewedTrue();
         log.info(review.toString());
     }
 
@@ -72,7 +71,13 @@ public class ReviewService {
         if (!(member.getId().equals(review.getMember().getId()) || member.getRole().equals(MemberRoleEnum.ADMIN))) {
             throw new IllegalArgumentException("리뷰를 삭제할 권한이 없습니다.");
         }
+        Order order= review.getOrder();
+        Shop shop = order.getShop();
+
         reviewRepository.delete(review);
+        order.makeIsReviewedFalse();
+        shop.subReviewCount();
+
     }
 
     public ReviewResponseDto getReview(Long reviewId) {

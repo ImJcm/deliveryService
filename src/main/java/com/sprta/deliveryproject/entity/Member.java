@@ -1,14 +1,10 @@
 package com.sprta.deliveryproject.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sprta.deliveryproject.dto.ProfileRequestDto;
-import com.sprta.deliveryproject.dto.SignupRequestDto;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
