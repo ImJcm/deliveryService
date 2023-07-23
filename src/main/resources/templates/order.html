@@ -45,27 +45,33 @@
         function setCartListDisplay(shopId) {
             $.ajax({
                 method: 'GET',
-                url: '/api/cart/shop/' + shopId,
+                url: '/api/carts/shop/' + shopId,
                 headers: {
                     "Authorization": authCookie,
                 },
                 success: function (response) {
-                    let data = response['data'];
+                    console.log(shopId);
+                    let data = response;
+                    console.log(response);
+
+                    $('#order-menu').empty();
+
+                    let menu_Html = ``;
 
                     for (let i = 0; i < data.length; i++) {
                         let menu = data[i];
 
-                        let menu_Html = `<div class="card mb-3" style="max-width: 700px;">
+                        menu_Html += `<div class="card mb-3" style="max-width: 700px;">
                                         <div class="row g-0">
                                             <div class="col-md-4">
-                                                <img src="${data.imgSrc}" class="img-fluid rounded-start" alt="...">
+                                                <img src="${menu.imgSrc}" class="img-fluid rounded-start" alt="...">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">${data.menuname}</h5>
-                                                    <p class="card-text">${data.amount}</p>
-                                                    <p class="card-text">${data.price}</p>
-                                                    <button>메뉴 취소</button>
+                                                    <h5 class="card-title">${menu.menuname}</h5>
+                                                    <p class="card-text">${menu.amount}</p>
+                                                    <p class="card-text">${menu.price}</p>
+                                                    <button onclick="createOrder(shopId)">메뉴 취소</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,7 +87,7 @@
 
         }
 
-        function createOrder() {
+        function createOrder(shopId) {
             $.ajax({
                 method: 'POST',
                 url: '/api/orders',
@@ -95,7 +101,7 @@
                     "Authorization": authCookie,
                 },
                 success: function (response) {
-                    alert("장바구니에 메뉴가 담겼습니다");
+                    alert("주문이 완료되었습니다");
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -104,7 +110,6 @@
             });
         }
 
-        // 쿠키 가져오기
         function getCookie(cookieName) {
             var name = cookieName + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -120,6 +125,8 @@
             }
             return "";
         }
+
+
 
 
     </script>
