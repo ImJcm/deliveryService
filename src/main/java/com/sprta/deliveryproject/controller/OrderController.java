@@ -30,13 +30,6 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public List<OrderResponseDto> showOrder(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<OrderResponseDto> orderList = orderService.showOrder(userDetails.getMember());
-        return orderList;
-    }
-
-
-    @GetMapping("/orders")
     public List<OrderResponseDto> getOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<OrderResponseDto> orderList = orderService.getOrders(userDetails.getMember());
         return orderList;
