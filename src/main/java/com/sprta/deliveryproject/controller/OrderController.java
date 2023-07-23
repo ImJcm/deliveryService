@@ -29,6 +29,7 @@ public class OrderController {
         return ResponseEntity.ok().body(new ApiResponseDto("주문이 완료되었습니다.", HttpStatus.OK.value()));
     }
 
+    /* member's order 전체조회 */
     @GetMapping("/orders")
     public List<OrderResponseDto> getOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<OrderResponseDto> orderList = orderService.getOrders(userDetails.getMember());
