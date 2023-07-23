@@ -168,7 +168,7 @@ https://www.notion.so/SA-a3e072c2f30d412faf15127acc80b042?pvs=4
 </div>
 </details>
   
-![최종 ERD](./src/main/resources/static/image/final_bamin_erd.png)  
+![최종 ERD](./src/main/resources/static/image/final_bamin_ERD.png)  
         
        
         
