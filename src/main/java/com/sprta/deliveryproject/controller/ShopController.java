@@ -1,9 +1,11 @@
 package com.sprta.deliveryproject.controller;
 
 import com.sprta.deliveryproject.dto.ApiResponseDto;
+import com.sprta.deliveryproject.security.UserDetailsImpl;
 import com.sprta.deliveryproject.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,7 @@ public class ShopController{
     public ResponseEntity<ApiResponseDto> getShops(@PathVariable Long id) {
         return shopService.getDetailShops(id);
     }
-    @GetMapping("/shops/{id}/menu")     //특정가게 메뉴조회
+    @GetMapping("/shops/menu/{id}")     //특정가게 메뉴조회
     public ResponseEntity<ApiResponseDto> getMenus(@PathVariable Long id){   //특정가게 메뉴조회
         return shopService.getMenus(id);
     }

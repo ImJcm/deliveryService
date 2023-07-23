@@ -6,36 +6,44 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="/js/common.js"></script>
+
     <style>
         * {
             font-family: 'Gowun Dodum', sans-serif;
         }
+
         .reviews {
             width: 95%;
             max-width: 500px;
             margin: auto;
         }
+
         .shop_title {
             width: 100%;
             height: 300px;
-            /*background-image -> ${shopImage}*/
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('data:image/png;base64,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');
-            background-position: center;
-            background-size: cover;
-            opacity: 0.3;
+            /*background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url();*/
+            background-color: white;
+            /*background-position: center;*/
+            /*background-size: cover;*/
+            /*opacity: 0.5;*/
 
-            color: white;
+            color: black;
 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        .shop_title>button {
+
+        .shop_title > button {
             width: 200px;
             height: 50px;
 
@@ -47,20 +55,25 @@
 
             margin-top: 10px;
         }
-        .shop_title>button:hover {
+
+        .shop_title > button:hover {
             border: 2px solid white;
         }
+
         .mycomment {
             color: gray;
         }
+
         .shop_menu {
             margin: 20px auto 0px auto;
             width: 95%;
             max-width: 1200px;
         }
-        .mybtns>button {
+
+        .mybtns > button {
             margin-right: 10px;
         }
+
         .shop_info {
             width: 95%;
             max-width: 700px;
@@ -68,6 +81,7 @@
             padding: 20px;
             box-shadow: 0px 0px 3px 0px gray;
         }
+
         body {
             width: auto;
             min-width: 720px;
@@ -80,36 +94,48 @@
 
     <script>
         $(document).ready(function () {
+            let shop_id = localStorage.getItem("shopId");
+            console.log(shop_id);
+
             $('#review-box').hide()
-            setMenu();
+
+            setMenuDisplay(shop_id);
+
+            localStorage.clear();
         })
 
         var authCookie = getCookie("Authorization");
 
-        function setMenu(shop_id){
+        // 가게 메뉴 보여주기
+        function setMenuDisplay(shop_id) {
             $.ajax({
-                method:'GET',
-                url:`/shops/${shop_id}/menu`,
-                headers:{
-                    "Authorization" : authCookie,
+                method: 'GET',
+                url: '/api/shops/menu/' + shop_id,
+                headers: {
+                    "Authorization": authCookie,
                 },
                 success: function (response) {
                     var menuList = $('#menu-detail-box');
 
-                    $('menu-detail-box').empty();
+                    let data = response['data'];
 
-                    var shop;
-                    response['data'].forEach(function (menu){
-                        console.log(response);
-                        shop= menu.shop.id;
-                        var menu_html = `<div class="col">
+                    $('#title-shop-name').append(`<h1>${data[0].shopname}</h1>`);
+                    $('#shop-information').append(`<p>${data[0].shopAddress})</p>`);
+                    $('#order-button').append(`<button onclick="createOrder(${shop_id})">주문하기</button>`);
+
+
+                    let menu_Html = ``;
+                    for (let i=0;i<data.length;i++) {
+                        let menu = data[i];
+
+                        menu_Html += `<div class="col">
                                             <div class="card h-100">
-                                                <img src="menu_image_url"
+                                                <img src="${menu.imgSrc}"
                                                      class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${menu.menuname}</h5>
                                                     <p class="mycomment">${menu.price}</p>
-                                                    <select class="form-select" id="star">
+                                                    <select class="form-select" id="amount${i+1}">
                                                         <option selected>-- 수량 --</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
@@ -118,11 +144,12 @@
                                                         <option value="5">5</option>
                                                     </select>
                                                 </div>
-                                                <button>장바구니에 담기</button>
+                                                <button onclick="setCart(${menu.menuId}, $('#amount${i+1}').val(), ${menu.shopId})" >장바구니에 담기</button>
                                             </div>
                                         </div>`
-                        menuList.append(menu_html);
-                    });
+                    }
+                    menuList.append(menu_Html);
+
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -131,11 +158,63 @@
             });
         }
 
+        // 메뉴 카트(장바구니)에 담기
+        function setCart(menuId, amount, shopId){
+            console.log(menuId, amount, shopId);
+            $.ajax({
+                method: 'POST',
+                url: '/api/cart',
+                contentType: 'application/json',
+                data:JSON.stringify({
+                   "amount" : amount,
+                   "menuId" : menuId,
+                   "shopId" : shopId
+                }),
+                headers: {
+                    "Authorization": authCookie,
+                },
+                success: function (response) {
+                    alert("장바구니에 메뉴가 담겼습니다");
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("가게가 존재하지 않습니다.");
+                }
+            });
+        }
+
+        // 장바구니에 담은 메뉴 주문하기
+        function createOrder(shop_id){
+            localStorage.setItem("shopId",shop_id);
+            window.location.href = host + '/shop/menulist';
+            window.location.href = host + '/orders';
+        }
+
+
+        // 쿠키 가져오기
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // 메뉴목록 박스 보여주기 (DEFAULT)
         function open_menubox() {
             $('#review-box').hide()
             $('#menu-box').show()
         }
 
+        // 리뷰목록 박스 보여주기
         function open_reviewbox() {
             $('#review-box').show()
             $('#menu-box').hide()
@@ -145,13 +224,12 @@
     </script>
 </head>
 <body>
-<div class="shop_title">
-    <h1>${shopName}</h1>
+<div class="shop_title" id="title-shop-name">
+<!--    가게 이름-->
 </div>
 <div class="shop_info" id="post-box">
-    <div class="form-floating mb-3">
-        <p>${shopIntro}</p>
-        <p>${shopAddress}</p>
+    <div class="form-floating mb-3" id="shop-information">
+<!--    가게 정보-->
     </div>
 </div>
 
@@ -160,86 +238,7 @@
 
 <div class="shop_menu" id="menu-box">
     <div class="row row-cols-1 row-cols-md-4 g-4" id="menu-detail-box">
-        <div class="col">
-            <div class="card h-100">
-                <img src="menu_image_url"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${menuName}</h5>
-                    <p class="card-text">${menuIntro}</p>
-                    <p class="mycomment">${menuPrice}</p>
-                    <select class="form-select" id="star">
-                        <option selected>-- 수량 --</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <button>장바구니에 담기</button>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="menu_image_url"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${menuName}</h5>
-                    <p class="card-text">${menuIntro}</p>
-                    <p class="mycomment">${menuPrice}</p>
-                    <select class="form-select" id="star">
-                        <option selected>-- 수량 --</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <button>장바구니에 담기</button>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="menu_image_url"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${menuName}</h5>
-                    <p class="card-text">${menuIntro}</p>
-                    <p class="mycomment">${menuPrice}</p>
-                    <select class="form-select" id="star">
-                        <option selected>-- 수량 --</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <button>장바구니에 담기</button>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="menu_image_url"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${menuName}</h5>
-                    <p class="card-text">${menuIntro}</p>
-                    <p class="mycomment">${menuPrice}</p>
-                    <select class="form-select" id="star">
-                        <option selected>-- 수량 --</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <button>장바구니에 담기</button>
-            </div>
-        </div>
+<!--        가게 메뉴 정보-->
     </div>
 </div>
 
@@ -269,6 +268,13 @@
         </div>
     </div>
 </div>
-<button>주문하기</button>
+
+<div id="order-button">
+
+</div>
+
+
+<div th:replace="~{/fragments/footer.html::fragment-footer-shopdetailpage}"></div>
+
 </body>
 </html>

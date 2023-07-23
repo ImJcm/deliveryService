@@ -1,7 +1,9 @@
 package com.sprta.deliveryproject.service;
 
 import com.sprta.deliveryproject.dto.ApiResponseDto;
+import com.sprta.deliveryproject.dto.MenuResponseDto;
 import com.sprta.deliveryproject.dto.ShopResponseDto;
+import com.sprta.deliveryproject.entity.Member;
 import com.sprta.deliveryproject.entity.Menu;
 import com.sprta.deliveryproject.entity.Shop;
 import com.sprta.deliveryproject.repository.MemberRepository;
@@ -22,7 +24,7 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
     private final ShopLikesRepository shopLikesRepository;
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     public ResponseEntity<ApiResponseDto> getCategoryShops(Long categoryId) {
         List<Shop> shopList = shopRepository.findAllByCategory_IdOrderByModifiedAtDesc(categoryId);
@@ -40,7 +42,9 @@ public class ShopService {
     public ResponseEntity<ApiResponseDto> getMenus(Long id) {
         List<Menu> menus = menuRepository.findAllByShop_IdOrderByMenunameDesc(id);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 메뉴조회", menus));
+        List<MenuResponseDto> menuList = menus.stream().map(MenuResponseDto::new).toList();
+
+        return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 메뉴조회", menuList));
     }
         public ShopResponseDto FindShop(Long id){
             return new ShopResponseDto(shopRepository.findById(id).orElseThrow(() ->

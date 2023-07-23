@@ -17,7 +17,7 @@ public class ViewController {
         return "review_write";
     }
     //리뷰 수정 페이지
-    @GetMapping("orders/{order_id}/reviews/{review_id}")
+    @GetMapping("/orders/{order_id}/reviews/{review_id}")
     public String reviewUpdate(@PathVariable(value = "order_id")Long orderId,@PathVariable(value = "review_id")Long reviewId,@AuthenticationPrincipal UserDetailsImpl userDetails){
         return "review_update";
     }

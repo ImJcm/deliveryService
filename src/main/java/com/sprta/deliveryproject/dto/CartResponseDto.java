@@ -15,7 +15,8 @@ public class CartResponseDto {
         this.shopname = cart.getShop().getShopname();
         this.menuname = cart.getMenu().getMenuname();
         this.amount = cart.getAmount();
-        this.order_id = cart.getOrder() == null ? null : cart.getOrder().getId();
+        this.order_id = cart.getOrder().getId();
+                //== null ? null : cart.getOrder().getId();
         this.price = cart.getMenu().getPrice();
     }
 }

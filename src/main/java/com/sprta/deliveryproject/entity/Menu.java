@@ -22,6 +22,8 @@ public class Menu {
     Integer price;
     @Column(name="introduce")
     String introduce;
+    @Column(name="imgSrc")
+    String imgSrc;
 
     public Menu(Shop shop,MenuRequestDto menuRequestDto){
         this.shop = shop;
@@ -35,6 +37,7 @@ public class Menu {
         this.menuname = menu.getMenuname();
         this.price = menu.getPrice();
         this.introduce = menu.getIntroduce();
+        this.imgSrc = menu.getImgSrc();
     }
     public Menu() {
 

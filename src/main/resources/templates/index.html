@@ -242,6 +242,7 @@
 
         function onShopDetails(shop_id){
             console.log(shop_id);
+            localStorage.setItem("shopId",shop_id);
             window.location.href = host + '/shop/menulist';
         }
 

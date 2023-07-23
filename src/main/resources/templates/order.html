@@ -6,11 +6,14 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="/js/common.js"></script>
 
     <style>
         body {
@@ -21,14 +24,104 @@
             border-radius: 15px;
             padding: 20px 40px;
         }
+
         .header {
             /*box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
             background-color: aqua;*/
             padding: 15px 10px;
         }
-
-
     </style>
+
+    <script>
+        $(document).ready(function () {
+            let shop_id = localStorage.getItem("shopId")
+
+            setCartListDisplay(shop_id);
+        })
+
+
+        var authCookie = getCookie("Authorization");
+
+        function setCartListDisplay(shopId) {
+            $.ajax({
+                method: 'GET',
+                url: '/api/cart/shop/' + shopId,
+                headers: {
+                    "Authorization": authCookie,
+                },
+                success: function (response) {
+                    let data = response['data'];
+                    for (let i = 0; i < data.length; i++) {
+                        let menu = data[i];
+
+                        let menu_Html = `<div class="card mb-3" style="max-width: 700px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="${data.imgSrc}" class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${data.menuname}</h5>
+                                                    <p class="card-text">${data.amount}</p>
+                                                    <p class="card-text">${data.price}</p>
+                                                    <button>메뉴 취소</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                    }
+                    $('#order-menu').append(menu_Html);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("가게가 존재하지 않습니다.");
+                }
+            });
+
+        }
+
+        function createOrder() {
+            $.ajax({
+                method: 'POST',
+                url: '/api/orders',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "shopId": shopId,
+                    "request": $('#request').val(),
+                    "paymentMethod": $('paymentMethod').val()
+                }),
+                headers: {
+                    "Authorization": authCookie,
+                },
+                success: function (response) {
+                    alert("장바구니에 메뉴가 담겼습니다");
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("가게가 존재하지 않습니다.");
+                }
+            });
+        }
+
+        // 쿠키 가져오기
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+
+    </script>
 </head>
 
 <body>
@@ -38,7 +131,7 @@
     </div>
 </div>
 <hr>
-<div class="menu-box">
+<div class="menu-box" id="order-menu">
     <div class="card mb-3" style="max-width: 700px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -96,14 +189,15 @@
     <div>
         <h3>결제하실 금액은 ${totalPrice} 입니다</h3>
         <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">요청사항</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-text" id="request">요청사항</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-sm">
         </div>
         <div class="input-group input-group-sm mb-3">
-            <select class="form-select" id="star">
+            <select class="form-select" id="paymentMethod">
                 <option selected>-- 결제수단 --</option>
-                <option value="1">현금</option>
-                <option value="2">카드</option>
+                <option value="현금">현금</option>
+                <option value="카드">카드</option>
             </select>
         </div>
     </div>
