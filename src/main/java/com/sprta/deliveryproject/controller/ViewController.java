@@ -13,13 +13,12 @@ public class ViewController {
 
     //리뷰 작성 페이지
     @GetMapping("/orders/{order_id}/reviews")
-    public String reviewWrite(@PathVariable(value = "order_id") Long orderId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String reviewWrite(@PathVariable(value = "order_id") Long orderId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return "review_write";
     }
-
     //리뷰 수정 페이지
-    @GetMapping("orders/{order_id}/reviews/{review_id}")
-    public String reviewUpdate(@PathVariable(value = "order_id") Long orderId, @PathVariable(value = "review_id") Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @GetMapping("/orders/{order_id}/reviews/{review_id}")
+    public String reviewUpdate(@PathVariable(value = "order_id")Long orderId,@PathVariable(value = "review_id")Long reviewId,@AuthenticationPrincipal UserDetailsImpl userDetails){
         return "review_update";
     }
 

@@ -29,7 +29,7 @@ public class OrderController {
         return ResponseEntity.ok().body(new ApiResponseDto("주문이 완료되었습니다.", HttpStatus.OK.value()));
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orderslist")
     public List<OrderResponseDto> showOrder(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<OrderResponseDto> orderList = orderService.showOrder(userDetails.getMember());
         return orderList;
