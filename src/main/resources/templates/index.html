@@ -172,7 +172,7 @@
                     }
                     $('.category-cards').append(category_Html);
                 }, error: function(res) {
-                    window.location.href = host + '/api/member/login-page';
+                    window.location.href = host + '/api/members/login-page';
                 }
             });
         }
@@ -204,7 +204,7 @@
                     }
                     $('#like-shops-body-top-cards').append(shoplike_Html);
                 }, error(res) {
-                    window.location.href = host + '/api/member/login-page';
+                    window.location.href = host + '/api/members/login-page';
                 }
             })
         }
@@ -235,7 +235,7 @@
                     }
                     $('#like-shops-body-bottom-cards').append(shop_Html);
                 }, error: function(res) {
-                    window.location.href = host + '/api/member/login-page';
+                    window.location.href = host + '/api/members/login-page';
                 }
             });
         }
@@ -250,7 +250,7 @@
             // 토큰 삭제 - 토큰 만료일을 과거로 설정하여 토근 제거
             name = "Authorization"
             document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-            window.location.href = host + "/api/member/login-page";
+            window.location.href = host + "/api/members/login-page";
         }
         function managepage(){
             window.location.href = host + "/shops/manage";

@@ -41,14 +41,13 @@ public class OrderController {
         return ResponseEntity.ok().body(new ApiResponseDto(HttpStatus.OK.value(),"특정 주문 조회.",orderService.getOneOrder(orderId)));
     }
 
-    @DeleteMapping("/orders/{id}")
-    public ResponseEntity<ApiResponseDto> deleteOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
+    @DeleteMapping("/orders/{order_id}")
+    public ResponseEntity<ApiResponseDto> deleteOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long order_id) {
         try {
-            orderService.deleteOrder(userDetails.getMember(), id);
+            orderService.deleteOrder(userDetails.getMember(), order_id);
             return ResponseEntity.ok().body(new ApiResponseDto("주문이 취소되었습니다", HttpStatus.OK.value()));
         } catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new ApiResponseDto("", HttpStatus.BAD_REQUEST.value()));
         }
-
     }
 }

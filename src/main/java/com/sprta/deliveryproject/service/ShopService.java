@@ -22,10 +22,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShopService {
     private final ShopRepository shopRepository;
-    private final MemberRepository memberRepository;
-    private final ShopLikesRepository shopLikesRepository;
     private final MenuRepository menuRepository;
 
+    /* Category's Shop 조회 */
     public ResponseEntity<ApiResponseDto> getCategoryShops(Long categoryId) {
         List<Shop> shopList = shopRepository.findAllByCategory_IdOrderByModifiedAtDesc(categoryId);
 
@@ -34,11 +33,14 @@ public class ShopService {
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(),"카테고리 조회",newShopList));
     }
 
+    /* shop 상세정보 조회 */
     public ResponseEntity<ApiResponseDto> getDetailShops(Long shopId) {
         ShopResponseDto shop = FindShop(shopId);
 
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 조회", shop));
     }
+
+    /* shop의 Menu들 조회 */
     public ResponseEntity<ApiResponseDto> getMenus(Long id) {
         List<Menu> menus = menuRepository.findAllByShop_IdOrderByMenunameDesc(id);
 
@@ -46,7 +48,9 @@ public class ShopService {
 
         return ResponseEntity.status(200).body(new ApiResponseDto(HttpStatus.OK.value(), "특정 가게 메뉴조회", menuList));
     }
-        public ShopResponseDto FindShop(Long id){
+
+    /* 가게 조회 */
+    public ShopResponseDto FindShop(Long id){
         return new ShopResponseDto(shopRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 가게는 존재하지 않습니다. 다시 시도해주세요.")
         ));

@@ -70,4 +70,13 @@ public class CartService {
 
         return cartResponseDtoList;
     }
+    
+    /* 장바구니 삭제 */
+    public ResponseEntity<ApiResponseDto> deleteCart(Long cart_id, Member member) {
+        Cart cart = cartRepository.findById(cart_id).orElseThrow(() -> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
+
+        cartRepository.delete(cart);
+
+        return ResponseEntity.ok().body(new ApiResponseDto("장바구니 삭제 성공", HttpStatus.OK.value()));
+    }
 }

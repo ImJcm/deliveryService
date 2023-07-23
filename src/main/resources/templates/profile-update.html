@@ -101,7 +101,7 @@
 
         $.ajax({
             type:'GET',
-            url:`/api/member/${memberId}`,
+            url:`/api/members/${memberId}`,
             success: function(res) {
                 let member = res;
 
@@ -136,8 +136,7 @@
 
         $.ajax({
             type:'PUT',
-            /*url:`/api/member/${memberId}`,*/
-            url:'/api/member/' + memberId,
+            url:'/api/members/' + memberId,
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function(response) {
@@ -160,7 +159,7 @@
         // 토큰 삭제 - 토큰 만료일을 과거로 설정하여 토근 제거
         name = "Authorization"
         document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-        location.href = '/api/member/login-page';
+        location.href = '/api/members/login-page';
     }
 
     function checkPassword(pwd, chkpwd) {

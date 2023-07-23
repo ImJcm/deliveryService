@@ -71,7 +71,7 @@
       <button class="btn btn-success btn-sm" type="submit" onclick="onLogin()">로그인</button>
     </div>
     <div class="d-grid mt-3 mb-4">
-      <button class="btn btn-success btn-sm" type="submit" onclick="location.href='/api/member/signup-page'">회원가입</button>
+      <button class="btn btn-success btn-sm" type="submit" onclick="location.href='/api/members/signup-page'">회원가입</button>
     </div>
     <div id="login-failed" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
   </div>
@@ -95,7 +95,7 @@
 
     $.ajax({
       type:"POST",
-      url:'/api/member/login',
+      url:'/api/members/login',
       contentType: "application/json",
       data: JSON.stringify({username:username,password:password}),
       success: function(response) {
@@ -103,7 +103,7 @@
         window.location.href = host;
       },
       error: function(response) {
-        window.location.href = host + '/api/member/login-page?error';
+        window.location.href = host + '/api/members/login-page?error';
       }
     });
   }

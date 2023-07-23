@@ -154,7 +154,7 @@
         function setUserInfoDisplay(member_id) {
             $.ajax({
                 type: 'GET',
-                url: `/api/member/${member_id}`,
+                url: `/api/members/${member_id}`,
                 success: function (res) {
                     let member = res;
                     let random_Phonenum = '010-' + getRandomNumber(4) + '-' + getRandomNumber(4);
@@ -190,7 +190,7 @@
                             <h5 class="info-format-value">${member['email']}</h5>
                         </div>
                         <div class="d-grid mt-4">
-                            <button class="btn btn-outline-success btn-sm mb-3" type="button" onclick="location.href='/api/member/profile-update-page'">프로필 수정</button>
+                            <button class="btn btn-outline-success btn-sm mb-3" type="button" onclick="location.href='/api/members/profile-update-page'">프로필 수정</button>
                             <button class="btn btn-outline-danger btn-sm" type="button" onclick="onDeleteProfile(${member['id']})">프로필 삭제</button>
                         </div>
                     `;
@@ -198,7 +198,7 @@
 
 
                 }, error(res) {
-                    window.location.href = '/api/member/login-page';
+                    window.location.href = '/api/members/login-page';
                 }
             });
         }
@@ -290,7 +290,7 @@
                     });
                     $('#orderinfo-cards').append(orderinfo_Html);
                 }, error: function (res) {
-                    window.location.href = '/api/member/login-page';
+                    window.location.href = '/api/members/login-page';
                 }
             })
         }
@@ -311,7 +311,7 @@
                             </div>`;
                     });
                 }, error: function (res) {
-                    window.location.href = '/api/member/login-page';
+                    window.location.href = '/api/members/login-page';
                 }
             });
             return cartinorder_Html;
@@ -334,7 +334,7 @@
                         </div>
                     `;
                 }, error: function (res) {
-                    window.location.href = '/api/member/login-page';
+                    window.location.href = '/api/members/login-page';
                 }
             });
             return reviewinorder_Html;
