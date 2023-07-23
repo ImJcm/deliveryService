@@ -27,4 +27,7 @@ public class HomeController {
 
     @GetMapping( "/menu/add")
     public String menuaddpage(){return "add_menu";}
+
+    @GetMapping("/shop/menulist")
+    public String shopMenuListPage(){return "shop";}
 }

@@ -81,12 +81,54 @@
     <script>
         $(document).ready(function () {
             $('#review-box').hide()
+            setMenu();
         })
 
         var authCookie = getCookie("Authorization");
 
-        function containMenu() {
+        function setMenu(shop_id){
+            $.ajax({
+                method:'GET',
+                url:`/shops/${shop_id}/menu`,
+                headers:{
+                    "Authorization" : authCookie,
+                },
+                success: function (response) {
+                    var menuList = $('#menu-detail-box');
 
+                    $('menu-detail-box').empty();
+
+                    var shop;
+                    response['data'].forEach(function (menu){
+                        console.log(response);
+                        shop= menu.shop.id;
+                        var menu_html = `<div class="col">
+                                            <div class="card h-100">
+                                                <img src="menu_image_url"
+                                                     class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${menu.menuname}</h5>
+                                                    <p class="mycomment">${menu.price}</p>
+                                                    <select class="form-select" id="star">
+                                                        <option selected>-- 수량 --</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                                <button>장바구니에 담기</button>
+                                            </div>
+                                        </div>`
+                        menuList.append(menu_html);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("가게가 존재하지 않습니다.");
+                }
+            });
         }
 
         function open_menubox() {
@@ -117,7 +159,7 @@
 <button onclick="open_reviewbox()">리뷰</button>
 
 <div class="shop_menu" id="menu-box">
-    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="menu-detail-box">
         <div class="col">
             <div class="card h-100">
                 <img src="menu_image_url"
