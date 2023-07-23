@@ -18,68 +18,97 @@
 
     <title>리뷰 수정 페이지</title>
     <script>
-        //현재 주소에서 id만 추출
+        const jwtToken = getJwtFromCookie();
         let orderId = [[${order_id}]];
-
-        //let review_id = document.location.href.split("/review/").at(1);
         let reviewId = [[${review_id}]];
-
         $(document).ready(function () {
+
             showButtons();
             console.log("Order Id :" + orderId);
             console.log("Review Id :" + reviewId);
-
-            let id = 1;
-            console.log("shop Id: " + id);
-            //getOrder(id);
-            getShop(id);
-            getOneReviewContents(reviewId);
+            getOrder(orderId);
         })
 
-        //order 정보 가져와서 띄워주고, contents 입력받아서 추가, orderId
-        // 여기서 {order_id}를 넣어주는 형태가 이게 맞는지
         function getOrder(id) {
             $.ajax({
                 type: 'GET',
                 url: `/api/orders/${id}`,
                 contentType: 'application/json',
                 success: function (response) {
-                    let paymentMethod = response['paymentMethod'];
-                    let request = response['request'];
-                    let member = response['member'];
-                    let shop = response['shop'];
-                    let shopName = shop['shopName'];
-                    let orderMenuList = response['orderMenuList'];
-                    for (let i = 0; i < orderMenuList.length; i++) {
-                        let menuName = orderMenuList['menuName'];
-                        let amount = orderMenuList['amount'];
-                        let price = orderMenuList['price'];
-                        addHTML(menuName, amount, price);
-                    }
-                    let createdAt = response['createdAt'];
-                    console.log(response)
+                    let order = response['data'];
+                    console.log(order)
+                    addOrderHTML(order);
+                    getCart(orderId);
                 }
             })
         }
 
-        function getShop(id) {
+        function addOrderHTML(order) {
+            $('.order-info-container').empty();
+            let imagehtml
+            if (order.image_src == null) {
+                imagehtml = `<div class="profile-image">
+            <img src="/image/spring_letan.png" class="image"/>`
+            } else {
+                imagehtml = `<div class="profile-image">
+            <img src="${order.image_src}" class="image"/>`
+            }
+            let tempHtml = `<div class="order-date">
+                <h5 id="date">주문일: ${order.createdAt}</h5>
+            </div>
+        </div>
+
+        <div class="order-info">
+            <div class="order-menu-info">
+                <h1 id="shopName">${order.shopname}</h1>
+                <div class="cart">
+                    <h5>메뉴, 수량, 가격</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-request-container">
+            <div class="payment-container">
+                <h3>결제 방법</h3>
+                <p>${order.paymentMethod}</p>
+                <p></p>
+            </div>
+            <div class="request-container">
+                <h3>요청 사항</h3>
+                <p>${order.request}</p>
+                <p>주문자: ${order.memberId}</p>
+            </div>
+        </div>`
+            $('.order-info-container').append(imagehtml).append(tempHtml);
+        }
+
+        function getCart(id) {
             $.ajax({
                 type: 'GET',
-                url: `/api/shops/${id}`,
+                url: `/api/carts/orders/${id}`,
                 contentType: 'application/json',
+                headers: {
+                    "Authorization": jwtToken,
+                },
                 success: function (response) {
                     console.log(response)
-                    let shopName = response['data']['shopname'];
-                    let review_count = response['data']['review_count'];
-                    let address = response['data']['address'];
-                    let phone = response['data']['phone_number'];
-                    let username = response['data']['username'];
-                    let image_url = response['data']['image_url'];
-                    addHTML(shopName, review_count, address, phone, username, image_url);
+                    $('.order-menu-info').empty();
+                    let title_html = `<h1 id="shopName">${response[0]['shopname']}</h1>`;
+                    $('.order-menu-info').append(title_html);
+                    for (let i = 0; i < response.length; i++) {
+                        let cart_html = `<p>${response[i]['menuname']} | ${response[i]['amount']} 개 | 개당 ${response[i]['price']}원</p>`
+                        $('.order-menu-info').append(cart_html);
+                    }
+                    getOneReviewContents(reviewId);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("주문에 해당하는 카트목록을 조회하는데 오류가 발생했습니다.");
                 }
             })
         }
 
+        //리뷰 수정을 위해 기존 작성된 리뷰의 contents 가져오기
         function getOneReviewContents(reviewId) {
             $.ajax({
                 type: 'GET',
@@ -93,58 +122,21 @@
             })
         }
 
-        function addHTML(shopName, review_count, address, phone, username, image_url) {
-            //TODO Order 완성 후 order 에 맞게 수정 필요 현재 기능 동작 확인 완료
-            //image url 이 null 이면 default 이미지 스프링 르탄이가 나타나도록 함
-            $('.order-info-container').empty();
-            let imagehtml
-            if (image_url == null) {
-                imagehtml = `<div class="profile-image">
-            <img src="/images/spring_letan.png" class="image"/>`
-            } else {
-                imagehtml = `<div class="profile-image">
-            <img src="${image_url}" class="image"/>`
-            }
-            let tempHtml = `<div class="order-date">
-                <h5 id="count">${review_count}</h5>
-            </div>
-        </div>
-
-        <div class="order-info">
-            <div class="order-menu-info">
-                <h1 id="shopName">${shopName}</h1>
-                <h5>치킨치즈볼 5개 22,900</h5>
-            </div>
-        </div>
-
-        <div class="payment-request-container">
-            <div class="payment-container">
-                <h3>결제 방법</h3>
-                <p>${address}</p>
-                <p></p>
-            </div>
-            <div class="request-container">
-                <h3>요청 사항</h3>
-                <p>${phone}</p>
-                <p>${username}</p>
-            </div>
-        </div>`
-            $('.order-info-container').append(imagehtml).append(tempHtml);
-        }
-
         function addHTMLContents(ex_contents) {
             $('.review-content-container').empty();
             let contentHtml = `<textarea id="review-content" rows="10">${ex_contents}</textarea>`;
             $('.review-content-container').append(contentHtml);
         }
 
-        function updateReivew() {
+
+        //리뷰 수정
+        function updateReview() {
             let contents = $('#review-content').val();
             if (isValidContents(contents) == false) {
                 return;
             }
             let data = {
-                'reviewId': reviewId, 'contents': contents
+                'reviewId': [[${review_id}]], 'contents': contents
             };
             $.ajax({
                 type: "PUT",
@@ -164,7 +156,7 @@
 <div class="containers">
     <div class="order-info-container">
         <div class="profile-image">
-            <img src="/images/spring_letan.png" class="image"/> <!--가게 디폴트 이미지 -->
+            <img src="/image/spring_letan.png" class="image"/> <!--가게 디폴트 이미지 -->
             <div class="order-date">
                 <h5>2022. 6. 1 (수)</h5>
             </div>
@@ -194,7 +186,7 @@
         <textarea id="review-content" rows="10">${ex_contents}</textarea>
     </div>
     <div class="review-btn-container">
-        <button type="button" class="btn btn-success" onclick="updateReivew()">수정 완료</button>
+        <button type="button" class="btn btn-success" onclick="updateReview()">수정 완료</button>
         <button type="button" class="btn btn-success" onclick="history.back()">취소</button>
     </div>
 </div>
