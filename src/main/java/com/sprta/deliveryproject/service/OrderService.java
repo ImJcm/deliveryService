@@ -46,7 +46,7 @@ public class OrderService {
     }
 
     //나의 주문목록
-    public List<OrderResponseDto> showOrder(Member member) {
+    public List<OrderResponseDto> getOrders(Member member) {
         Long memberId = member.getId();
         List<OrderResponseDto> orderResponseDtoList = orderRepository.findAllByMemberId(memberId)
                 .stream()
@@ -61,13 +61,13 @@ public class OrderService {
     public void deleteOrder(Member member, Long id) {
         Order order = findOrder(id);
 
-        if (order.getMember().getId() != member.getId()){
+        if (order.getMember().getId() != member.getId()) {
             throw new RejectedExecutionException();
         }
 
         /* forign key entity 삭제 - cart */
         List<Cart> cartLiet = cartRepository.findAllByOrderId(id);
-        for(Cart cart : cartLiet) {
+        for (Cart cart : cartLiet) {
             cartRepository.delete(cart);
         }
 
@@ -82,7 +82,7 @@ public class OrderService {
 
     //특정 주문 조회
     public OrderResponseDto getOneOrder(Long orderId) {
-        Order order= findOrder(orderId);
+        Order order = findOrder(orderId);
         return new OrderResponseDto(order);
     }
 }
