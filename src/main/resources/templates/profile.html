@@ -136,7 +136,6 @@
 
     </style>
     <script>
-        const jwtToken = getJwtFromCookie();
         $(document).ready(function () {
             let memberId = [[${memberId}]];
             setUserInfoDisplay(memberId);
@@ -204,6 +203,7 @@
         }
 
         function setOrderInfoDisplay() {
+            console.log("setOrderInfoDisplay 실행");
             $.ajax({
                 type: 'GET',
                 url: '/api/orders',
@@ -212,6 +212,7 @@
                     res.forEach(function (order) {
                         /* 메뉴 */
                         let cartinorder_Html = setCartInOrder(order['orderId']);
+
                         /* 리뷰 */
                         let reviewinorder_Html = setReviewInOrder(order['orderId']);
 
@@ -296,6 +297,7 @@
         }
 
         function setCartInOrder(orderId) {
+            console.log("setCartInOrder() 실행");
             var cartinorder_Html = ``;
             $.ajax({
                 type: 'GET',
@@ -318,6 +320,7 @@
         }
 
         function setReviewInOrder(orderId) {
+            console.log("setReviewInOrder() 실행");
             var reviewinorder_Html = ``;
             $.ajax({
                 type: 'GET',
