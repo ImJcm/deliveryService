@@ -73,7 +73,6 @@ public class WebSecurityConfig {
                                 .requestMatchers("/shops/manage").permitAll()
                                 //.requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
-//                        .anyRequest().permitAll() // 그 외 모든 요청 인증처리
         );
 
         // 로그인 사용

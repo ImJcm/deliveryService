@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -28,7 +25,7 @@ public class Order extends Timestamped {
     @Column(name="request")
     private String request;
 
-    @Column(name = "totalPrice")
+    @Column(name = "total_price")
     private Integer totalPrice;
 
     @ManyToOne
@@ -46,5 +43,11 @@ public class Order extends Timestamped {
         this.shop = shop;
         this.member = member;
         this.isReviewed = false;
+    }
+    public void makeIsReviewedTrue(){
+        this.isReviewed=true;
+    }
+    public void makeIsReviewedFalse(){
+        this.isReviewed=false;
     }
 }

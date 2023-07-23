@@ -58,4 +58,13 @@ public class CartService {
 
         return cartResponseDtoList;
     }
+    //로그인한 유저 관계 없이 orderId에 해당하는 cart 내역 조회
+    public List<CartResponseDto> getOrderCarts(Long order_id) {
+        List<CartResponseDto> cartResponseDtoList = cartRepository.findByOrderId(order_id)
+                .stream()
+                .map(CartResponseDto::new)
+                .toList();
+
+        return cartResponseDtoList;
+    }
 }

@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/review_write.css">
-
+    <script src="/js/common.js"></script>
     <title>Profile Page</title>
 
     <style>
@@ -57,12 +57,12 @@
             word-break: break-all;
         }
 
-        .shop-info h5:first-child{
-            width:65%;
+        .shop-info h5:first-child {
+            width: 65%;
         }
 
-        .shop-info h5:last-child{
-            width:30%;
+        .shop-info h5:last-child {
+            width: 30%;
         }
 
         .orderinfo-body {
@@ -81,19 +81,19 @@
             width: 100%;
             height: 94%;
 
-            overflow-y : auto;
+            overflow-y: auto;
         }
 
-        .orderinfo-cards::-webkit-scrollbar{
+        .orderinfo-cards::-webkit-scrollbar {
             width: 11px;
         }
 
-        .orderinfo-cards::-webkit-scrollbar-thumb{
+        .orderinfo-cards::-webkit-scrollbar-thumb {
             background: cadetblue;
             border-radius: 10px;
         }
 
-        .orderinfo-cards::-webkit-scrollbar-track{
+        .orderinfo-cards::-webkit-scrollbar-track {
             background: darkgrey;
             border-radius: 10px;
         }
@@ -136,23 +136,26 @@
 
     </style>
     <script>
+        const jwtToken = getJwtFromCookie();
         $(document).ready(function () {
             let memberId = [[${memberId}]];
             setUserInfoDisplay(memberId);
             setOrderInfoDisplay();
         });
+
         function getRandomNumber(n) {
             let str = '';
-            for(let i=0;i<n;i++) {
+            for (let i = 0; i < n; i++) {
                 str += Math.floor(Math.random() * 10);
             }
             return str;
         }
+
         function setUserInfoDisplay(member_id) {
             $.ajax({
-                type:'GET',
-                url:`/api/member/${member_id}`,
-                success: function(res) {
+                type: 'GET',
+                url: `/api/member/${member_id}`,
+                success: function (res) {
                     let member = res;
                     let random_Phonenum = '010-' + getRandomNumber(4) + '-' + getRandomNumber(4);
 
@@ -194,7 +197,7 @@
                     $('#memberinfo-body').append(memberinfo_Html);
 
 
-                },error(res) {
+                }, error(res) {
                     window.location.href = '/api/member/login-page';
                 }
             });
@@ -202,18 +205,18 @@
 
         function setOrderInfoDisplay() {
             $.ajax({
-                type:'GET',
-                url:'/api/orders',
-                success: function(res) {
+                type: 'GET',
+                url: '/api/orders',
+                success: function (res) {
                     let orderinfo_Html = ``;
-                    res.forEach(function(order) {
+                    res.forEach(function (order) {
                         /* 메뉴 */
                         let cartinorder_Html = setCartInOrder(order['orderId']);
                         /* 리뷰 */
                         let reviewinorder_Html = setReviewInOrder(order['orderId']);
 
                         <!--리뷰 있는 Order-->
-                        if(order['reviewed']) {
+                        if (order['reviewed']) {
                             orderinfo_Html += `
                                 <div class="orderinfo-card d-flex flex-row align-items-center p-1">
                                     <div class="orderinfo-image align-items-center">
@@ -277,7 +280,7 @@
                                         <div class="orderinfo-review d-flex flex-column">
                                             <h6 style="font-weight: bold">리뷰를 작성해주세요!</h6>
                                             <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                                                <button class="btn btn-outline-success" type="button">리뷰쓰기</button>
+                                                <button class="btn btn-outline-success" type="button" onclick="goWriteReviewPage(${order['orderId']})">리뷰쓰기</button>
                                             </div>
                                         </div>
                                     </div>
@@ -286,20 +289,20 @@
                         }
                     });
                     $('#orderinfo-cards').append(orderinfo_Html);
-                }, error: function(res) {
+                }, error: function (res) {
                     window.location.href = '/api/member/login-page';
                 }
             })
         }
 
         function setCartInOrder(orderId) {
-            var cartinorder_Html=``;
+            var cartinorder_Html = ``;
             $.ajax({
-                type:'GET',
-                url:'/api/carts/order/' + orderId,
+                type: 'GET',
+                url: '/api/carts/order/' + orderId,
                 async: false,
-                success: function(res) {
-                    res.forEach(function(cart) {
+                success: function (res) {
+                    res.forEach(function (cart) {
                         cartinorder_Html += `
                             <div class="shop-info d-flex flex-row">
                                 <h5>${cart['menuname']}</h5>
@@ -307,7 +310,7 @@
                                 <h5>${cart['price']}</h5>
                             </div>`;
                     });
-                }, error: function(res) {
+                }, error: function (res) {
                     window.location.href = '/api/member/login-page';
                 }
             });
@@ -317,20 +320,20 @@
         function setReviewInOrder(orderId) {
             var reviewinorder_Html = ``;
             $.ajax({
-                type:'GET',
-                url:`/api/review/order/${orderId}`,
-                async : false,
-                success: function(res) {
+                type: 'GET',
+                url: `/api/review/order/${orderId}`,
+                async: false,
+                success: function (res) {
                     let review = res['data'];
 
                     reviewinorder_Html += `
                         <h6 style="font-weight: bold">${review['contents']}</h6>
                         <div class="orderinfo-review-btn d-flex justify-content-end mt-2">
-                            <button class="btn btn-outline-success me-3" type="button" onclick="location.href='/api/review-update'">리뷰수정</button>
-                            <button class="btn btn-outline-danger" type="button">리뷰삭제</button>
+                            <button class="btn btn-outline-success me-3" type="button" onclick="goUpdateReviewPage(${orderId},${review['reviewId']})">리뷰수정</button>
+                            <button class="btn btn-outline-danger" type="button" onclick="deleteReview(${review['reviewId']})">리뷰삭제</button>
                         </div>
                     `;
-                }, error: function(res) {
+                }, error: function (res) {
                     window.location.href = '/api/member/login-page';
                 }
             });
@@ -339,6 +342,35 @@
 
         function test() {
             return `<div></div>`;
+        }
+
+        function goWriteReviewPage(orderId) {
+            window.location.href = host + `/view/orders/${orderId}/reviews`;
+        }
+
+        function goUpdateReviewPage(orderId, reviewId) {
+            window.location.href = host + `/view/orders/${orderId}/reviews/${reviewId}`;
+        }
+
+        function deleteReview(reviewId) {
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                $.ajax({
+                    url: `/api/reviews/${reviewId}`, // 요청을 보낼 서버의 URL
+                    method: 'DELETE', // 요청 메소드 (GET, POST 등)
+                    headers: {
+                        "Authorization": jwtToken,
+                    },
+                    success: function (response) {
+                        alert("리뷰 삭제 완료")
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("리뷰 삭제 실패")
+                        console.log(xhr);
+
+                    }
+                });
+            }
         }
 
         function onDeleteProfile(member_id) {
@@ -384,7 +416,7 @@
         </div>-->
     </div>
     <div class="orderinfo-body">
-        <div class="orderinfo-header d-flex justify-content-center mt-2" >
+        <div class="orderinfo-header d-flex justify-content-center mt-2">
             <h4 style="font-weight: bold">주문 내역</h4>
         </div>
         <div class="orderinfo-cards d-flex flex-column" id="orderinfo-cards">
