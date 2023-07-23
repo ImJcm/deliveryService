@@ -21,7 +21,6 @@ import java.util.concurrent.RejectedExecutionException;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final MenuRepository menuRepository;
     private final CartRepository cartRepository;
     private final ShopRepository shopRepository;
 
@@ -61,8 +60,14 @@ public class OrderService {
     public void deleteOrder(Member member, Long id) {
         Order order = findOrder(id);
 
-        if (!order.getMember().equals(member)){
+        if (order.getMember().getId() != member.getId()){
             throw new RejectedExecutionException();
+        }
+
+        /* forign key entity 삭제 - cart */
+        List<Cart> cartLiet = cartRepository.findAllByOrderId(id);
+        for(Cart cart : cartLiet) {
+            cartRepository.delete(cart);
         }
 
         orderRepository.delete(order);
@@ -71,12 +76,6 @@ public class OrderService {
     private Order findOrder(Long id) {
         return orderRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 주문이거나 이미 취소된 주문입니다.")
-        );
-    }
-
-    public Menu findMenu(long id) {
-        return menuRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 메뉴입니다.")
         );
     }
 

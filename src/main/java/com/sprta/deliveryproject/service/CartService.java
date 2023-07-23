@@ -1,5 +1,6 @@
 package com.sprta.deliveryproject.service;
 
+import com.sprta.deliveryproject.dto.ApiResponseDto;
 import com.sprta.deliveryproject.dto.CartRequestDto;
 import com.sprta.deliveryproject.dto.CartResponseDto;
 import com.sprta.deliveryproject.entity.*;
@@ -8,6 +9,8 @@ import com.sprta.deliveryproject.repository.MenuRepository;
 import com.sprta.deliveryproject.repository.OrderRepository;
 import com.sprta.deliveryproject.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +69,14 @@ public class CartService {
                 .toList();
 
         return cartResponseDtoList;
+    }
+    
+    /* 장바구니 삭제 */
+    public ResponseEntity<ApiResponseDto> deleteCart(Long cart_id, Member member) {
+        Cart cart = cartRepository.findById(cart_id).orElseThrow(() -> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
+
+        cartRepository.delete(cart);
+
+        return ResponseEntity.ok().body(new ApiResponseDto("장바구니 삭제 성공", HttpStatus.OK.value()));
     }
 }
