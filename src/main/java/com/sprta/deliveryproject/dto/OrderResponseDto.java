@@ -13,6 +13,7 @@ public class OrderResponseDto {
     private Long orderId;           //주문 번호
     private Integer totalPrice;     //총 주문금액
     private Long shopId;            //가게
+    private String shopname;        //가게 이름
     private String image_src;       //가게 이미지
     private Long memberId;          //주문자
     private String paymentMethod;   //결재 방법
@@ -24,6 +25,7 @@ public class OrderResponseDto {
         this.orderId = order.getId();
         this.totalPrice = order.getTotalPrice();
         this.shopId = order.getShop().getId();
+        this.shopname = order.getShop().getShopname();
         this.memberId = order.getMember().getId();
         this.paymentMethod = order.getPaymentMethod();
         this.request = order.getRequest();

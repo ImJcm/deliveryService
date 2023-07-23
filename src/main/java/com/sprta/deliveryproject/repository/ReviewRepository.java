@@ -11,4 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     //특정 가게 리뷰 조회 최신순(생성일 기준 내림차순)
     List<Review> findByOrder_Shop_IdOrderByCreatedAtDesc(Long shopId);
     Boolean existsByOrder_Id(Long orderId);
+
+    Review findByOrderIdAndMemberId(Long order_id, Long member_id);
 }
