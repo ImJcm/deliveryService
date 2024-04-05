@@ -44,6 +44,9 @@ public class Shop extends Timestamped{
     @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE})
     private List<ShopLike> likeList = new ArrayList<>();            //좋아요
 
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
+    private List<Order> orderList = new ArrayList<>();              //주문 목록
+
     public void addReviewCount(){
         this.review_count++;
     }

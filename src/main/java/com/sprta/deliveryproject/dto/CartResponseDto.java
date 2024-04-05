@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CartResponseDto {
+    private String imgSrc;
     private Integer amount;
     private String shopname;
     private String menuname;
@@ -12,11 +13,12 @@ public class CartResponseDto {
     private Integer price;
 
     public CartResponseDto(Cart cart){
+        this.imgSrc = cart.getMenu().getImgSrc();
         this.shopname = cart.getShop().getShopname();
         this.menuname = cart.getMenu().getMenuname();
         this.amount = cart.getAmount();
-        this.order_id = cart.getOrder().getId();
-                //== null ? null : cart.getOrder().getId();
+        this.order_id = cart.getOrder()
+                == null ? null : cart.getOrder().getId();
         this.price = cart.getMenu().getPrice();
     }
 }
